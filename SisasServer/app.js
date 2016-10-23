@@ -3,7 +3,16 @@ var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
+var http = require('http');
 var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
+
+var member = require('./model/member');
+var room = require('./model/room');
+var keyword_box = require('./model/keyword_box');
+var scrap_box = require('./model/scrap_box');
+var study_member = require('./model/study_member');
+var timeline = require('./model/timeline');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -21,6 +30,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use('/',member);
+app.use('/',room);
+app.use('/',keyword_box);
+app.use('/',scrap_box);
+app.use('/',study_member);
+app.use('/',timeline);
 
 app.use('/', routes);
 app.use('/users', users);
@@ -55,6 +71,8 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
+
+mongoose.connect('mongodb://52.78.157.250:27017/SisasDB');
 
 
 module.exports = app;

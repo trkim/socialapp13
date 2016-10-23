@@ -35,4 +35,45 @@ router.post('/insert',function(req,res){
     });
 });
 
+router.post('/delete',function(req,res){
+    var email = req.body.email;
+
+    var member = Member.find({'email':email});
+    member.remove(function(err){
+        if(err){
+            console.log(err);
+            res.status(500).send('remove error');
+            return;
+        }
+        res.status(200).send("Removed");
+    });
+});
+
+router.post('/update',function(req,res){
+    var email = req.body.email;
+    var password = req.body.password;
+    var major = req.body.major;
+    var category = req.body.category;
+
+    Member.findOne({'email':email},function(err,member){
+        if(err){
+            console.log(err);
+            res.status(500).send('update find error');
+            return;
+        }
+        member.password = password;
+        member.major = major;
+        member.category = category;
+        member.save(function(err){
+            if(err){
+                console.log(err);
+                res.status(500).send('update save error');
+                return;
+            }
+            res.status.(200).send('Updated');
+        });
+    });
+});
+
+
 module.exports = router;
