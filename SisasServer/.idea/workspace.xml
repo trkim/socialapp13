@@ -367,10 +367,13 @@
       <workItem from="1477156236182" duration="4163000" />
       <workItem from="1477195058350" duration="1818000" />
       <workItem from="1477226982068" duration="7351000" />
+<<<<<<< HEAD
       <workItem from="1477658511965" duration="298000" />
       <workItem from="1478225265343" duration="2157000" />
       <workItem from="1478243644863" duration="3277000" />
       <workItem from="1478257398712" duration="4686000" />
+=======
+>>>>>>> 28ba5cb2d0ccda3ac4cb207d1a066948ce89550c
     </task>
     <task id="LOCAL-00001" summary="model schema 등록">
       <created>1477237838274</created>
@@ -383,11 +386,19 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
+<<<<<<< HEAD
     <option name="totallyTimeSpent" value="24752000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="0" width="1378" height="744" extended-state="0" />
     <editor active="true" />
+=======
+    <option name="totallyTimeSpent" value="14334000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <editor active="false" />
+>>>>>>> 28ba5cb2d0ccda3ac4cb207d1a066948ce89550c
     <layout>
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.36969253" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19016153" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />

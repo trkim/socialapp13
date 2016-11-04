@@ -42,4 +42,8 @@ captures/
 *.jks
 
 ################Node js############################
+<<<<<<< HEAD
 /.idea/workspace.xml
+=======
+SisasServer/.idea/workspace.xml
+>>>>>>> 28ba5cb2d0ccda3ac4cb207d1a066948ce89550c
