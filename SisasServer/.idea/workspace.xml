@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="66172800-d045-412b-9738-30c905f8dc13" name="Default" comment="model schema 등록">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/routes/memberService.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/mongoSettings.xml" afterPath="$PROJECT_DIR$/.idea/mongoSettings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/model/member.js" afterPath="$PROJECT_DIR$/model/member.js" />
-    </list>
+    <list default="true" id="66172800-d045-412b-9738-30c905f8dc13" name="Default" comment="model schema 등록" />
     <ignored path="SisasServer.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -81,8 +76,8 @@
       <file leaf-file-name="index.jade" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/views/index.jade">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="57">
-              <caret line="3" column="11" selection-start-line="3" selection-start-column="11" selection-end-line="3" selection-end-column="11" />
+            <state relative-caret-position="95">
+              <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -375,7 +370,7 @@
       <workItem from="1477658511965" duration="298000" />
       <workItem from="1478225265343" duration="2157000" />
       <workItem from="1478243644863" duration="3277000" />
-      <workItem from="1478257398712" duration="4516000" />
+      <workItem from="1478257398712" duration="4686000" />
     </task>
     <task id="LOCAL-00001" summary="model schema 등록">
       <created>1477237838274</created>
@@ -388,7 +383,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="24582000" />
+    <option name="totallyTimeSpent" value="24752000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="0" width="1378" height="744" extended-state="0" />
@@ -703,8 +698,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/views/index.jade">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="57">
-          <caret line="3" column="11" selection-start-line="3" selection-start-column="11" selection-end-line="3" selection-end-column="11" />
+        <state relative-caret-position="95">
+          <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
           <folding />
         </state>
       </provider>
