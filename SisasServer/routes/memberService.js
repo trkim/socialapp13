@@ -80,9 +80,10 @@ router.post('/login',function(req,res){
 
     var input_email = 'aa@aa.com';
     var input_pwd =  '1111';
-
+	console.log('aa');
     var member = Member.find({email : input_email, password : input_pwd});
-
+	
+	console.log(member);
     if(member.isEmpty()){
         console.log('로그인 실패!');
     }else{
