@@ -1,5 +1,8 @@
 var express = require('express');
+var session = require('express-session');
 var router = express.Router();
+
+var app = express();
 
 var Member = mongoose.model('member');
 
@@ -71,4 +74,25 @@ router.post('/get_member',function(req,res){
 });
 
 
-module.exports = memberService;
+router.post('/login',function(req,res){
+   //var input_email = req.body.email;//로그인 위해 사용자에게 입력받은 이메일
+    //var input_pwd = req.body.password;
+
+    var input_email = 'aa@aa.com';
+    var input_pwd =  '1111';
+
+    var member = Member.find({email : input_email, password : input_pwd});
+
+    if(member.isEmpty()){
+        console.log('로그인 실패!');
+    }else{
+        console.log("로그인 성공!");
+        app.use(session({
+            secret:'keyboard cat',
+            resave : false,
+            saveUninitialized:true
+        }));
+    }
+});
+
+module.exports = router;

@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var http = require('http');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+var session = require('express-session');
 
 var member = require('./model/member');
 var room = require('./model/room');
@@ -72,6 +73,14 @@ app.use(function(err, req, res, next) {
   });
 });
 
+app.use(session({
+  secret:'keyboard cat',
+  resave : false,
+  saveUninitialized:true
+}));
+
+
+var ip = '52.78.157.250:3000';
 mongoose.connect('mongodb://52.78.157.250:27017/SisasDB');
 
 
