@@ -6,7 +6,11 @@ var app = express();
 
 var Member = mongoose.model('member');
 
-router.post('/insert_member',function(req,res){
+app.use(express.json());
+
+app.post('/insert_member',function(req,res){
+    req.accepts('application/json');
+
     var name = req.body.name;
     var email = req.body.email;
     var password = req.body.password;
@@ -72,7 +76,6 @@ router.post('/get_member',function(req,res){
 
     var member = Member.find({email:select_email});
 });
-
 
 router.post('/login',function(req,res){
    //var input_email = req.body.email;//로그인 위해 사용자에게 입력받은 이메일
