@@ -6,10 +6,10 @@ var app = express();
 
 var Member = mongoose.model('member');
 
-app.use(express.json());
+//app.use(express.json());
 
 app.post('/insert_member',function(req,res){
-    req.accepts('application/json');
+//    req.accepts('application/json');
 
     var name = req.body.name;
     var email = req.body.email;
@@ -77,7 +77,7 @@ router.post('/get_member',function(req,res){
     var member = Member.find({email:select_email});
 });
 
-router.post('/login',function(req,res){
+/*router.post('/login',function(req,res){
    //var input_email = req.body.email;//로그인 위해 사용자에게 입력받은 이메일
     //var input_pwd = req.body.password;
 
@@ -97,6 +97,6 @@ router.post('/login',function(req,res){
             saveUninitialized:true
         }));
     }
-});
+});*/
 
 module.exports = router;
