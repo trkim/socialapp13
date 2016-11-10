@@ -26,6 +26,7 @@ app.post('/insert_member',function(req,res){
             res.status(500).send('update error');
             return;
         }
+        console.log("회원가입 완료");
         res.status(200).send("inserted");
     });
 });
