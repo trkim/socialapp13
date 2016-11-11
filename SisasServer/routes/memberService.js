@@ -89,7 +89,7 @@ router.post('/login',function(req,res){
 	
 	console.log(member);
     if(member.isEmpty()){
-
+        console.log('로그인 실패!');
         return res.json({'result': 'login_failed'});
     }else{
         console.log("로그인 성공!");
@@ -98,8 +98,8 @@ router.post('/login',function(req,res){
             resave : false,
             saveUninitialized:true
         }));
-        console.log('로그인 실패!');
-        return res.json({'result': 'login_successed'});
+
+        return res.json(member);
     }
 });
 
