@@ -9,13 +9,27 @@ var session = require('express-session');
 
 var app = express();
 
+var Member = mongoose.model('member');
+
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://52.78.157.250:27017/SisasDB', function(err){
   if(err){
     console.log("db error : ", err);
     throw err;
   }
-  else console.log("db connected!");
+  else {
+    console.log("db connected!");
+    Member.find(function(err,result){
+      console.log('app.js : err : '+err);
+      console.log('app.js : result : '+result);
+      if(err){
+        console.log('에러발생');
+      }
+      if(result){
+        console.log('있음');
+      }
+    });
+  }
 });
 
 require('./model/member');
