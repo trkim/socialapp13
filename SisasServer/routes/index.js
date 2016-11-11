@@ -94,6 +94,7 @@ router.post('/login',function(req,res){
 
   Member.findOne({'email' : req.body.email, 'password' : req.body.password}, function(err, member){
     if(err){
+      console.log('로그인 실패');
       return res.json({'result' : 'fail'});
     }
     if(member) {
