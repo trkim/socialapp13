@@ -1,12 +1,12 @@
 var express = require('express');
 var session = require('express-session');
+var mongoose = require('mongoose');
 var router = express.Router();
 
 var app = express();
 
 var Member = mongoose.model('member');
 
-app.use(express.json());
 
 app.post('/insert_member',function(req,res){
     req.accepts('application/json');
