@@ -85,7 +85,7 @@ router.post('/get_member',function(req,res){
   var member = Member.find({email:select_email});
 });
 
-router.post('/login',function(req,res){
+router.post('login',function(req,res){
   //var input_email = req.body.email;//로그인 위해 사용자에게 입력받은 이메일
   //var input_pwd = req.body.password;
 
