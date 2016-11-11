@@ -92,21 +92,15 @@ router.post('/login',function(req,res){
   /*var input_email = 'aa@aa.com';
   var input_pwd =  '1111';*/
 
-  Member.find({'email' : req.body.email, 'password' : req.body.password}, function(err, member){
+  Member.findOne({'email' : req.body.email, 'password' : req.body.password}, function(err, member){
     if(err){
       return res.json({'result' : 'fail'});
     }
     if(member) {
       console.log(member);
 
-      if (isEmpty(member) || isNull(member)) {
-        console.log('로그인 실패!');
-        return res.json({'result': 'login_failed'});
-
-      } else {
         console.log("로그인 성공!");
         return res.json(member);
-      }
     }
   });
 
