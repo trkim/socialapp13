@@ -86,13 +86,11 @@ router.post('/get_member',function(req,res){
 });
 
 router.post('/login',function(req,res){
-  //var input_email = req.body.email;//로그인 위해 사용자에게 입력받은 이메일
-  //var input_pwd = req.body.password;
 
-  /*var input_email = 'aa@aa.com';
-  var input_pwd =  '1111';*/
+  console.log("req : "+req);
+  console.log("res : "+res);
 
-  Member.findOne({'email' : req.body.email, 'password' : req.body.password}, function(err, member){
+/*  Member.findOne({'email' : req.body.email, 'password' : req.body.password}, function(err, member){
     if(err){
       console.log('로그인 실패');
       return res.json({'result' : 'fail'});
@@ -103,8 +101,24 @@ router.post('/login',function(req,res){
         console.log("로그인 성공!");
         return res.json(member);
     }
-  });
-
+  });*/
+Member.findOne({'email':req.body.email}, function(err,member){
+  if(err){
+    console.log('err 발생');
+    return res.json({'result':'fail'});
+  }
+  if(member){
+    console.log('아이디 존재')
+    if(member.password == req.body.password){
+      console.log('로그인 성공')
+      res.json(member);
+    }else{
+      console.log('비밀번호 틀림')
+    }
+  }else{
+    console.log('아이디 없음')
+  }
+});
 
 });
 
