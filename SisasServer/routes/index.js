@@ -100,19 +100,20 @@ router.post('/login',function(req,res){
         return res.json(member);
     }
   });*/
-Member.findOne({'email':req.body.email}, function(err,Member){
+Member.findOne({'email':req.body.email}, function(err,member){
   console.log(req.body.email);
   console.log(req.body.password);
-  console.log(Member)
+  console.log("err"+err);
+  console.log("member :"+member);
   if(err){
     console.log('err 발생');
     return res.json({'result':'fail'});
   }
-  if(Member){
+  if(member){
     console.log('아이디 존재')
-    if(Member.password == req.body.password){
+    if(member.password == req.body.password){
       console.log('로그인 성공')
-      res.json(Member);
+      res.json(member);
     }else{
       console.log('비밀번호 틀림')
     }
