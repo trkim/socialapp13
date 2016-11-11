@@ -2,8 +2,9 @@ var express = require('express');
 var router = express.Router();
 
 var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
-var memberSchema = mongoose.Schema({
+var memberSchema = new Schema({
         name:String,
         email:String,
         password:String,
@@ -15,7 +16,3 @@ var memberSchema = mongoose.Schema({
 
 mongoose.model('member',memberSchema);
 
-
-
-
-module.exports = router;

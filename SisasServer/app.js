@@ -3,24 +3,32 @@ var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
-var http = require('http');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var session = require('express-session');
 
-var member = require('./model/member');
-var room = require('./model/room');
-var keyword_box = require('./model/keyword_box');
-var scrap_box = require('./model/scrap_box');
-var study_member = require('./model/study_member');
-var timeline = require('./model/timeline');
+var app = express();
 
-var memberService = require('./routes/memberService');
+mongoose.Promise = global.Promise;
+mongoose.connect('mongodb://52.78.157.250:27017/SisasDB', function(err){
+  if(err){
+    console.log("db error : ", err);
+    throw err;
+  }
+  else console.log("db connected!");
+});
+
+require('./model/member');
+require('./model/room');
+require('./model/keyword_box');
+require('./model/scrap_box');
+require('./model/study_member');
+require('./model/timeline');
+var member = mongoose.model('member');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
-var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -33,15 +41,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
-app.use('/',member);
-app.use('/',room);
-app.use('/',keyword_box);
-app.use('/',scrap_box);
-app.use('/',study_member);
-app.use('/',timeline);
-
-app.use('/',memberService);
 
 app.use('/', routes);
 app.use('/users', users);
@@ -85,7 +84,7 @@ app.use(session({
 
 
 var ip = '52.78.157.250:3000';
-mongoose.connect('mongodb://52.78.157.250:27017/SisasDB');
+
 
 
 module.exports = app;

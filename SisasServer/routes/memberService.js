@@ -1,3 +1,4 @@
+/*
 var express = require('express');
 var session = require('express-session');
 var mongoose = require('mongoose');
@@ -8,7 +9,7 @@ var app = express();
 var Member = mongoose.model('member');
 
 
-app.post('/insert_member',function(req,res){
+router.post('/insert_member',function(req,res){
     req.accepts('application/json');
 
     var name = req.body.name;
@@ -100,3 +101,4 @@ router.post('/login',function(req,res){
 });
 
 module.exports = router;
+*/
