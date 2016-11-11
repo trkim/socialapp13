@@ -93,11 +93,7 @@ router.post('/login',function(req,res){
         return res.json({'result': 'login_failed'});
     }else{
         console.log("로그인 성공!");
-        app.use(session({
-            secret:'keyboard cat',
-            resave : false,
-            saveUninitialized:true
-        }));
+
 
         return res.json(member);
     }

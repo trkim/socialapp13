@@ -15,6 +15,8 @@ var scrap_box = require('./model/scrap_box');
 var study_member = require('./model/study_member');
 var timeline = require('./model/timeline');
 
+var memberService = require('./routes/memberService');
+
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
@@ -38,6 +40,8 @@ app.use('/',keyword_box);
 app.use('/',scrap_box);
 app.use('/',study_member);
 app.use('/',timeline);
+
+app.use('/',memberService);
 
 app.use('/', routes);
 app.use('/users', users);
