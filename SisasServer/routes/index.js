@@ -103,7 +103,7 @@ router.post('/login',function(req,res){
 Member.findOne({'email':req.body.email}, function(err,Member){
   console.log(req.body.email);
   console.log(req.body.password);
-
+  console.log(Member)
   if(err){
     console.log('err 발생');
     return res.json({'result':'fail'});
