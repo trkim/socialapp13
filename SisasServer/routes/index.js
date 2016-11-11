@@ -105,7 +105,7 @@ router.post('/login',function(req,res){
 Member.findOne({'email':req.body.email}, function(err,member){
   console.log(req.body.email);
   console.log(req.body.password);
-  console.log(member);
+  console.log(Member.findOne({'email':'aa@aa.com'}));
   if(err){
     console.log('err 발생');
     return res.json({'result':'fail'});
