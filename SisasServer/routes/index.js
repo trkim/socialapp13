@@ -87,8 +87,9 @@ router.post('/get_member',function(req,res){
 
 router.post('/login',function(req,res){
 
-  console.log("req : "+req);
-  console.log("res : "+res);
+  Member.findOne({'email':'aa@aa.com'}, function(err,result){
+    console.log('aa@aa.com 있음 : '+result);
+  });
 
 /*  Member.findOne({'email' : req.body.email, 'password' : req.body.password}, function(err, member){
     if(err){
@@ -105,8 +106,7 @@ router.post('/login',function(req,res){
 Member.findOne({'email':req.body.email}, function(err,member){
   console.log(req.body.email);
   console.log(req.body.password);
-  var result = Member.findOne({'email':'aa@aa.com'});
-  console.log(result);
+
   if(err){
     console.log('err 발생');
     return res.json({'result':'fail'});
