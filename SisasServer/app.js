@@ -7,7 +7,6 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var session = require('express-session');
 
-require('./model/member');
 var app = express();
 
 
@@ -21,11 +20,14 @@ mongoose.connect('mongodb://52.78.157.250:27017/SisasDB', function(err){
     console.log("db connected!");
   }
 });
+
+require('./model/member');
 var Member = mongoose.model('member');
 
+console.log(Member.collection);
 app.get('/members',function(req,res,err){
   var member = new Member();
-  Member.find().select('email').exec(function(err,member){
+  Member.find().exec(function(err,member){
     if(err){
       console.log(err);
       throw err;
