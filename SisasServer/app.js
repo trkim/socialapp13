@@ -37,7 +37,7 @@ mongoose.connect('mongodb://52.78.157.250:27017/SisasDB', function(err){
 });
 
 app.get('/member/:member',function(req,res,err){
-  var member = new Member();
+
   Member.findOne({'email':req.params.email},function(err,result){
     if(err){
       console.err(err);
