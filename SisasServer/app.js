@@ -35,7 +35,9 @@ app.get('/members',function(req,res,err){
     console.log(member);
     res.send(member);
   })
-})
+});
+
+
 app.get('/member/:email',function(req,res,err){
 
   Member.findOne({'email':req.params.email},function(err,result){
@@ -63,7 +65,9 @@ var users = require('./routes/users');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app.set('view engine', 'html');
+//app.set('view engine', 'jade');
+
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
