@@ -21,6 +21,7 @@ mongoose.connect('mongodb://52.78.157.250:27017/SisasDB', function(err){
   }
 });
 
+/*
 require('./model/member');
 var Member = mongoose.model('member');
 
@@ -46,9 +47,11 @@ app.get('/member/:email',function(req,res,err){
     console.log("%%%");
     console.log(req.params.email);
     console.log(result);
+    res.send(result);
     //res.status(status).send(result);
   });
 });
+*/
 
 require('./model/member');
 require('./model/room');

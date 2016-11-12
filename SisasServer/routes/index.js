@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
+var bodyParser = require('body-parser')
+
 
 var Member = mongoose.model('member');
 /*var room = mongoose.model('room');
@@ -14,6 +16,21 @@ var ObjectId = require('mongodb').ObjectId;*/
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'SocialApp' });
 });
+
+router.get('/members',function(req,res){
+  Member.find({}, function(err, member){
+    if(err){
+      console.error(err);
+      res.send(err);
+    }
+    else{
+      console.log("members:")
+      console.log(member);
+      res.send(member);
+    }
+
+  })
+})
 
 router.post('/insert_member',function(req,res){
   req.accepts('application/json');
