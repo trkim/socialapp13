@@ -27,17 +27,19 @@ var Member = mongoose.model('member');
 console.log(Member.collection);
 app.get('/members',function(req,res,err){
   var member = new Member();
-  Member.find(function(err,member){
+  console.log(req)
+  console.log(res)
+  Member.find().select('email').exec(function(err,member){
     if(err){
       console.log(err);
       throw err;
     }
     console.log(member);
+    console.log(req)
+    console.log(res)
     res.send(member);
   })
-});
-
-
+})
 app.get('/member/:email',function(req,res,err){
 
   Member.findOne({'email':req.params.email},function(err,result){
@@ -65,9 +67,7 @@ var users = require('./routes/users');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'html');
-//app.set('view engine', 'jade');
-
+app.set('view engine', 'jade');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
