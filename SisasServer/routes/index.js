@@ -19,7 +19,7 @@ router.get('/', function(req, res, next) {
 
 router.get('/insert',function(req,res){
   //var member = new Member.save({name:'haha',email:'b@b.com',password:'1111',major:'bio',category:'politic',coupon:'2',rating:'1'});
-  Member.save({
+  Member.create({
     name:'haha',
     email:'b@b.com',
     password:'1111',
