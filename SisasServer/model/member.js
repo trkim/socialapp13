@@ -10,8 +10,8 @@ var memberSchema = new Schema({
         password:String,
         major:String,
         category:String,
-        coupon:Number,
-        rating:Number
+        coupon:String,
+        rating:String
 });
 
 mongoose.model('member',memberSchema);

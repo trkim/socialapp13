@@ -27,7 +27,7 @@ var Member = mongoose.model('member');
 console.log(Member.collection);
 app.get('/members',function(req,res,err){
   var member = new Member();
-  Member.find(function(err,member){
+  mongoose.find(function(err,member){
     if(err){
       console.log(err);
       throw err;
@@ -35,7 +35,9 @@ app.get('/members',function(req,res,err){
     console.log(member);
     res.send(member);
   })
-})
+});
+
+
 app.get('/member/:email',function(req,res,err){
 
   Member.findOne({'email':req.params.email},function(err,result){
@@ -112,10 +114,6 @@ app.use(session({
   resave : false,
   saveUninitialized:true
 }));
-
-
-var ip = '52.78.157.250:3000';
-
 
 
 module.exports = app;
