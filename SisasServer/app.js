@@ -23,7 +23,7 @@ mongoose.connect('mongodb://52.78.157.250:27017/SisasDB', function(err){
 });
 var Member = mongoose.model('member');
 
-app.get('/member',function(req,res,err){
+app.get('/members',function(req,res,err){
   var member = new Member();
   Member.find().select('email').exec(function(err,member){
     if(err){
@@ -43,7 +43,7 @@ app.get('/member/:email',function(req,res,err){
     }
     console.log("%%%");
     console.log(result);
-    res.status(status).send(result);
+    //res.status(status).send(result);
   });
 });
 
