@@ -19,23 +19,21 @@ mongoose.connect('mongodb://52.78.157.250:27017/SisasDB', function(err){
   }
   else {
     console.log("db connected!");
-    var Member = mongoose.model('member');
-    var data = Member.find();
-    console.log("****"+Object.keys(data));
-    Member.find(function(err,result){
-      console.log('app.js : err : '+err);
-      console.log('app.js : result : '+result);
-      console.log(result.length);
-      if(err){
-        console.log('에러발생');
-      }
-      if(result){
-        console.log('있음');
-      }
-    });
   }
 });
 var Member = mongoose.model('member');
+
+app.get('/member',function(req,res,err){
+  var member = new Member();
+  Member.find().select('email').exec(function(err,member){
+    if(err){
+      console.log(err);
+      throw err;
+    }
+    console.log(member);
+    res.send(member);
+  })
+})
 app.get('/member/:email',function(req,res,err){
 
   Member.findOne({'email':req.params.email},function(err,result){
