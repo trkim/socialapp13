@@ -19,13 +19,13 @@ router.get('/', function(req, res, next) {
 
 router.get('/insert',function(req,res){
   var member = new Member();
-    member.name:'haha';
-    member.email:'b@b.com';
-    member.password:'1111';
-    member.major:'bio';
-    member.category:'politic';
-    member.coupon:'2';
-    member.rating:'1';
+    member.name='haha';
+    member.email='b@b.com';
+    member.password='1111';
+    member.major='bio';
+    member.category='politic';
+    member.coupon='2';
+    member.rating='1';
 
   member.save();
 
