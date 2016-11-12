@@ -45,7 +45,7 @@ app.get('/member/:member',function(req,res,err){
     }
     console.log("%%%");
     console.log(member);
-    res.send(200,member);
+    res.status(status).send(member);
   });
 });
 
