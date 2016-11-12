@@ -17,6 +17,19 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'SocialApp' });
 });
 
+router.get('/insert',function(req,res){
+  var member = new Member.save({name:'haha',email:'b@b.com',password:'1111',major:'bio',category:'politic',coupon:'2',rating:'1'});
+  member.save(function(err,insmember){
+    if(err){
+      console.error(err);
+      throw err;
+    }
+    console.log("insert complete");
+    console.log(insmember);
+    res.send('success');
+  })
+})
+
 router.get('/members',function(req,res){
   Member.find().select('email').exec(function(err, member){
     if(err){
