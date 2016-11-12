@@ -40,12 +40,12 @@ app.get('/member/:member',function(req,res,err){
 
   Member.findOne({'email':req.params.email},function(err,result){
     if(err){
-      console.err(err);
+      console.log(err);
       throw err;
     }
     console.log("%%%");
-    console.log(member);
-    res.status(status).send(member);
+    console.log(result);
+    res.status(status).send(result);
   });
 });
 
