@@ -25,8 +25,7 @@ require('./model/member');
 var Member = mongoose.model('member');
 
 app.get('/members',function(req,res,err){
-  var member = new Member();
-  Member.find(function(err,member){
+  Member.find({},function(err,member){
     if(err){
       console.log(err);
       throw err;
