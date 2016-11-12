@@ -25,13 +25,15 @@ require('./model/member');
 var Member = mongoose.model('member');
 
 app.get('/members',function(req,res,err){
-  Member.find({},function(err,member){
+  var members = new Member();
+  Member.find().select('email').exec(function(err,members){
     if(err){
-      console.log(err);
+      console.error(err);
       throw err;
     }
-    console.log(member);
-    res.send(member);
+    console.log("member : ");
+    console.log(members);
+    res.send(members);
   })
 })
 app.get('/member/:email',function(req,res,err){
