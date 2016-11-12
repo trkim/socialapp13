@@ -18,8 +18,16 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/insert',function(req,res){
-  var member = new Member.save({name:'haha',email:'b@b.com',password:'1111',major:'bio',category:'politic',coupon:'2',rating:'1'});
-  member.save(function(err,insmember){
+  //var member = new Member.save({name:'haha',email:'b@b.com',password:'1111',major:'bio',category:'politic',coupon:'2',rating:'1'});
+  Member.save({
+    name:'haha',
+    email:'b@b.com',
+    password:'1111',
+    major:'bio',
+    category:'politic',
+    coupon:'2',
+    rating:'1'
+  },function(err,insmember){
     if(err){
       console.error(err);
       throw err;
