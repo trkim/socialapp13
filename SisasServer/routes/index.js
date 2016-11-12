@@ -18,27 +18,21 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/insert',function(req,res){
-  //var member = new Member.save({name:'haha',email:'b@b.com',password:'1111',major:'bio',category:'politic',coupon:'2',rating:'1'});
-  Member.create({
-    name:'haha',
-    email:'b@b.com',
-    password:'1111',
-    major:'bio',
-    category:'politic',
-    coupon:'2',
-    rating:'1'
-  },function(err,insmember){
-    if(err){
-      console.error(err);
-      throw err;
-    }
-    console.log("insert complete");
-    console.log(insmember);
-    res.send('success');
-  })
+  var member = new Member();
+    member.name:'haha';
+    member.email:'b@b.com';
+    member.password:'1111';
+    member.major:'bio';
+    member.category:'politic';
+    member.coupon:'2';
+    member.rating:'1';
+
+  member.save();
+
+  res.send("insert");
 })
 
-router.get('/members',function(req,res){
+router.get('/membersaa',function(req,res){
   Member.find().select('email').exec(function(err, member){
     if(err){
       console.error(err);
