@@ -42,6 +42,7 @@ app.get('/member/:email',function(req,res,err){
       throw err;
     }
     console.log("%%%");
+    console.log(req.params.email);
     console.log(result);
     //res.status(status).send(result);
   });
