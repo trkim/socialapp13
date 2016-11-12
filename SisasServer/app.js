@@ -24,19 +24,13 @@ mongoose.connect('mongodb://52.78.157.250:27017/SisasDB', function(err){
 require('./model/member');
 var Member = mongoose.model('member');
 
-console.log(Member.collection);
 app.get('/members',function(req,res,err){
   var member = new Member();
-  console.log(req)
-  console.log(res)
   Member.find().select('email').exec(function(err,member){
     if(err){
       console.log(err);
       throw err;
     }
-    console.log(member);
-    console.log(req)
-    console.log(res)
     res.send(member);
   })
 })
