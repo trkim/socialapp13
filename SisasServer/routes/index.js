@@ -18,7 +18,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/members',function(req,res){
-  Member.find({}, function(err, member){
+  Member.find().select('email').exec(function(err, member){
     if(err){
       console.error(err);
       res.send(err);
