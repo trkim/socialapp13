@@ -7,21 +7,25 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var session = require('express-session');
 
+require('./model/member');
 var app = express();
 
-var Member = mongoose.model('member');
 
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://52.78.157.250:27017/SisasDB', function(err){
   if(err){
-    console.log("db error : ", err);
+    console.log("db error : "+err);
     throw err;
   }
   else {
     console.log("db connected!");
+    var Member = mongoose.model('member');
+    var data = Member.find();
+    console.log("****"+Object.keys(data));
     Member.find(function(err,result){
       console.log('app.js : err : '+err);
       console.log('app.js : result : '+result);
+      console.log(result.length);
       if(err){
         console.log('에러발생');
       }
@@ -30,6 +34,19 @@ mongoose.connect('mongodb://52.78.157.250:27017/SisasDB', function(err){
       }
     });
   }
+});
+
+app.get('/member/:member',function(req,res,err){
+  var member = new Member();
+  Member.findOne({'email':req.params.email},function(err,result){
+    if(err){
+      console.err(err);
+      throw err;
+    }
+    console.log("%%%");
+    console.log(member);
+    res.send(200,member);
+  });
 });
 
 require('./model/member');
