@@ -258,7 +258,7 @@ router.post('/get_room', function(req,res){
   var email = req.body.email;
   var room_id = req.body.room_id;
 
-  Room.find({'email':email, 'room_id':room_id}, function(err, room){
+  Room.findOne({'email':email, 'room_id':room_id}, function(err, room){
     if(err){
       console.error(err);
     }else{
@@ -299,7 +299,7 @@ router.post('/join_room', function(req,res){
   var email = req.body.email;
   var room_id = req.body.room_id;
 
-  Room.find({'room_id':room_id}).count(function(err,capacity){
+  Room.findOne({'room_id':room_id}).count(function(err,capacity){
     if(capacity >= 1){
       console.log('room capacity'+capacity);
       var room = new Room();
