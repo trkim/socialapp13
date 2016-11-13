@@ -179,7 +179,7 @@ router.post('/insert_room', function(req,res){
   req.accepts('application/json');
 
   var room = new Room();
-  Seq.update({"_id":"seq_post"},{$inc: {"seq":1}},false, function(err,room_id){
+  Seq.update({"_id":"seq_post"},{$inc: {"seq":1}},function(err,room_id){
     if(err){
       console.error(err);
     }else{
@@ -194,10 +194,15 @@ router.post('/insert_room', function(req,res){
       room.end_date = req.body.end_date;
       room.comment = req.body.comment;
 
-      room.save();
+      room.save(function(err){
+        if(err){
+          console.error(err);
+        }
+        res.json({'result':'success'});
+        console.log('스터디룸 생성 완료')
+      });
 
-      res.json({'result':'success'});
-      console.log('스터디룸 생성 완료')
+
     }
 
   });
