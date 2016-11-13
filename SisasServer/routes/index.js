@@ -5,8 +5,8 @@ var bodyParser = require('body-parser')
 
 
 var Member = mongoose.model('member');
-/*var room = mongoose.model('room');
-var timeline = mongoose.model('timeline');
+var Room = mongoose.model('room');
+/*var timeline = mongoose.model('timeline');
 var keyword_box = mongoose.model('keyword_box');
 var scrap_box = mongoose.model('scrap_box');
 var study_member = mongoose.model('study_member');
@@ -133,13 +133,14 @@ router.post('/update_member',function(req,res){
 router.post('/get_member',function(req,res){
   var select_email = req.body.email;
 
-  Member.find({email:select_email}, function(err,member){
+  Member.find({'email':select_email}, function(err,member){
     if(err){
       console.error(err);
       res.json({'result':'fail'});
     }
     else{
       console.log('회원정보 조회 완료');
+      console.log(member);
       res.json(member);
     }
   });
@@ -173,7 +174,39 @@ router.post('/login',function(req,res){
 });
 
 ////////////////////////////room//////////////////////////////////////
-router.post('/')
+router.post('/insert_room', function(req,res){
+  req.accepts('application/json');
 
+  var room = new Room();
+  room.email = req.body.email;
+  room.king_name = req.body.king_name;
+  room.room_name = req.body.room_name;
+  room.capacity = req.body.capacity;
+  room.category = req.body.category;
+  room.start_date = req.body.start_date;
+  room.end_date = req.body.end_date;
+  room.comment = req.body.comment;
+
+  room.save();
+
+  res.json({'result':'success'});
+
+});
+
+router.post('/delete_room', function(req,res){
+
+});
+
+router.post('/update_room', function(req,res){
+
+});
+
+router.post('/get_room', function(req,res){
+
+});
+
+router.post('/get_roomlist', function(req,res){
+
+});
 
 module.exports = router;
