@@ -80,7 +80,7 @@ router.post('/insert_member',function(req,res){
       });
     }else{
       console.log('이미 있는 email')
-      //res.json({'result':'already_used'});
+      res.json({'result':'already_used'});
     }
 
   })
