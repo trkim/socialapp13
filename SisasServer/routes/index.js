@@ -183,6 +183,7 @@ router.post('/insert_room', function(req,res){
     if(err){
       console.error(err);
     }else{
+      console.log('스터디룸 생성')
       room.room_id = room_id;
       room.email = req.body.email;
       room.king_name = req.body.king_name;
@@ -196,6 +197,7 @@ router.post('/insert_room', function(req,res){
       room.save();
 
       res.json({'result':'success'});
+      console.log('스터디룸 생성 완료')
     }
 
   });
