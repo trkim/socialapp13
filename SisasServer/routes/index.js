@@ -17,7 +17,7 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'SocialApp' });
 });
 
-router.get('/insert',function(req,res){
+/*router.get('/insert',function(req,res){
   //var member = new Member.save({name:'haha',email:'b@b.com',password:'1111',major:'bio',category:'politic',coupon:'2',rating:'1'});
   Member.create({
     name:'qq',
@@ -51,7 +51,7 @@ router.get('/membersaa',function(req,res){
     }
 
   })
-})
+})*/
 
 router.post('/insert_member',function(req,res){
   req.accepts('application/json');
@@ -65,16 +65,21 @@ router.post('/insert_member',function(req,res){
   var coupon = req.body.coupon;
   var rating = req.body.rating;
 
-  var member = new Member({'name':name,'email':email,'password':password,'major':major,'category':category,'coupon':coupon, 'rating':rating});
-  member.save(function(err){
-    if(err){
-      console.log(err);
-      res.status(500).send('update error');
-      return;
-    }
-    console.log("회원가입 완료");
-    res.status(200).send("inserted");
-  });
+  if(!Member.findOne({'email':email})){
+    var member = new Member({'name':name,'email':email,'password':password,'major':major,'category':category,'coupon':coupon, 'rating':rating});
+    member.save(function(err){
+      if(err){
+        console.log(err);
+        res.status(500).send('update error');
+        return;
+      }
+      console.log("회원가입 완료");
+      res.status(200).send("inserted");
+    });
+  }else{
+    res.json({'result':'already_used'});
+  }
+
 });
 
 router.post('/delete_member',function(req,res){
@@ -124,22 +129,9 @@ router.post('/get_member',function(req,res){
   var member = Member.find({email:select_email});
 });
 
+
 router.post('/login',function(req,res){
-
-
-/*  Member.findOne({'email' : req.body.email, 'password' : req.body.password}, function(err, member){
-    if(err){
-      console.log('로그인 실패');
-      return res.json({'result' : 'fail'});
-    }
-    if(member) {
-      console.log(member);
-
-        console.log("로그인 성공!");
-        return res.json(member);
-    }
-  });*/
-Member.findOne({'email':req.body.email}, function(err,member){
+  Member.findOne({'email':req.body.email}, function(err,member){
   console.log(req.body.email);
   console.log(req.body.password);
   console.log("err"+err);
@@ -152,7 +144,6 @@ Member.findOne({'email':req.body.email}, function(err,member){
     console.log('아이디 존재')
     if(member.password == req.body.password){
       console.log('로그인 성공')
-      //res.send('login success');
       return res.json(member);
     }else{
       console.log('비밀번호 틀림')
