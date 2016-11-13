@@ -53,6 +53,8 @@ router.get('/membersaa',function(req,res){
   })
 })*/
 
+////////////////////////////member//////////////////////////////////////
+
 router.post('/insert_member',function(req,res){
   req.accepts('application/json');
   var member = new Member();
@@ -84,10 +86,6 @@ router.post('/insert_member',function(req,res){
     }
 
   })
-
-
-
-
 
 });
 
@@ -135,9 +133,17 @@ router.post('/update_member',function(req,res){
 router.post('/get_member',function(req,res){
   var select_email = req.body.email;
 
-  var member = Member.find({email:select_email});
+  Member.find({email:select_email}, function(err,member){
+    if(err){
+      console.error(err);
+      res.json({'result':'fail'});
+    }
+    else{
+      console.log('회원정보 조회 완료');
+      res.json(member);
+    }
+  });
 });
-
 
 router.post('/login',function(req,res){
   Member.findOne({'email':req.body.email}, function(err,member){
@@ -162,8 +168,12 @@ router.post('/login',function(req,res){
     console.log('아이디 없음')
     return res.json({'result':'fail_id'});
   }
-});
+  });
 
 });
+
+////////////////////////////room//////////////////////////////////////
+router.post('/')
+
 
 module.exports = router;
