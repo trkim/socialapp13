@@ -65,22 +65,29 @@ router.post('/insert_member',function(req,res){
   var coupon = req.body.coupon;
   var rating = req.body.rating;
 
-  if(Member.findOne({'email':email})){
-    res.json({'result':'already_used'});
-  }else{
+  Member.findOne({'email':email}, function(err, member){
+    if(member.isEmpty()){
+      console.log('email 사용가능')
+      var member = new Member({'name':name,'email':email,'password':password,'major':major,'category':category,'coupon':coupon, 'rating':rating});
+      member.save(function(err){
+        if(err){
+          console.log(err);
+          res.status(500).send('update error');
+          return;
+        }
+        console.log("회원가입 완료");
+        res.status(200).send("inserted");
+      });
+    }else{
+      console.log('이미 있는 email')
+      res.json({'result':'already_used'});
+    }
+
+  })
 
 
-    var member = new Member({'name':name,'email':email,'password':password,'major':major,'category':category,'coupon':coupon, 'rating':rating});
-    member.save(function(err){
-      if(err){
-        console.log(err);
-        res.status(500).send('update error');
-        return;
-      }
-      console.log("회원가입 완료");
-      res.status(200).send("inserted");
-    });
-  }
+
+
 
 });
 
