@@ -65,7 +65,11 @@ router.post('/insert_member',function(req,res){
   var coupon = req.body.coupon;
   var rating = req.body.rating;
 
-  if(!Member.findOne({'email':email})){
+  if(Member.findOne({'email':email})){
+    res.json({'result':'already_used'});
+  }else{
+
+
     var member = new Member({'name':name,'email':email,'password':password,'major':major,'category':category,'coupon':coupon, 'rating':rating});
     member.save(function(err){
       if(err){
@@ -76,8 +80,6 @@ router.post('/insert_member',function(req,res){
       console.log("회원가입 완료");
       res.status(200).send("inserted");
     });
-  }else{
-    res.json({'result':'already_used'});
   }
 
 });
