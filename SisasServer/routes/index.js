@@ -153,7 +153,7 @@ Member.findOne({'email':req.body.email}, function(err,member){
     if(member.password == req.body.password){
       console.log('로그인 성공')
       res.send('login success');
-      res.json(member);
+      return res.json(member);
     }else{
       console.log('비밀번호 틀림')
       return res.json({'result':'fail_pwd'});
