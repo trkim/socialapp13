@@ -139,7 +139,7 @@ router.post('/get_member',function(req,res){
       console.error(err);
       res.json({'result':'fail'});
     }
-    else{
+    if(member){
       console.log('회원정보 조회 완료');
       console.log(member);
       res.json(member);
