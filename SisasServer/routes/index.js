@@ -66,7 +66,7 @@ router.post('/insert_member',function(req,res){
   var rating = req.body.rating;
 
   Member.findOne({'email':email}, function(err, member){
-    if(member.isEmpty()){
+    if( member == "" || member == null || member == undefined || ( member != null && typeof member == "object" && !Object.keys(member).length )){
       console.log('email 사용가능')
       var member = new Member({'name':name,'email':email,'password':password,'major':major,'category':category,'coupon':coupon, 'rating':rating});
       member.save(function(err){
