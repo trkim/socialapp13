@@ -142,7 +142,7 @@ router.post('/get_member',function(req,res){
     if(member){
       console.log('회원정보 조회 완료');
       console.log(member);
-      res.json(member);
+      return res.json(member);
     }
   });
 });
