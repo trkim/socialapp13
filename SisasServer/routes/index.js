@@ -55,6 +55,7 @@ router.get('/membersaa',function(req,res){
 
 router.post('/insert_member',function(req,res){
   req.accepts('application/json');
+  var member = new Member();
 
   var name = req.body.name;
   var email = req.body.email;
@@ -151,12 +152,15 @@ Member.findOne({'email':req.body.email}, function(err,member){
     console.log('아이디 존재')
     if(member.password == req.body.password){
       console.log('로그인 성공')
+      res.send('login success');
       res.json(member);
     }else{
       console.log('비밀번호 틀림')
+      return res.json({'result':'fail_pwd'});
     }
   }else{
     console.log('아이디 없음')
+    return res.json({'result':'fail_id'});
   }
 });
 
