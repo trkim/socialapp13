@@ -134,7 +134,7 @@ router.post('/update_member',function(req,res){
 router.post('/get_member',function(req,res){
   var select_email = req.body.email;
 
-  Member.find({'email':select_email}, function(err,member){
+  Member.findOne({'email':select_email}, function(err,member){
     if(err){
       console.error(err);
       res.json({'result':'fail'});
