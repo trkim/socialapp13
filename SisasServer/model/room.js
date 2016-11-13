@@ -5,6 +5,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var roomSchema = new Schema({
+    room_id:Number,
     email:String,
     king_name:String,
     room_name:String,

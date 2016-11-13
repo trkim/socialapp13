@@ -55,6 +55,7 @@ app.get('/member/:email',function(req,res,err){
 
 require('./model/member');
 require('./model/room');
+require('./model/seq');
 require('./model/keyword_box');
 require('./model/scrap_box');
 require('./model/study_member');
