@@ -12,4 +12,4 @@ var timelineSchema = new Schema({
 });
 
 
-module.exports = router;
+mongoose.model('timeline',timelineSchema);
