@@ -7,11 +7,10 @@ var bodyParser = require('body-parser')
 var Member = mongoose.model('member');
 var Room = mongoose.model('room');
 var Seq = mongoose.model('seq');
-/*var timeline = mongoose.model('timeline');
+var timeline = mongoose.model('timeline');
 var keyword_box = mongoose.model('keyword_box');
 var scrap_box = mongoose.model('scrap_box');
-var study_member = mongoose.model('study_member');
-var ObjectId = require('mongodb').ObjectId;*/
+//var ObjectId = require('mongodb').ObjectId;
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -197,9 +196,13 @@ router.post('/insert_room', function(req,res){
       room.save(function(err){
         if(err){
           console.error(err);
+          res.json({'result':'fail'});
         }
-        res.json({'result':'success'});
-        console.log('스터디룸 생성 완료')
+        else {
+          console.log('스터디룸 생성 완료')
+          res.json({'result': 'success'});
+        }
+
       });
 
 
@@ -209,6 +212,10 @@ router.post('/insert_room', function(req,res){
 
 
 
+
+});
+
+router.post('/delete_room_req', function(req,res){
 
 });
 
@@ -245,16 +252,23 @@ router.post('/update_room', function(req,res){
   var end_date = req.body.end_date;
   var comment = req.body.comment;
 
-  Room.findOne({'email':email, 'room_id':room_id}, function(err, room){
-    room.room_name = room_name;
-    room.capacity = capacity;
-    room.category = category;
-    room.start_date = start_date;
-    room.end_date = end_date;
-    room.comment = comment;
+  Room.findOne({'room_id':room_id}, function(err, room){
 
-    room.save();
-    res.json({'result':'room_update_success'})
+    if(err){
+      console.log('room 수정 완료');
+      res.json({'result':'fail'});
+    }
+    if(room) {
+      room.room_name = room_name;
+      room.capacity = capacity;
+      room.category = category;
+      room.start_date = start_date;
+      room.end_date = end_date;
+      room.comment = comment;
+
+      room.save();
+      res.json({'result': 'room_update_success'})
+    }
 
   })
 
@@ -268,6 +282,7 @@ router.post('/get_room', function(req,res){
   Room.findOne({'email':email, 'room_id':room_id}, function(err, room){
     if(err){
       console.error(err);
+      res.json({'result':'fail'});
     }else{
       console.log('get room 성공');
       res.json(room);
@@ -280,6 +295,7 @@ router.post('/get_myroomlist', function(req,res){
   Room.find({'email':email}, function(err, roomlist){
     if(err){
       console.log('get_myroomlist 에러');
+      res.json({'result':'fail'});
     }
     else{
       console.log('get_myroomlist 성공');
@@ -294,6 +310,7 @@ router.post('/get_ctgroomlist', function(req,res){
   Room.find({'category':category}, function(err, roomlist){
     if(err){
       console.error(err);
+      res.json({'result':'fail'});
     }
     else{
       console.log('get_category room list 성공');
@@ -303,21 +320,30 @@ router.post('/get_ctgroomlist', function(req,res){
 });
 
 router.post('/join_room', function(req,res){
-  var email = req.body.email;
   var room_id = req.body.room_id;
 
-  Room.findOne({'room_id':room_id}).count(function(err,capacity){
-    if(capacity >= 1){
-      console.log('room capacity'+capacity);
-      var room = new Room();
-      room.email = email;
-      room.room_id = room_id;
+  Room.findOne({'room_id':room_id}).count(function(err,num){
+      Room.findOne({'room_id':room_id}, function(err,room){
+        if(room.capacity - num >= 1) {
+          var myroom = new Room();
+          myroom.email = room.email;
+          myroom.room_id = room.room_id;
+          myroom.king_id = room.king_id;
+          myroom.room_name = room.room_name;
+          myroom.capacity = room.capacity;
+          myroom.category = room.category;
+          myroom.start_date = room.start_date;
+          myroom.end_date = room.end_date;
+          myroom.comment = room.comment;
 
-      room.save();
-      console.log('study 참여 완료');
-    }else{
-    console.log('인원 초과');
-    }
+          myroom.save();
+          console.log('study 참여 완료');
+          res.json({'result': 'success'});
+        }else{
+          console.log('인원 초과');
+          res.json({'result':'fail'});
+        }
+      });
   });
 });
 
