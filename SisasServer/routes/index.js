@@ -174,7 +174,7 @@ router.post('/login',function(req,res){
 });
 
 ////////////////////////////room//////////////////////////////////////
-router.get('/updateexam',function(req, res){
+/*router.get('/updateexam',function(req, res){
   Seq.findOne({'_id':'seq_post'}, function(err, result){
     if(err){
       console.error(err);
@@ -187,20 +187,19 @@ router.get('/updateexam',function(req, res){
 
     }
   })
-});
+});*/
 
 router.post('/insert_room', function(req,res){
   req.accepts('application/json');
 
   var room = new Room();
-  Seq.findAndModify({'_id':'seq_post'},{$inc: {'seq':1}},function(err,result){
+  Seq.findOne({'_id':'seq_post'}, function(err, result){
     if(err){
       console.error(err);
+      res.json({'result':'fail'});
     }else{
       console.log('스터디룸 생성')
-      console.log('생성된 room : '+result.toString())
-      console.log('########room_id'+result.seq)
-      room.room_id = result.seq;
+      room.room_id = result.seq+1;
       room.email = req.body.email;
       room.king_name = req.body.king_name;
       room.room_name = req.body.room_name;
