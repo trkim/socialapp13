@@ -10,4 +10,8 @@ var seqSchema = new Schema({
 
 });
 
+seqSchema.statics.findAndModify = function (query, sort, doc, options, callback) {
+    return this.collection.findAndModify(query, sort, doc, options, callback);
+};
+
 mongoose.model('seq',seqSchema);
