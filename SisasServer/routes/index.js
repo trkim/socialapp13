@@ -183,7 +183,7 @@ router.post('/insert_room', function(req,res){
       console.error(err);
     }else{
       console.log('스터디룸 생성')
-      console.log('생성된 room : '+result)
+      console.log('생성된 room : '+result.toString())
       console.log('########room_id'+result.seq)
       room.room_id = result.seq;
       room.email = req.body.email;
