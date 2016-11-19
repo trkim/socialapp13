@@ -338,6 +338,7 @@ router.post('/get_roomlist', function(req,res){
 
 router.post('/get_myroomlist', function(req,res){
   var email = req.body.email;
+  console.log('email : '+email);
   Room.find({'email':email}, function(err, roomlist){
     if(err){
       console.log('get_myroomlist 에러');
