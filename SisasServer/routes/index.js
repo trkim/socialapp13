@@ -184,7 +184,7 @@ router.post('/insert_room', function(req,res){
     }else{
       console.log('스터디룸 생성')
       console.log('########room_id'+room_id)
-      room.room_id = room_id;
+      room.room_id = Seq.seq;
       room.email = req.body.email;
       room.king_name = req.body.king_name;
       room.room_name = req.body.room_name;
