@@ -178,7 +178,7 @@ router.post('/insert_room', function(req,res){
   req.accepts('application/json');
 
   var room = new Room();
-  Seq.update({'_id':'seq_post'},{$inc: {seq:1}},function(err,result){
+  Seq.findAndModify({'_id':'seq_post'},{$inc: {seq:1}},function(err,result){
     if(err){
       console.error(err);
     }else{
