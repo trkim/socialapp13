@@ -175,10 +175,18 @@ router.post('/login',function(req,res){
 
 ////////////////////////////room//////////////////////////////////////
 router.get('/updateexam',function(req, res){
-  Seq.findAndModify({_id:'seq_post'}, [], {$inc:{seq:1}}, {'new':true, upsert:true} ,function(err, result){
-    console.log('sequence result : '+result.toString());
-    console.log("$$$test : "+result.seq);
-  });
+  Seq.findOne({'_id':'seq_post'}, function(err, result){
+    if(err){
+      console.error(err);
+      res.json({'result':'fail'});
+    }
+    else{
+      result.seq = result.seq+1;
+      console.log('현재 sequence : '+result.seq);
+      result.save();
+
+    }
+  })
 });
 
 router.post('/insert_room', function(req,res){
