@@ -220,7 +220,22 @@ router.post('/delete_room_req', function(req,res){
   var message = req.body.message;//팀원들에게 보낼 메세지
   var room_id = req.body.room_id;//삭제할 방의 room_id
 
-  Room.find({'room_id':room_id, })
+  Room.find({'room_id':room_id}, function(err, room){
+    if(err){
+      console.error(err);
+      res.json({'result':'fail'});
+    }else{
+      Member.find({'name':{$ne:room.king_name}}, function(err,member_list){
+        if(err){
+          console.error(err);
+          res.json({'result':'fail'});
+        }else{
+          console.log('스터디원에게 방삭제 메세지 전송');
+          res.json(member_list);
+        }
+      });
+    }
+  })
 });
 
 router.post('/delete_room', function(req,res){
