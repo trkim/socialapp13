@@ -174,11 +174,17 @@ router.post('/login',function(req,res){
 });
 
 ////////////////////////////room//////////////////////////////////////
+router.get('/updateexam',function(req, res){
+  Seq.findAndModify({'_id':'seq_post'}, [], {$inc:{'seq':1}}, {'new':true} ,function(err, result){
+    console.log("$$$test : "+result.seq);
+  });
+});
+
 router.post('/insert_room', function(req,res){
   req.accepts('application/json');
 
   var room = new Room();
-  Seq.findAndModify({'_id':'seq_post'},{$inc: {seq:1}},function(err,result){
+  Seq.findAndModify({'_id':'seq_post'},{$inc: {'seq':1}},function(err,result){
     if(err){
       console.error(err);
     }else{
