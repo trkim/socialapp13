@@ -330,6 +330,7 @@ router.post('/get_myroomlist', function(req,res){
     }
     else{
       console.log('get_myroomlist 성공');
+      console.log(roomlist);
       res.json(roomlist);
     }
   });
