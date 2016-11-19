@@ -175,7 +175,8 @@ router.post('/login',function(req,res){
 
 ////////////////////////////room//////////////////////////////////////
 router.get('/updateexam',function(req, res){
-  Seq.findAndModify({'_id':'seq_post'}, [], {$inc:{'seq':1}}, {'new':true} ,function(err, result){
+  Seq.findAndModify({_id:'seq_post'}, [], {$inc:{seq:1}}, {'new':true, upsert:true} ,function(err, result){
+    console.log('sequence result : '+result.toString());
     console.log("$$$test : "+result.seq);
   });
 });
