@@ -183,6 +183,7 @@ router.post('/insert_room', function(req,res){
       console.error(err);
     }else{
       console.log('스터디룸 생성')
+      console.log('########room_id'+room_id)
       room.room_id = room_id;
       room.email = req.body.email;
       room.king_name = req.body.king_name;
@@ -216,7 +217,10 @@ router.post('/insert_room', function(req,res){
 });
 
 router.post('/delete_room_req', function(req,res){
+  var message = req.body.message;//팀원들에게 보낼 메세지
+  var room_id = req.body.room_id;//삭제할 방의 room_id
 
+  Room.find({'room_id':room_id, })
 });
 
 router.post('/delete_room', function(req,res){
@@ -288,6 +292,18 @@ router.post('/get_room', function(req,res){
       res.json(room);
     }
   });
+});
+
+router.post('/get_roomlist', function(req,res){
+  Room.distinct('room_id', function(err,roomlist){
+    if(err){
+      console.error(err);
+      res.json({'result':fail});
+    }else{
+      console.log('get roomlist 성공');
+      res.json(roomlist);
+    }
+  })
 });
 
 router.post('/get_myroomlist', function(req,res){
