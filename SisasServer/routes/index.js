@@ -178,13 +178,13 @@ router.post('/insert_room', function(req,res){
   req.accepts('application/json');
 
   var room = new Room();
-  Seq.update({"_id":"seq_post"},{$inc: {"seq":1}},function(err,room_id){
+  Seq.update({"_id":"seq_post"},{$inc: {"seq":1}},function(err,result){
     if(err){
       console.error(err);
     }else{
       console.log('스터디룸 생성')
       console.log('########room_id'+room_id)
-      room.room_id = Seq.seq;
+      room.room_id = result.seq;
       room.email = req.body.email;
       room.king_name = req.body.king_name;
       room.room_name = req.body.room_name;
