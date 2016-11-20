@@ -329,7 +329,7 @@ router.post('/get_roomlist', function(req,res){
 });
 
 router.get('/get_myroomlist', function(req,res){
-  var email = req.body.email;
+  var email = req.query.email;
   console.log('email : '+email);
   Room.find({'email':email}, function(err, roomlist){
     if(err){
