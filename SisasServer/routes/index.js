@@ -316,7 +316,7 @@ router.post('/get_room', function(req,res){
   });
 });
 
-router.post('/get_roomlist', function(req,res){
+router.get('/get_roomlist', function(req,res){
   Room.distinct('room_id', function(err,roomlist){
     if(err){
       console.error(err);
@@ -346,8 +346,8 @@ router.get('/get_myroomlist', function(req,res){
   });
 });
 
-router.post('/get_ctgroomlist', function(req,res){
-  var category = req.body.category;
+router.get('/get_ctgroomlist', function(req,res){
+  var category = req.query.category;
 
   Room.find({'category':category}, function(err, roomlist){
     if(err){
