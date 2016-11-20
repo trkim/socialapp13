@@ -209,6 +209,9 @@ router.post('/insert_room', function(req,res){
       room.end_date = req.body.end_date;
       room.comment = req.body.comment;
 
+      result.seq = result.seq+1;
+      result.save();
+      
       room.save(function(err){
         if(err){
           console.error(err);
