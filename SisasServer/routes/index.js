@@ -92,7 +92,7 @@ router.post('/insert_member',function(req,res){
 router.post('/delete_member',function(req,res){
   var email = req.body.email;
 
-  Member.find({'email':email}, function(err,member){
+  Member.findOne({'email':email}, function(err,member){
     member.remove(function(err){
       if(err){
         console.log(err);
@@ -218,17 +218,9 @@ router.post('/insert_room', function(req,res){
           console.log('스터디룸 생성 완료')
           res.json({'result': 'success'});
         }
-
       });
-
-
     }
-
   });
-
-
-
-
 });
 
 router.post('/delete_room_req', function(req,res){
@@ -336,7 +328,7 @@ router.post('/get_roomlist', function(req,res){
   })
 });
 
-router.post('/get_myroomlist', function(req,res){
+router.get('/get_myroomlist', function(req,res){
   var email = req.body.email;
   console.log('email : '+email);
   Room.find({'email':email}, function(err, roomlist){
@@ -344,10 +336,12 @@ router.post('/get_myroomlist', function(req,res){
       console.log('get_myroomlist 에러');
       res.json({'result':'fail'});
     }
-    else{
+    if(roomlist){
       console.log('get_myroomlist 성공');
       console.log(roomlist);
       res.json(roomlist);
+    }else{
+      res.json({'result':'fail'});
     }
   });
 });
