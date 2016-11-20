@@ -321,7 +321,7 @@ router.post('/get_room', function(req,res){
   });
 });
 
-router.get('/get_roomlist', function(req,res){
+/*router.get('/get_roomlist', function(req,res){
   Room.distinct('room_id', function(err,roomlist){
     if(err){
       console.error(err);
@@ -330,8 +330,8 @@ router.get('/get_roomlist', function(req,res){
       console.log('get roomlist 성공');
       res.json(roomlist);
     }
-  })
-});
+  });
+});*/
 
 router.get('/get_myroomlist', function(req,res){
   var email = req.query.email;
@@ -354,16 +354,29 @@ router.get('/get_myroomlist', function(req,res){
 router.get('/get_ctgroomlist', function(req,res){
   var category = req.query.category;
 
-  Room.find({'category':category}, function(err, roomlist){
-    if(err){
-      console.error(err);
-      res.json({'result':'fail'});
-    }
-    else{
-      console.log('get_category room list 성공');
-      res.json(roomlist);
-    }
-  });
+  if(category == 'all'){
+    Room.distinct('room_id', function(err, roomlist){
+      if(err){
+        console.error(err);
+        res.json({'result':'fail'});
+      }else{
+        console.log('get roomlist 성공');
+        console.log('전체 roomlist : '+roomlist);
+        res.json(roomlist);
+      }
+    });
+  }else {
+    Room.find({'category': category}, function (err, roomlist) {
+      if (err) {
+        console.error(err);
+        res.json({'result': 'fail'});
+      }
+      else {
+        console.log('get_category room list 성공');
+        res.json(roomlist);
+      }
+    });
+  }
 });
 
 router.post('/join_room', function(req,res){
