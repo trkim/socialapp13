@@ -199,7 +199,9 @@ router.post('/insert_room', function(req,res){
       res.json({'result':'fail'});
     }else{
       console.log('스터디룸 생성')
-      room.room_id = result.seq+1;
+      result.seq = result.seq+1;
+
+      room.room_id = result.seq;
       room.email = req.body.email;
       room.king_name = req.body.king_name;
       room.room_name = req.body.room_name;
@@ -209,9 +211,9 @@ router.post('/insert_room', function(req,res){
       room.end_date = req.body.end_date;
       room.comment = req.body.comment;
 
-      result.seq = result.seq+1;
+
       result.save();
-      
+
       room.save(function(err){
         if(err){
           console.error(err);
