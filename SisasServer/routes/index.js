@@ -354,7 +354,7 @@ router.get('/get_myroomlist', function(req,res){
 router.get('/get_ctgroomlist', function(req,res){
   var category = req.query.category;
 
-  if(category == 'all'){
+  if(category == '전체'){
     Room.distinct('room_id', function(err, roomlist){
       if(err){
         console.error(err);
