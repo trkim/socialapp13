@@ -373,7 +373,7 @@ router.get('/get_ctgroomlist', function(req,res){
       }
       else {
         console.log('get_category room list 성공');
-        console.log('category list : '+roomlist);
+        console.log(roomlist);
         res.json(roomlist);
       }
     });
