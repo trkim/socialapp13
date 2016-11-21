@@ -361,7 +361,7 @@ router.get('/get_ctgroomlist', function(req,res){
         res.json({'result':'fail'});
       }else{
         console.log('get roomlist 성공');
-        console.log('전체 roomlist : '+roomlist);
+        console.log(roomlist);
         res.json(roomlist);
       }
     });
