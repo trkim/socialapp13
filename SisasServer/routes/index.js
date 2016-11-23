@@ -378,6 +378,7 @@ router.get('/get_ctgroomlist', function(req,res){
         console.log('get roomlist 성공');
         var roomlist = [];
         for(var i=0;i<room_id.length;i++){
+          console.log('roomlist :'+roomlist);
           roomlist[i] = (function(m) {
             Room.findOne({'room_id': room_id[m]}, function (err, room) {
                 if (err) {
@@ -387,12 +388,12 @@ router.get('/get_ctgroomlist', function(req,res){
                 if (room) {
                   console.log('###' + m);
                   console.log('$$$$$$$$$$$' + room)
-                  return room;
+                  return function () { return room; }();
                 }
               })
           })(i);
         }
-        console.log('전체 roomlist :'+roomlist);
+
         res.json(roomlist);
       }
     });
