@@ -383,7 +383,7 @@ router.get('/get_ctgroomlist', function(req,res){
               console.error(err);
             }
             if(room) {
-              console.log('roomlist^^^^^^^^^^^^^^^' + roomlist);
+              //console.log('roomlist^^^^^^^^^^^^^^^' + roomlist);
               roomlist.push(room);
             //  count++;
             }
