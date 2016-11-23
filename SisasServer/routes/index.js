@@ -390,8 +390,8 @@ router.get('/get_ctgroomlist', function(req,res){
                   return room;
                 }
               })
-            })(i);
-          })
+            })
+          })(i);
         }
         console.log('전체 roomlist :'+roomlist);
         res.json(roomlist);
