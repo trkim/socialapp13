@@ -370,12 +370,13 @@ router.get('/get_ctgroomlist', function(req,res){
   if(category == '전체'){
 
 
-    var count = 0;
+
     Room.distinct('room_id', function(err, room_id_list){
       if(err){
         console.error(err);
         res.json({'result':'fail'});
       }else{
+        var count = 0;
         var roomlist = [];
         room_id_list.forEach(function(room_id){
           Room.findOne({'room_id':room_id}, function(err, room){
@@ -385,13 +386,14 @@ router.get('/get_ctgroomlist', function(req,res){
             if(room) {
               //console.log('roomlist^^^^^^^^^^^^^^^' + roomlist);
               roomlist.push(room);
-            //  count++;
+              if(count == room_id_list.length){
+                res.json(roomlist);
+              } else {
+                count++;
+              }
             }
           })
-        }, function(){
-          console.log('roomlist************* : ' + roomlist);
-          res.json(roomlist);
-        });
+        }
         //if(count == room_id_list.length) {
           //console.log('roomlist************* : ' + roomlist);
          // res.json(roomlist);
