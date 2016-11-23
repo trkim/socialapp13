@@ -385,14 +385,17 @@ router.get('/get_ctgroomlist', function(req,res){
             if(room) {
               console.log('roomlist^^^^^^^^^^^^^^^' + roomlist);
               roomlist.push(room);
-              count++;
+            //  count++;
             }
           })
-        })
-        if(count == room_id_list.length) {
+        }, function(){
           console.log('roomlist************* : ' + roomlist);
           res.json(roomlist);
-        }
+        });
+        //if(count == room_id_list.length) {
+          //console.log('roomlist************* : ' + roomlist);
+         // res.json(roomlist);
+        //}
         /*console.log('get roomlist 성공');
         var roomlist = [];
         for(var i=0;i<room_id.length;i++){
