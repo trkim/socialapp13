@@ -377,19 +377,21 @@ router.get('/get_ctgroomlist', function(req,res){
         console.log('get roomlist 성공');
         var roomlist = [];
         for(var i=0;i<room_id.length;i++){
-          roomlist[i] = (function(m) {
-            Room.findOne({'room_id': room_id[i]}, function (err, room) {
-              if (err) {
-                console.error(err);
-                res.json({'result': 'fail'});
-              }
-              if (room) {
-                console.log('###'+i);
-                console.log('$$$$$$$$$$$' + room)
-                return room;
-              }
-            })
-          })(i);
+          (function(m) {
+            roomlist[i] = (function () {
+              Room.findOne({'room_id': room_id[i]}, function (err, room) {
+                if (err) {
+                  console.error(err);
+                  res.json({'result': 'fail'});
+                }
+                if (room) {
+                  console.log('###' + m);
+                  console.log('$$$$$$$$$$$' + room)
+                  return room;
+                }
+              })
+            })(i);
+          })
         }
         console.log('전체 roomlist :'+roomlist);
         res.json(roomlist);
