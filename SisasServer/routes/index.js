@@ -321,18 +321,6 @@ router.post('/get_room', function(req,res){
   });
 });
 
-/*router.get('/get_roomlist', function(req,res){
-  Room.distinct('room_id', function(err,roomlist){
-    if(err){
-      console.error(err);
-      res.json({'result':fail});
-    }else{
-      console.log('get roomlist 성공');
-      res.json(roomlist);
-    }
-  });
-});*/
-
 router.get('/get_myroomlist', function(req,res){
   var email = req.query.email;
   console.log('email : '+email);
@@ -384,7 +372,6 @@ router.get('/get_ctgroomlist', function(req,res){
               console.error(err);
             }
             if(room) {
-              //console.log('roomlist^^^^^^^^^^^^^^^' + roomlist);
               roomlist.push(room);
               if(count == room_id_list.length){
                 res.json(roomlist);
@@ -394,29 +381,6 @@ router.get('/get_ctgroomlist', function(req,res){
             }
           })
         })
-        //if(count == room_id_list.length) {
-          //console.log('roomlist************* : ' + roomlist);
-         // res.json(roomlist);
-        //}
-        /*console.log('get roomlist 성공');
-        var roomlist = [];
-        for(var i=0;i<room_id.length;i++){
-          console.log('roomlist :'+roomlist);
-          roomlist[i] = (function(m) {
-            Room.findOne({'room_id': room_id[m]}, function (err, room) {
-                if (err) {
-                  console.error(err);
-                  res.json({'result': 'fail'});
-                }
-                if (room) {
-                  console.log('###' + m);
-                  console.log('$$$$$$$$$$$' + room)
-                  return function () { return room; }();
-                }
-              })
-          })(i);
-        }
-        res.json(roomlist);*/
       }
     });
 
