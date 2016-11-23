@@ -376,7 +376,7 @@ router.get('/get_ctgroomlist', function(req,res){
         console.error(err);
         res.json({'result':'fail'});
       }else{
-        var count = 0;
+        var count = 1;
         var roomlist = [];
         room_id_list.forEach(function(room_id){
           Room.findOne({'room_id':room_id}, function(err, room){
