@@ -393,7 +393,7 @@ router.get('/get_ctgroomlist', function(req,res){
               }
             }
           })
-        }
+        })
         //if(count == room_id_list.length) {
           //console.log('roomlist************* : ' + roomlist);
          // res.json(roomlist);
