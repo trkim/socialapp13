@@ -369,12 +369,14 @@ router.get('/get_ctgroomlist', function(req,res){
   console.log('category : '+category);
   if(category == '전체'){
 
-var roomlist = [];
+
+    var count = 0;
     Room.distinct('room_id', function(err, room_id_list){
       if(err){
         console.error(err);
         res.json({'result':'fail'});
       }else{
+        var roomlist = [];
         room_id_list.forEach(function(room_id){
           Room.findOne({'room_id':room_id}, function(err, room){
             if(err){
@@ -383,11 +385,14 @@ var roomlist = [];
             if(room) {
               console.log('roomlist^^^^^^^^^^^^^^^' + roomlist);
               roomlist.push(room);
+              count++;
             }
           })
         })
-        console.log('roomlist************* : '+roomlist);
-        res.json(roomlist);
+        if(count == room_id_list.length) {
+          console.log('roomlist************* : ' + roomlist);
+          res.json(roomlist);
+        }
         /*console.log('get roomlist 성공');
         var roomlist = [];
         for(var i=0;i<room_id.length;i++){
