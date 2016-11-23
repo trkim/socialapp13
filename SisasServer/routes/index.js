@@ -375,47 +375,26 @@ router.get('/get_ctgroomlist', function(req,res){
       if(err){
         console.error(err);
         res.json({'result':'fail'});
-      }else{
+      }else {
         console.log('get roomlist 성공');
-        //var roomlist = [];
         room_id_list = room_id;
-        /*for(var i=0;i<room_id.length;i++){
-          (function(m) {
-            roomlist[i] = (function () {
-              Room.findOne({'room_id': room_id[i]}, function (err, room) {
-                if (err) {
-                  console.error(err);
-                  res.json({'result': 'fail'});
-                }
-                if (room) {
-                  console.log('###' + m);
-                  console.log('$$$$$$$$$$$' + room)
-                  return room;
-                }
-              })
-            })
-          })(i);
-        }*/
-        //console.log('전체 roomlist :'+roomlist);
-        //res.json(roomlist);
+        for (var i = 0; i < room_id_list.length; i++) {
+          roomlist[i] = Room.findOne({'room_id': room_id_list[i]}, function (err, room) {
+            if (err) {
+              console.error(err);
+
+            }
+            if (room) {
+              console.log('index : ' + room_id_list[i]);
+              console.log(room);
+              return room;
+            }
+          });
+        }
       }
     });
-    for(var i=0;i<room_id_list.length;i++){
-      Room.findOne({'room_id':room_id_list[i]}, function(err, room){
-        if(err){
-          console.error(err);
-
-        }
-        if(room) {
-          console.log('index : ' + room_id_list[i]);
-          console.log(room);
-          roomlist.push(room);
-        }
-      })
-    }
     console.log('!@#@@@#!@#!@#!@#!@#!@3roomlist : '+roomlist);
     res.json(roomlist);
-
   }else {
     Room.find({'category': category}, function (err, roomlist) {
       if (err) {
