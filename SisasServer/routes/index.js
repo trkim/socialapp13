@@ -402,9 +402,15 @@ router.get('/get_ctgroomlist', function(req,res){
     });
     for(var i=0;i<room_id_list.length;i++){
       Room.findOne({'room_id':room_id_list[i]}, function(err, room){
-        console.log('index : '+room_id_list[i]);
-        console.log(room);
-        roomlist.push(room);
+        if(err){
+          console.error(err);
+
+        }
+        if(room) {
+          console.log('index : ' + room_id_list[i]);
+          console.log(room);
+          roomlist.push(room);
+        }
       })
     }
     console.log('!@#@@@#!@#!@#!@#!@#!@3roomlist : '+roomlist);
