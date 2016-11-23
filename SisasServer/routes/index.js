@@ -375,7 +375,32 @@ router.get('/get_ctgroomlist', function(req,res){
         console.error(err);
         res.json({'result':'fail'});
       }else{
-        console.log('get roomlist 성공');
+        var x = function(){
+          var roomlist = [];
+          for(var i=0;i<room_id.length;i++){
+            (function(i){
+              roomlist[i] = (function(n){
+                Room.findOne({'room_id': room_id[n]}, function (err, room) {
+                  if (err) {
+                    console.error(err);
+                    res.json({'result': 'fail'});
+                  }
+                  if (room) {
+                    console.log('###' + n);
+                    console.log('$$$$$$$$$$$' + room)
+                    return room;
+                  }
+                });
+              });
+            })(i)
+          }
+          return roomlist;
+        }
+
+        var list = x();
+        res.json(list);
+        
+        /*console.log('get roomlist 성공');
         var roomlist = [];
         for(var i=0;i<room_id.length;i++){
           console.log('roomlist :'+roomlist);
@@ -393,8 +418,7 @@ router.get('/get_ctgroomlist', function(req,res){
               })
           })(i);
         }
-
-        res.json(roomlist);
+        res.json(roomlist);*/
       }
     });
   }else {
