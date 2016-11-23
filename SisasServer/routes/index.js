@@ -382,7 +382,7 @@ router.get('/get_ctgroomlist', function(req,res){
               res.json({'result':'fail'});
             }
             if(room){
-              roomlist.push(room);
+              roomlist.add(room);
             }
           })
         }
