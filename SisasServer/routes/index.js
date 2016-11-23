@@ -376,11 +376,10 @@ router.get('/get_ctgroomlist', function(req,res){
         res.json({'result':'fail'});
       }else{
         console.log('get roomlist 성공');
-
+        var roomlist = [];
         for(var i=0;i<room_id.length;i++){
-          (function(m) {
-            var roomlist = [];
-            roomlist[m] = Room.findOne({'room_id': room_id[m]}, function (err, room) {
+          roomlist[i] = (function(m) {
+            Room.findOne({'room_id': room_id[m]}, function (err, room) {
                 if (err) {
                   console.error(err);
                   res.json({'result': 'fail'});
