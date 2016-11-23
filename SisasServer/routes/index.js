@@ -369,14 +369,17 @@ router.get('/get_ctgroomlist', function(req,res){
   console.log('category : '+category);
   if(category == '전체'){
 
+    var room_id_list;
+    var roomlist = [];
     Room.distinct('room_id', function(err, room_id){
       if(err){
         console.error(err);
         res.json({'result':'fail'});
       }else{
         console.log('get roomlist 성공');
-        var roomlist = [];
-        for(var i=0;i<room_id.length;i++){
+        //var roomlist = [];
+        room_id_list = room_id;
+        /*for(var i=0;i<room_id.length;i++){
           (function(m) {
             roomlist[i] = (function () {
               Room.findOne({'room_id': room_id[i]}, function (err, room) {
@@ -392,11 +395,21 @@ router.get('/get_ctgroomlist', function(req,res){
               })
             })
           })(i);
-        }
-        console.log('전체 roomlist :'+roomlist);
-        res.json(roomlist);
+        }*/
+        //console.log('전체 roomlist :'+roomlist);
+        //res.json(roomlist);
       }
     });
+    for(var i=0;i<room_id_list.length;i++){
+      Room.findOne({'room_id':room_id_list[i]}, function(err, room){
+        console.log('index : '+room_id_list[i]);
+        console.log(room);
+        roomlist.push(room);
+      })
+    }
+    console.log('!@#@@@#!@#!@#!@#!@#!@3roomlist : '+roomlist);
+    res.json(roomlist);
+
   }else {
     Room.find({'category': category}, function (err, roomlist) {
       if (err) {
