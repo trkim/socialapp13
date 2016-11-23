@@ -353,6 +353,19 @@ router.get('/get_myroomlist', function(req,res){
 
 router.get('/get_ctgroomlist', function(req,res){
   var category = req.query.category;
+  if(category == 'all'){
+    category = '전체';
+  }else if(category == 'politics'){
+    category = '정치';
+  }else if(category == 'economics'){
+    category = '경제';
+  }else if(category == 'social'){
+    category = '사회';
+  }else if(category == 'it'){
+    category = 'IT';
+  }else if(category == 'world'){
+    category = '세계';
+  }
   console.log('category : '+category);
   if(category == '전체'){
     Room.distinct('room_id', function(err, roomlist){
