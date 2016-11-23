@@ -351,6 +351,9 @@ router.get('/get_myroomlist', function(req,res){
   });
 });
 
+var room_id_list;
+var roomlist = [];
+
 router.get('/get_ctgroomlist', function(req,res){
   var category = req.query.category;
   if(category == 'all'){
@@ -369,8 +372,7 @@ router.get('/get_ctgroomlist', function(req,res){
   console.log('category : '+category);
   if(category == '전체'){
 
-    var room_id_list;
-    var roomlist = [];
+
     Room.distinct('room_id', function(err, room_id){
       if(err){
         console.error(err);
