@@ -3,12 +3,8 @@ var router = express.Router();
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var exec = require('child_process').exec;
-
-// Setup basic express server
-var app = express();
-var server = require('http').createServer(app);
+var server = require('http').Server(express);
 var io = require('socket.io')(server);
-var port = process.env.PORT || 3003;
 
 
 var Member = mongoose.model('member');
@@ -68,7 +64,7 @@ router.post('/delete_member',function(req,res){
     member.remove(function(err){
       if(err){
         console.log(err);
-        res.status(500).send('remove error');
+        res.json({'result':'fail'})
       }
       res.status(200).send("Removed");
     });
@@ -437,12 +433,8 @@ router.post('/get_room_and_member', function(req, res){
 
 
 /////////////////chatting socket.io
-server.listen(port, function () {
-  console.log('Server listening at port %d', port);
-});
-
 // Routing
-app.use(express.static(__dirname + '/public'));
+//app.use(express.static(__dirname + '/public'));
 
 // Chatroom
 
