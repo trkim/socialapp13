@@ -439,7 +439,7 @@ router.post('/get_room_and_member', function(req, res){
 
 // Chatroom
 
-var numUsers = 0;
+/*var numUsers = 0;
 
 io.on('connection', function (socket) {
   console.log('socket 연결됨')
@@ -498,6 +498,23 @@ io.on('connection', function (socket) {
       });
     }
   });
-});
+});*/
+
+io.on('connection',function(socket){
+  console.log('one user connected '+socket.id);
+  socket.on('message',function(data){
+    var sockets = io.sockets.sockets;
+    /*sockets.forEach(function(sock){
+     if(sock.id != socket.id)
+     {
+     sock.emit('message',data);
+     }
+     })*/
+    socket.broadcast.emit('message', data);
+  })
+  socket.on('disconnect',function(){
+    console.log('one user disconnected '+socket.id);
+  })
+})
 
 module.exports = router;
