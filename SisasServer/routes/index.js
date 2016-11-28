@@ -130,8 +130,8 @@ router.post('/get_study_member', function(req,res){
         console.log(emaillist)
         var count = 1;
         var memberlist = [];
-        emaillist.forEach(function(email){
-          Member.findOne({'email':email}, function(err, member){
+        emaillist.forEach(function(room){
+          Member.findOne({'email':room.email}, function(err, member){
             if(err){
               console.error(err);
               res.json({'result':'fail'});
