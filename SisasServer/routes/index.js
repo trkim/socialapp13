@@ -118,9 +118,9 @@ router.post('/get_member',function(req,res){
   });
 });
 
-router.post('/get_study_member', function(req,res){
+router.get('/get_study_member', function(req,res){
   console.log('get_study_member')
-  var room_id = req.body.room_id;
+  var room_id = (req.query.room_id)*1;
 
   Room.find({'room_id':room_id}, function(err, emaillist){
       if(err){
