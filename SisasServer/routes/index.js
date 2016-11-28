@@ -441,6 +441,7 @@ router.post('/get_room_and_member', function(req, res){
 var numUsers = 0;
 
 io.on('connection', function (socket) {
+  console.log('socket 연결됨')
   var addedUser = false;
 
   // when the client emits 'new message', this listens and executes
