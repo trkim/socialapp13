@@ -1,5 +1,5 @@
 var express = require('express');
-var app = express();
+var app = require('express')();
 var router = express.Router();
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
@@ -499,5 +499,9 @@ io.on('connection', function (socket) {
     }
   });
 });
+
+http.listen(3000, function(){
+  console.log('server listening on port 3000');
+})
 
 module.exports = router;
