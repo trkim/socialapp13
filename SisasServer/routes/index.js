@@ -140,6 +140,7 @@ router.post('/get_study_member', function(req,res){
               console.log(member)
               memberlist.push(member);
               if(count == emaillist.length){
+                console.log('get study member 성공')
                 res.json(memberlist);
               }else{
                 count++;
