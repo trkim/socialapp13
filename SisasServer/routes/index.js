@@ -4,6 +4,12 @@ var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var exec = require('child_process').exec;
 
+// Setup basic express server
+var app = express();
+var server = require('http').createServer(app);
+var io = require('socket.io')();
+var port = process.env.PORT || 3003;
+
 
 var Member = mongoose.model('member');
 var Room = mongoose.model('room');
@@ -18,41 +24,6 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'SocialApp' });
 });
 
-/*router.get('/insert',function(req,res){
-  //var member = new Member.save({name:'haha',email:'b@b.com',password:'1111',major:'bio',category:'politic',coupon:'2',rating:'1'});
-  Member.create({
-    name:'qq',
-    email:'c@c.com',
-    password:'1111',
-    major:'bio',
-    category:'politic',
-    coupon:'2',
-    rating:'1'
-  },function(err,insmember){
-    if(err){
-      console.error(err);
-      throw err;
-    }
-    console.log("insert complete");
-    console.log(insmember);
-    res.send('success');
-  })
-})
-
-router.get('/membersaa',function(req,res){
-  Member.find().select('email').exec(function(err, member){
-    if(err){
-      console.error(err);
-      res.send(err);
-    }
-    else{
-      console.log("members:")
-      console.log(member);
-      res.send(member);
-    }
-
-  })
-})*/
 
 ////////////////////////////member//////////////////////////////////////
 
@@ -204,21 +175,6 @@ router.post('/login',function(req,res){
 
 });
 
-////////////////////////////room//////////////////////////////////////
-/*router.get('/updateexam',function(req, res){
-  Seq.findOne({'_id':'seq_post'}, function(err, result){
-    if(err){
-      console.error(err);
-      res.json({'result':'fail'});
-    }
-    else{
-      result.seq = result.seq+1;
-      console.log('현재 sequence : '+result.seq);
-      result.save();
-
-    }
-  })
-});*/
 
 router.post('/insert_room', function(req,res){
   req.accepts('application/json');
@@ -476,13 +432,6 @@ router.post('/get_room_and_member', function(req, res){
 
 
 /////////////////chatting socket.io
-// Setup basic express server
-var express = require('express');
-var app = express();
-var server = require('http').createServer(app);
-var io = require('../..')(server);
-var port = process.env.PORT || 3000;
-
 server.listen(port, function () {
   console.log('Server listening at port %d', port);
 });
