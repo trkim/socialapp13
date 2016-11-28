@@ -119,6 +119,7 @@ router.post('/get_member',function(req,res){
 });
 
 router.post('/get_study_member', function(req,res){
+  console.log('get_study_member')
   var room_id = req.body.room_id;
 
   Room.find({'room_id':room_id}, function(err, emaillist){
