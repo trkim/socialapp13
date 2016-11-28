@@ -146,6 +146,36 @@ router.post('/get_member',function(req,res){
   });
 });
 
+router.post('/get_study_member', function(req,res){
+  var room_id = req.body.room_id;
+
+  Room.find({'room_id':room_id}, function(err, emaillist){
+      if(err){
+        console.error(err);
+        res.json({'result':'fail'});
+      }else{
+        var count = 1;
+        var memberlist = [];
+        emaillist.forEach(function(email){
+          Member.findOne({'email':email}, function(err, member){
+            if(err){
+              console.error(err);
+              res.json({'result':'fail'});
+            }
+            if(member){
+              memberlist.push(member);
+              if(count == emaillist.length){
+                res.json(memberlist);
+              }else{
+                count++;
+              }
+            }
+          });
+        });
+      }
+  });
+});
+
 router.post('/login',function(req,res){
   Member.findOne({'email':req.body.email}, function(err,member){
   console.log(req.body.email);
@@ -427,5 +457,20 @@ router.post('/join_room', function(req,res){
       });
   });
 });
+
+router.post('/get_room_and_member', function(req, res){
+  var room_id = req.body.room_id;
+
+  Room.find({'room_id':room_id}, function(err, memberlist){
+    if(err){
+      console.error(err);
+      res.json({'result':'fail'});
+    }
+    if(memberlist){
+      console.log('스터디 참여 회원 정보 조회 완료');
+      res.json(memberlist);
+    }
+  })
+})
 
 module.exports = router;
