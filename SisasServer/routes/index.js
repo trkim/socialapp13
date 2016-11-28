@@ -126,6 +126,7 @@ router.post('/get_study_member', function(req,res){
         console.error(err);
         res.json({'result':'fail'});
       }else{
+        console.log(emaillist)
         var count = 1;
         var memberlist = [];
         emaillist.forEach(function(email){
@@ -135,6 +136,7 @@ router.post('/get_study_member', function(req,res){
               res.json({'result':'fail'});
             }
             if(member){
+              console.log(member)
               memberlist.push(member);
               if(count == emaillist.length){
                 res.json(memberlist);
