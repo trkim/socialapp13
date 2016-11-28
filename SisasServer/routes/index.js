@@ -3,7 +3,7 @@ var router = express.Router();
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var exec = require('child_process').exec;
-var server = require('http').Server(handler);
+var server = require('http').Server(express);
 var io = require('socket.io')(server);
 
 
