@@ -133,6 +133,7 @@ io.on('connection', function(socket){
   // when the client emits 'new message', this listens and executes
   socket.on('new message', function (data) {
     // we tell the client to execute 'new message'
+    console.log(data);
     socket.broadcast.emit('new message', {
       username: socket.username,
       message: data
@@ -175,7 +176,7 @@ io.on('connection', function(socket){
   socket.on('disconnect', function () {
     if (addedUser) {
       --numUsers;
-
+      console.log('disconnect');
       // echo globally that this client has left
       socket.broadcast.emit('user left', {
         username: socket.username,
