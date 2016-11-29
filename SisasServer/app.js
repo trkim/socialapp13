@@ -7,7 +7,7 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var session = require('express-session');
 
-//var socket_io = require('socket.io');
+var socket_io = require('socket.io');
 
 var app = express();
 
@@ -83,8 +83,8 @@ app.use('/', routes);
 app.use('/users', users);
 
 //socket.io
-/*var io = socket_io();
-app.io = io;*/
+var io = socket_io();
+app.io = io;
 
 //var routes = require('./routes/index')(io);
 
@@ -126,7 +126,7 @@ app.use(session({
 }));
 
 //socket.io
-/*io.on('connection', function(socket){
+io.on('connection', function(socket){
   console.log('socket 연결됨')
   var addedUser = false;
 
@@ -186,7 +186,7 @@ app.use(session({
   });
 
 
-})*/
+})
 
 
 
