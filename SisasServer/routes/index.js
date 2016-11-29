@@ -519,8 +519,8 @@ io.on('connection',function(socket){
   })
 })*/
 
-//module.exports = router;
-module.exports = function(io){
+module.exports = router;
+/*module.exports = function(io){
   var app = require('express');
   var router = app.Router();
 
@@ -585,4 +585,4 @@ module.exports = function(io){
     });
   });
   return router;
-}
+}*/
