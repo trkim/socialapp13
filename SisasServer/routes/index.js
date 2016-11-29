@@ -1,11 +1,13 @@
 var express = require('express');
-var app = require('express')();
+var app = express();
 var router = express.Router();
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var exec = require('child_process').exec;
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
+/*var http = require('http');
+var server = http.server(app);
+var io = require('socket.io').listen(server);*/
+
 
 
 var Member = mongoose.model('member');
@@ -499,22 +501,31 @@ io.on('connection', function (socket) {
     }
   });
 });*/
-
+/*
 io.on('connection',function(socket){
   console.log('one user connected '+socket.id);
   socket.on('message',function(data){
     var sockets = io.sockets.sockets;
-    /*sockets.forEach(function(sock){
+    /!*sockets.forEach(function(sock){
      if(sock.id != socket.id)
      {
      sock.emit('message',data);
      }
-     })*/
+     })*!/
     socket.broadcast.emit('message', data);
   })
   socket.on('disconnect',function(){
     console.log('one user disconnected '+socket.id);
   })
-})
+})*/
 
-module.exports = router;
+//module.exports = router;
+module.exports = function(io){
+  var app = require('express');
+  var router = app.Router();
+
+  io.on('connection', function(socket){
+    console.log('socket connected');
+  });
+  return router;
+}

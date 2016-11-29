@@ -7,6 +7,8 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var session = require('express-session');
 
+var socket_io = require('socket.io');
+
 var app = express();
 
 
@@ -80,6 +82,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/users', users);
 
+//socket.io
+var io = socket_io();
+app.io = io;
+
+var routes = require('./routes/index')(io);
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
@@ -116,6 +124,12 @@ app.use(session({
   resave : false,
   saveUninitialized:true
 }));
+
+//socket.io
+io.on('connection', function(socket){
+  console.log('a user connected');
+})
+
 
 
 var ip = '52.78.157.250:3000';
