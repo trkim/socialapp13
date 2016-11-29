@@ -126,7 +126,7 @@ app.use(session({
 }));
 
 //socket.io
-io.on('connection', function(socket){
+/*io.on('connection', function(socket){
   console.log('socket 연결됨')
   var addedUser = false;
 
@@ -186,7 +186,7 @@ io.on('connection', function(socket){
   });
 
 
-})
+})*/
 
 
 
