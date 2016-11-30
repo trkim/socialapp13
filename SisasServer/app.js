@@ -122,13 +122,13 @@ io.on('connection', function(socket){
   // when the client emits 'new message', this listens and executes
   socket.on('send message', function (data) {
     // we tell the client to execute 'new message'
-    console.log("send message : "+data);
+    if(socket.room_id == data.room_id) {
       console.log(data);
       socket.broadcast.emit('get message', {
         username: socket.username,
         message: data
       });
-
+    }
     //socket.broadcast.emit('new message', data);
   });
 
