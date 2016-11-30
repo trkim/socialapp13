@@ -4,7 +4,13 @@ var router = express.Router();
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var exec = require('child_process').exec;
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
+/*var socket_io = require('socket.io');
 
+//socket.io
+var io = socket_io();
+app.io = io;*/
 
 
 var Member = mongoose.model('member');
@@ -431,6 +437,75 @@ router.post('/get_room_and_member', function(req, res){
       res.json(memberlist);
     }
   })
+})
+
+////////socket.io/////////
+//socket.io
+io.on('connection', function(socket){
+  console.log('socket 연결됨')
+  var addedUser = false;
+  socket.on('login', function(username){
+    console.log('username : '+username);
+    socket.username = username;
+  })
+
+  // when the client emits 'new message', this listens and executes
+  socket.on('send message', function (data) {
+    // we tell the client to execute 'new message'
+    console.log(data);
+    socket.broadcast.emit('get message', {
+     username: socket.username,
+     message: data
+     });
+    //socket.broadcast.emit('new message', data);
+  });
+
+  // when the client emits 'add user', this listens and executes
+  socket.on('add user', function (username) {
+    if (addedUser) return;
+
+    // we store the username in the socket session for this client
+    socket.username = username;
+    ++numUsers;
+    addedUser = true;
+    socket.emit('login', {
+      numUsers: numUsers
+    });
+    // echo globally (all clients) that a person has connected
+    socket.broadcast.emit('user joined', {
+      username: socket.username,
+      numUsers: numUsers
+    });
+  });
+
+  // when the client emits 'typing', we broadcast it to others
+  socket.on('typing', function () {
+    socket.broadcast.emit('typing', {
+      username: socket.username
+    });
+  });
+
+  // when the client emits 'stop typing', we broadcast it to others
+  socket.on('stop typing', function () {
+    socket.broadcast.emit('stop typing', {
+      username: socket.username
+    });
+  });
+
+  // when the user disconnects.. perform this
+  socket.on('disconnect', function () {
+    if (addedUser) {
+      --numUsers;
+      console.log('disconnect');
+      // echo globally that this client has left
+      socket.broadcast.emit('user left', {
+        username: socket.username,
+        numUsers: numUsers
+      });
+    }
+  });
+
+
 })
 
 
