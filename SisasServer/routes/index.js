@@ -4,8 +4,7 @@ var router = express.Router();
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var exec = require('child_process').exec;
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
+var io = require('socket.io')(3030);
 /*var socket_io = require('socket.io');
 
 //socket.io
