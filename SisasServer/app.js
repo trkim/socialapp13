@@ -112,16 +112,23 @@ io.on('connection', function(socket){
   socket.on('login', function(username){
     console.log('username : '+username);
     socket.username = username;
+  });
+
+  socket.on('setting_roomid', function(room_id){
+    console.log('room_id : '+room_id);
+    socket.room_id = room_id;
   })
 
   // when the client emits 'new message', this listens and executes
   socket.on('send message', function (data) {
     // we tell the client to execute 'new message'
-    console.log(data);
-    socket.broadcast.emit('get message', {
-      username: socket.username,
-      message: data
-    });
+    if(socket.room_id == data.room_id) {
+      console.log(data);
+      socket.broadcast.emit('get message', {
+        username: socket.username,
+        message: data
+      });
+    }
     //socket.broadcast.emit('new message', data);
   });
 
