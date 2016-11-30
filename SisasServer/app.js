@@ -123,13 +123,12 @@ io.on('connection', function(socket){
   socket.on('send message', function (data) {
     // we tell the client to execute 'new message'
     console.log("send message : "+data);
-    if(socket.room_id == data.room_id) {
       console.log(data);
       socket.broadcast.emit('get message', {
         username: socket.username,
         message: data
       });
-    }
+
     //socket.broadcast.emit('new message', data);
   });
 
