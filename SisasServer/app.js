@@ -103,10 +103,11 @@ io.on('connection', function(socket){
   socket.on('new message', function (data) {
     // we tell the client to execute 'new message'
     console.log(data);
-    socket.broadcast.emit('new message', {
+    /*socket.broadcast.emit('new message', {
       username: socket.username,
       message: data
-    });
+    });*/
+    socket.broadcast.emit('new message', data);
   });
 
   // when the client emits 'add user', this listens and executes
