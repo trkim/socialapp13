@@ -430,9 +430,13 @@ router.post('/get_room_and_member', function(req, res){
       console.log('스터디 참여 회원 정보 조회 완료');
       res.json(memberlist);
     }
-  })
-})
+  });
+});
 
+///chatting
+router.post('/get_keyword', function(req, res){
+
+});
 
 
 

@@ -109,7 +109,7 @@ var ip = '52.78.157.250:3000';
 io.on('connection', function(socket){
   console.log('socket 연결됨')
   var addedUser = false;
-  socket.on('login', function(username){
+ /* socket.on('login', function(username){
     console.log('username : '+username);
     socket.username = username;
   });
@@ -117,20 +117,46 @@ io.on('connection', function(socket){
   socket.on('setting_roomid', function(room_id){
     console.log('room_id : '+room_id);
     socket.room_id = room_id;
-  })
+  })*/
+
+  socket.emit('connection', {
+    type : 'connected'
+  });
+
+  socket.on('connection', function(data){
+    if(data.type == 'join'){
+      socket.join(data.room_id);
+      console.log('현재 room_id : '+data.room_id);
+
+      socket.set('room_id', data.room_id);
+
+      socket.emit('system', {
+        message : '채팅방에 오신 것을 환영합니다.'
+      });
+
+      socket.broadcast.to(data.room_id).emit('system', {
+        message : data.username + '님이 접속하셨습니다.'
+      });
+    }
+  });
+
+  socket.on('send message', function(data){
+    socket.get('room_id', function(err, room_id){
+      socket.broadcast.to(room_id).emit('get message', data);
+    });
+  });
 
   // when the client emits 'new message', this listens and executes
-  socket.on('send message', function (data) {
+/*  socket.on('send message', function (data) {
     // we tell the client to execute 'new message'
-    console.log('socket.room_id : '+socket.room_id);
     console.log('data.room_id : '+data.room_id);
       console.log(data);
       socket.broadcast.emit('get message', {
-        username: socket.username,
+        username: data.username,
         message: data.message
       });
     //socket.broadcast.emit('new message', data);
-  });
+  });*/
 
   // when the client emits 'add user', this listens and executes
   socket.on('add user', function (username) {
