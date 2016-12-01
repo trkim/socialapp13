@@ -123,7 +123,8 @@ io.on('connection', function(socket){
     type : 'connected'
   });
 
-  socket.on('connection', function(data){
+  socket.on('joinroom', function(data){
+    console.log(data.type);
     if(data.type == 'join'){
       socket.join(data.room_id);
       console.log('현재 room_id : '+data.room_id);
