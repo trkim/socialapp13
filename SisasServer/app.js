@@ -125,20 +125,20 @@ io.on('connection', function(socket){
       console.log('현재 room_id : '+data.room_id);
 
       socket.room_id = data.room_id;
-
-      socket.emit('system', {
-        message : '채팅방에 오신 것을 환영합니다.'
-      });
-
-      socket.broadcast.to(data.room_id).emit('system', {
-        message : data.username + '님이 접속하셨습니다.'
-      });
     }
+  });
+
+  socket.emit('system', {
+    message : '채팅방에 오신 것을 환영합니다.'
+  });
+
+  socket.broadcast.to(data.room_id).emit('system', {
+    message : data.username + '님이 접속하셨습니다.'
   });
 
   socket.on('send message', function(data){
     console.log('send message room_id : '+data.room_id);
-    console.log('send message : '+data.toJSON);
+    console.log('send message : '+data.message);
     socket.broadcast.to(data.room_id).emit('get message', data.message);
   });
 
