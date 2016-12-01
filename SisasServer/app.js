@@ -128,13 +128,13 @@ io.on('connection', function(socket){
     }
   });
 
-  socket.emit('system', {
+/*  socket.emit('system', {
     message : '채팅방에 오신 것을 환영합니다.'
   });
 
   socket.broadcast.to(data.room_id).emit('system', {
     message : data.username + '님이 접속하셨습니다.'
-  });
+  });*/
 
   socket.on('send message', function(data){
     console.log('send message room_id : '+data.room_id);
