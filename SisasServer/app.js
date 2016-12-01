@@ -141,9 +141,7 @@ io.on('connection', function(socket){
   });
 
   socket.on('send message', function(data){
-    socket.get('room_id', function(err, room_id){
-      socket.broadcast.to(room_id).emit('get message', data);
-    });
+    socket.broadcast.to(data.room_id).emit('get message', data);
   });
 
   // when the client emits 'new message', this listens and executes
