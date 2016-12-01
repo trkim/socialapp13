@@ -138,6 +138,7 @@ io.on('connection', function(socket){
 
   socket.on('send message', function(data){
     console.log('send message room_id : '+data.room_id);
+    console.log('send message : '+data.message);
     socket.broadcast.to(data.room_id).emit('get message', data.message);
   });
 
