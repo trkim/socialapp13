@@ -7,12 +7,14 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var session = require('express-session');
 
-var socket_io = require('socket.io');
+//var socket_io = require('socket.io');
 var app = express();
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
 
 //socket.io
-var io = socket_io();
-app.io = io;
+/*var io = socket_io();
+app.io = io;*/
 
 
 
@@ -55,11 +57,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/users', users);
 
-//socket.io
-/*var io = socket_io();
-app.io = io;*/
-
-//var routes = require('./routes/index')(io);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
