@@ -425,7 +425,7 @@ router.post('/get_room_and_member', function(req, res){
     if(err){
       console.error(err);
       res.json({'result':'fail'});
-    }
+    }y
     if(memberlist){
       console.log('스터디 참여 회원 정보 조회 완료');
       res.json(memberlist);

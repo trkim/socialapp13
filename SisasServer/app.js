@@ -128,7 +128,7 @@ io.on('connection', function(socket){
       socket.join(data.room_id);
       console.log('현재 room_id : '+data.room_id);
 
-      socket.set('room_id', data.room_id);
+      socket.room_id = data.room_id;
 
       socket.emit('system', {
         message : '채팅방에 오신 것을 환영합니다.'
