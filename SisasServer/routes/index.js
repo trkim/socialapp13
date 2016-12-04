@@ -10,9 +10,9 @@ var exec = require('child_process').exec;
 var Member = mongoose.model('member');
 var Room = mongoose.model('room');
 var Seq = mongoose.model('seq');
-var timeline = mongoose.model('timeline');
-var keyword_box = mongoose.model('keyword_box');
-var scrap_box = mongoose.model('scrap_box');
+var Timeline = mongoose.model('timeline');
+var Keyword_box = mongoose.model('keyword_box');
+var Scrap_box = mongoose.model('scrap_box');
 //var ObjectId = require('mongodb').ObjectId;
 
 /* GET home page. */
@@ -419,6 +419,7 @@ router.post('/join_room', function(req,res){
 });
 
 router.post('/get_room_and_member', function(req, res){
+  req.accepts('application/json');
   var room_id = req.body.room_id;
 
   Room.find({'room_id':room_id}, function(err, memberlist){
@@ -435,18 +436,13 @@ router.post('/get_room_and_member', function(req, res){
 
 ///chatting
 router.post('/fix_keyword', function(req, res){
-  //var keyword_box = new keyword_box();
+  var keyword_box = new Keyword_box();
 
-  var date = req.body.date;
-  console.log(date);
-  var keyword = req.body.keyword;
-  console.log(keyword);
-  var email = req.body.email;
-  console.log(email);
-  var keyword_box_id = date+keyword+'';
-  console.log(keyword_box_id);
-  var room_id = req.body.room_id;
-  console.log(room_id);
+  keyword_box.date = req.body.date;
+  keyword_box.keyword = req.body.keyword;
+  keyword_box.email = req.body.email;
+  keyword_box.keyword_box_id = date+keyword+'';
+  keyword_box.room_id = req.body.room_id;
 
   keyword_box.save(function(err){
     if(err){
