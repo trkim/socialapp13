@@ -444,18 +444,30 @@ router.post('/fix_keyword', function(req, res){
   var email = req.body.email;
   var keyword_box_id = date+keyword+'';
   var room_id = req.body.room_id;
-
-  var keyword_box = new Keyword_box({'date':date,'keyword':keyword,'email':email,'keyword_box_id':keyword_box_id,'room_id':room_id});
-
-  keyword_box.save(function(err){
+  
+  Keyword_box.findOne({'keyword_box_id':keyword_box_id}, function(err, keyword_box){
     if(err){
       console.error(err);
       res.json({'result':'fail'});
-    }else{
-      console.log('키워드 등록 완료');
-      res.json({'result':'success'});
     }
-  })
+    if(!keyword_box){
+      var keyword_box = new Keyword_box({'date':date,'keyword':keyword,'email':email,'keyword_box_id':keyword_box_id,'room_id':room_id});
+
+      keyword_box.save(function(err){
+        if(err){
+          console.error(err);
+          res.json({'result':'fail'});
+        }else{
+          console.log('키워드 등록 완료');
+          res.json({'result':'success'});
+        }
+      })
+    }else{
+      console.log("이미 키워드가 등록되어있습니다.");
+      res.json({"result":"duplication"});
+    }
+  });
+
 
 });
 
