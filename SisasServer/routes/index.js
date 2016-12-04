@@ -434,7 +434,24 @@ router.post('/get_room_and_member', function(req, res){
 });
 
 ///chatting
-router.post('/get_keyword', function(req, res){
+router.post('/fix_keyword', function(req, res){
+  var keyword_box = new keyword_box();
+
+  var date = req.body.date;
+  var keyword = req.body.keyword;
+  var email = req.body.email;
+  var keyword_box_id = date+keyword+'';
+  var room_id = req.body.room_id;
+
+  keyword_box.save(function(err){
+    if(err){
+      console.error(err);
+      res.json({'result':'fail'});
+    }else{
+      console.log('키워드 등록 완료');
+      res.json({'result':'success'});
+    }
+  })
 
 });
 

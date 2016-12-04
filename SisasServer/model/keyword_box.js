@@ -8,7 +8,7 @@ var keyword_boxSchema = new Schema({
    keyword_box_id : String,
     date : String,
     keyword : String,
-    room_id : String
+    room_id : Number
 });
 
 mongoose.model('keyword_box',keyword_boxSchema);
