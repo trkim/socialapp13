@@ -438,10 +438,15 @@ router.post('/fix_keyword', function(req, res){
   var keyword_box = new keyword_box();
 
   var date = req.body.date;
+  console.log(date);
   var keyword = req.body.keyword;
+  console.log(keyword);
   var email = req.body.email;
+  console.log(email);
   var keyword_box_id = date+keyword+'';
+  console.log(keyword_box_id);
   var room_id = req.body.room_id;
+  console.log(room_id);
 
   keyword_box.save(function(err){
     if(err){
