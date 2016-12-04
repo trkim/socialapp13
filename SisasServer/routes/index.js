@@ -444,8 +444,8 @@ router.post('/fix_keyword', function(req, res){
   var email = req.body.email;
   var keyword_box_id = date+keyword+'';
   var room_id = req.body.room_id;
-  
-  Keyword_box.findOne({'keyword_box_id':keyword_box_id}, function(err, keyword_box){
+
+  Keyword_box.findOne({'date':date}, function(err, keyword_box){
     if(err){
       console.error(err);
       res.json({'result':'fail'});
