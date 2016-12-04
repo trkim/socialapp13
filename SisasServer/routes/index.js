@@ -437,13 +437,15 @@ router.post('/get_room_and_member', function(req, res){
 router.post('/fix_keyword', function(req, res){
   req.accepts('application/json');
 
-  var keyword_box = new Keyword_box();
+  //var keyword_box = new Keyword_box();
 
-  keyword_box.date = req.body.date;
-  keyword_box.keyword = req.body.keyword;
-  keyword_box.email = req.body.email;
-  keyword_box.keyword_box_id = date+keyword+'';
-  keyword_box.room_id = req.body.room_id;
+  var date = req.body.date;
+  var keyword = req.body.keyword;
+  var email = req.body.email;
+  var keyword_box_id = date+keyword+'';
+  var room_id = req.body.room_id;
+
+  var keyword_box = new Keyword_box({'date':date,'keyword':keyword,'email':email,'keyword_box_id':keyword_box_id,'room_id':room_id});
 
   keyword_box.save(function(err){
     if(err){
