@@ -419,7 +419,6 @@ router.post('/join_room', function(req,res){
 });
 
 router.post('/get_room_and_member', function(req, res){
-  req.accepts('application/json');
   var room_id = req.body.room_id;
 
   Room.find({'room_id':room_id}, function(err, memberlist){
@@ -436,6 +435,8 @@ router.post('/get_room_and_member', function(req, res){
 
 ///chatting
 router.post('/fix_keyword', function(req, res){
+  req.accepts('application/json');
+
   var keyword_box = new Keyword_box();
 
   keyword_box.date = req.body.date;
