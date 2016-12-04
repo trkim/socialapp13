@@ -435,7 +435,7 @@ router.post('/get_room_and_member', function(req, res){
 
 ///chatting
 router.post('/fix_keyword', function(req, res){
-  var keyword_box = new keyword_box();
+  //var keyword_box = new keyword_box();
 
   var date = req.body.date;
   console.log(date);
