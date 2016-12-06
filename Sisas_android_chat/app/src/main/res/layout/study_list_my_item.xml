@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:descendantFocusability="blocksDescendants" >
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp">
+
+        <ImageButton
+            android:id="@+id/ib_head_icon"
+            android:src="@drawable/ic_launcher"
+            android:layout_width="40dp"
+            android:layout_height="40dp" />
+
+        <TextView
+            android:id="@+id/tv_my_room_category"
+            android:hint="카테고리"
+            android:layout_weight="1"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_row="0"
+            android:layout_column="1"
+            android:layout_columnWeight="1"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:layout_gravity="center"
+            android:layout_rowWeight="1"
+            android:accessibilityLiveRegion="5"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/tv_my_room_name"
+            android:hint="방이름"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/tv_my_room_capacity"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:hint="인원"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_column="3"
+            android:layout_row="0"
+            android:layout_columnWeight="1"
+            android:enabled="false"
+            android:ellipsize="end"
+            android:maxLines="1" />
+
+        <TextView
+            android:id="@+id/tv_my_room_dday"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:hint="Dday"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_column="4"
+            android:layout_row="0"
+            android:layout_columnWeight="1"
+            android:ellipsize="end"
+            android:maxLines="1" />
+
+        <ImageButton
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/arrow"
+            android:id="@+id/ib_study_go" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="55dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginRight="55dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_slide_room_name"
+            android:hint="방이름"
+            android:paddingBottom="5dp"
+            android:maxLines="2"
+            android:ellipsize="none"
+            android:scrollHorizontally="false"
+            android:singleLine="false" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_slide_room_date"
+            android:hint="YYYY-MM-DD~YYYY-MM-DD"
+            android:paddingBottom="5dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_slide_room_comment"
+            android:hint="스터디 설명"
+            android:paddingBottom="5dp"
+            android:inputType="textMultiLine"
+            android:maxLines="3" />
+
+    </LinearLayout>
+
+</LinearLayout>
