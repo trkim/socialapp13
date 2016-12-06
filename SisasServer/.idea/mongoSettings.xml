@@ -12,7 +12,7 @@
           </option>
           <option name="shellArgumentsLine" value="--dbpath /C:\mongodb" />
           <option name="shellWorkingDir" value="C:\Users\samsung\sisas_workspace" />
-          <option name="userDatabase" value="local" />
+          <option name="userDatabase" value="SisasDB" />
         </ServerConfiguration>
       </list>
     </option>
