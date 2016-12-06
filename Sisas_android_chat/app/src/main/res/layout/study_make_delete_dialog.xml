@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/tv_study_delete_dialog_1"
+        android:id="@+id/tv_study_delete_dialog_1"
+        android:gravity="center"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="50dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/tv_study_delete_dialog_2"
+        android:id="@+id/tv_study_delete_dialog_2"
+        android:gravity="center"
+        android:layout_marginBottom="10dp" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/et_study_delete_dialog"
+        android:gravity="center"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginBottom="20dp" />
+
+</LinearLayout>

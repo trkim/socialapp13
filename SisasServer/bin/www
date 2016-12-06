@@ -19,10 +19,14 @@ app.set('port', port);
  * Create HTTP server.
  */
 
-//var server = http.createServer(app);
-var server = http.createServer(function(req,res){
-  res.end('test!!!');
-})
+var server = http.createServer(app);
+
+/**
+ * Socket.io
+ * */
+
+var io = app.io;
+io.attach(server);
 
 /**
  * Listen on provided port, on all network interfaces.

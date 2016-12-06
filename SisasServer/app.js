@@ -3,22 +3,42 @@ var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
-var http = require('http');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var session = require('express-session');
 
-var member = require('./model/member');
-var room = require('./model/room');
-var keyword_box = require('./model/keyword_box');
-var scrap_box = require('./model/scrap_box');
-var study_member = require('./model/study_member');
-var timeline = require('./model/timeline');
+var socket_io = require('socket.io');
+var app = express();
+
+//socket.io
+var io = socket_io();
+app.io = io;
+
+
+
+mongoose.Promise = global.Promise;
+mongoose.connect('mongodb://52.78.157.250:27017/SisasDB', function(err){
+  if(err){
+    console.log("db error : "+err);
+    throw err;
+  }
+  else {
+    console.log("db connected!");
+  }
+});
+
+
+require('./model/member');
+require('./model/room');
+require('./model/seq');
+require('./model/keyword_box');
+require('./model/scrap_box');
+require('./model/timeline');
+var member = mongoose.model('member');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
-var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -32,15 +52,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/',member);
-app.use('/',room);
-app.use('/',keyword_box);
-app.use('/',scrap_box);
-app.use('/',study_member);
-app.use('/',timeline);
-
 app.use('/', routes);
 app.use('/users', users);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -80,8 +94,113 @@ app.use(session({
 }));
 
 
-var ip = '52.78.157.250:3000';
-mongoose.connect('mongodb://52.78.157.250:27017/SisasDB');
 
+
+
+var ip = '52.78.157.250:3000';
+
+////////socket.io/////////
+//socket.io
+io.on('connection', function(socket){
+  console.log('socket 연결됨')
+  var addedUser = false;
+ /* socket.on('login', function(username){
+    console.log('username : '+username);
+    socket.username = username;
+  });
+
+  socket.on('setting_roomid', function(room_id){
+    console.log('room_id : '+room_id);
+    socket.room_id = room_id;
+  })*/
+
+  socket.emit('connection', {
+    type : 'connected'
+  });
+
+  socket.on('joinroom', function(data){
+    console.log(data.type);
+    if(data.type == 'join'){
+      socket.join(data.room_id);
+      console.log('현재 room_id : '+data.room_id);
+
+      socket.room_id = data.room_id;
+    }
+  });
+
+/*  socket.emit('system', {
+    message : '채팅방에 오신 것을 환영합니다.'
+  });
+
+  socket.broadcast.to(data.room_id).emit('system', {
+    message : data.username + '님이 접속하셨습니다.'
+  });*/
+
+  socket.on('send message', function(data){
+    console.log('send message room_id : '+data.room_id);
+    console.log('send message : '+data.message);
+    console.log('send message username : '+data.username);
+    socket.broadcast.to(data.room_id).emit('get message', data);
+  });
+
+  // when the client emits 'new message', this listens and executes
+/*  socket.on('send message', function (data) {
+    // we tell the client to execute 'new message'
+    console.log('data.room_id : '+data.room_id);
+      console.log(data);
+      socket.broadcast.emit('get message', {
+        username: data.username,
+        message: data.message
+      });
+    //socket.broadcast.emit('new message', data);
+  });*/
+
+  // when the client emits 'add user', this listens and executes
+  socket.on('add user', function (username) {
+    if (addedUser) return;
+
+    // we store the username in the socket session for this client
+    socket.username = username;
+    ++numUsers;
+    addedUser = true;
+    socket.emit('login', {
+      numUsers: numUsers
+    });
+    // echo globally (all clients) that a person has connected
+    socket.broadcast.emit('user joined', {
+      username: socket.username,
+      numUsers: numUsers
+    });
+  });
+
+  // when the client emits 'typing', we broadcast it to others
+  socket.on('typing', function () {
+    socket.broadcast.emit('typing', {
+      username: socket.username
+    });
+  });
+
+  // when the client emits 'stop typing', we broadcast it to others
+  socket.on('stop typing', function () {
+    socket.broadcast.emit('stop typing', {
+      username: socket.username
+    });
+  });
+
+  // when the user disconnects.. perform this
+  socket.on('disconnect', function () {
+    if (addedUser) {
+      --numUsers;
+      console.log('disconnect');
+      // echo globally that this client has left
+      socket.broadcast.emit('user left', {
+        username: socket.username,
+        numUsers: numUsers
+      });
+    }
+  });
+
+
+})
 
 module.exports = app;
