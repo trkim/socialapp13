@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 import sys
-sys.path.insert(0,"./py3env/lib/python3.5/site-packages/beautifulsoup4-4.3.2"
+sys.path.insert(0,"./py3env/lib/python3.5/site-packages/beautifulsoup4-4.3.2")
 from bs4 import BeautifulSoup
 import urllib.parse
 import requests
