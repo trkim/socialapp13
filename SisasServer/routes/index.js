@@ -3,8 +3,7 @@ var app = express();
 var router = express.Router();
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
-var exec = require('child_process').exec;
-
+var PythonShell = require('python-shell');
 
 
 var Member = mongoose.model('member');
@@ -467,8 +466,32 @@ router.post('/fix_keyword', function(req, res){
       res.json({"result":"duplication"});
     }
   });
+});
 
 
+router.get('/get_keyword', function(req,res){
+  console.log('get_keyword 실행')
+  var keyword = req.query.keyword;
+
+  var options = {
+    mode : 'text',
+    pythonPath : 'C:/Users/samsung/AppData/Local/Programs/Python/Python35-32',
+    pythonOptions : ['-u'],
+    scriptPath : './public/pythonscripts/run.py',
+    args:[keyword]
+  };
+
+  PythonShell.run('run.py', options, function(err, results){
+    console.log('python script 실행')
+    if(err){
+      console.error(err);
+      res.json({'result':'fail'});
+    }
+    else{
+      console.log(results);
+
+    }
+  })
 });
 
 
