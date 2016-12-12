@@ -477,7 +477,7 @@ router.get('/get_keyword', function(req,res){
     mode : 'text',
     pythonPath : '/usr/bin/python3.5',
     pythonOptions : ['-u'],
-    scriptPath : './public/pythonscripts/run.py',
+    scriptPath : './public/pythonscripts',
     args:[keyword]
   };
 
