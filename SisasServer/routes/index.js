@@ -475,7 +475,7 @@ router.get('/get_keyword', function(req,res){
 
   var options = {
     mode : 'text',
-    pythonPath : 'C:/Users/samsung/AppData/Local/Programs/Python/Python35-32',
+    pythonPath : '/usr/bin/python3.5',
     pythonOptions : ['-u'],
     scriptPath : './public/pythonscripts/run.py',
     args:[keyword]
