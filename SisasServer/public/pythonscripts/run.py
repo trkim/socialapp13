@@ -1,3 +1,5 @@
 import article_crawling
+import sys
 
-article_crawling.main('김영란법')
+keyword = sys.stdin
+article_crawling.main(keyword)

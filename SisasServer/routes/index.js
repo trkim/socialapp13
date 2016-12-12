@@ -4,6 +4,7 @@ var router = express.Router();
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var PythonShell = require('python-shell');
+var pyshell = new PythonShell('run.py');
 
 
 var Member = mongoose.model('member');
