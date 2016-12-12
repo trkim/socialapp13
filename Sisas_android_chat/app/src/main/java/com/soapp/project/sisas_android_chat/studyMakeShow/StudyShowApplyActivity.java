@@ -1,16 +1,20 @@
 package com.soapp.project.sisas_android_chat.studyMakeShow;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,6 +43,9 @@ import java.util.Map;
  */
 public class StudyShowApplyActivity extends AppCompatActivity {
 
+    Toolbar toolbar;
+    ImageButton icBackIcon;
+
     public StudyShowApplyMemberListAdapter apply_member_list_adapter;
     public ListView list_view;
     ArrayList<JSONObject> member_list = new ArrayList<JSONObject>();
@@ -53,11 +60,30 @@ public class StudyShowApplyActivity extends AppCompatActivity {
     TextView tv_study_comment;
 
     Button btn_apply_go;
+    boolean i_am_in_study = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.study_show_apply);
+
+        toolbar = (Toolbar)findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        Typeface typeface = Typeface.createFromAsset(getAssets(), "210_appgullimB.ttf");
+        TextView textView = (TextView) findViewById(R.id.title);
+        textView.setTypeface(typeface);
+
+        icBackIcon = (ImageButton)findViewById(R.id.icBackIcon);
+        icBackIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(StudyShowApplyActivity.this, StudyShowApplyActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
         Intent intent = getIntent();
         room_id = intent.getExtras().getInt("room_id");
@@ -87,17 +113,23 @@ public class StudyShowApplyActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        btn_apply_go.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    joinRoomToServer(room_id);
-                } catch (Exception e) {
-                    e.printStackTrace();
+        if(i_am_in_study){
+            btn_apply_go.setBackgroundColor(Color.parseColor("#c8d2d1"));
+            btn_apply_go.setEnabled(false);
+            btn_apply_go.setClickable(false);
+            btn_apply_go.setText("참여신청한 스터디 입니다.");
+        } else {
+            btn_apply_go.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        joinRoomToServer(room_id);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
-        });
-
+            });
+        }
     }
 
     private void getStudyDetailFromServer(final int room_id, final String email) throws Exception{
@@ -166,6 +198,10 @@ public class StudyShowApplyActivity extends AppCompatActivity {
             String member_major = member_list.get(i).optString("major");
             String member_category = member_list.get(i).optString("category");
             String member_rating = member_list.get(i).optString("rating");
+
+            if(member_name.equals(Member.getInstance().getName())){
+                i_am_in_study = true;
+            }
             Log.e("name", member_name);
             Log.e("major", member_major);
             Log.e("category", member_category);
@@ -200,6 +236,7 @@ public class StudyShowApplyActivity extends AppCompatActivity {
 
                                     Intent new_intent = new Intent(getApplicationContext(), StudyShowApplyActivity.class);
                                     startActivity(new_intent);
+                                    finish();
                                 }
                             }
                         }catch(Exception e){
@@ -219,5 +256,6 @@ public class StudyShowApplyActivity extends AppCompatActivity {
     public void onBackPressed() {
         Intent intent = new Intent(getApplicationContext(), StudyShowActivity.class);
         startActivity(intent);
+        finish();
     }
 }

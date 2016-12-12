@@ -1,34 +1,171 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorwhite">
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent">
 
-        <Button
+        <android.support.v7.widget.Toolbar
+            android:layout_height="?attr/actionBarSize"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/btn_study_create"
-            android:id="@+id/btn_study_create"
-            android:layout_weight="1" />
+            android:id="@+id/toolbar"
+            android:elevation="0dp"
+            android:background="@color/colorPrimaryDark">
 
-        <Button
+            <ImageButton
+                android:id= "@+id/icMyPage"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:background="@drawable/ic_mypage" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/btn_app_name"
+                style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+                android:id="@+id/title"
+                android:textColor="@color/colorwhite"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:textStyle="bold"
+                android:textSize="30sp" />
+
+        </android.support.v7.widget.Toolbar>
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tabs"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/btn_study_join"
-            android:id="@+id/btn_study_join"
-            android:layout_weight="1" />
+            app:tabGravity="fill"
+            android:layout_height="?attr/actionBarSize"
+            android:elevation="4dp"
+            app:tabMode="fixed"
+            android:background="@color/colorwhite"
+            app:tabSelectedTextColor="@color/colorAccent"
+            app:tabIndicatorColor="@color/colorAccent">
 
-    </LinearLayout>
+            <android.support.design.widget.TabItem
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="내 스터디"
+                android:id="@+id/my_study_tab" />
 
-    <ExpandableListView
+            <android.support.design.widget.TabItem
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="전체 스터디"
+                android:id="@+id/all_study_tab" />
+        </android.support.design.widget.TabLayout>
+    </android.support.design.widget.AppBarLayout>
+
+
+    <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/my_study_list"
-        android:choiceMode="singleChoice"
-        android:groupIndicator="@null"/>
+        app:layout_behavior="android.support.design.widget.AppBarLayout$ScrollingViewBehavior"
+        android:layout_marginBottom="5dp">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:text="방장"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:background="@color/colorGray"
+                android:textColor="@color/colorwhite"
+                android:layout_marginRight="0.5dp"
+                android:textStyle="bold"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp" />
+
+            <TextView
+                android:text="카테고리"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textColor="@color/colorwhite"
+                android:background="@color/colorGray"
+                android:layout_marginLeft="0.5dp"
+                android:layout_marginRight="0.5dp"
+                android:textStyle="bold"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp" />
+
+            <TextView
+                android:text="방이름"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:layout_marginLeft="0.5dp"
+                android:layout_marginRight="0.5dp"
+                android:background="@color/colorGray"
+                android:textColor="@color/colorwhite"
+                android:textStyle="bold"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp" />
+
+            <TextView
+                android:text="인원"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:layout_marginLeft="0.5dp"
+                android:layout_marginRight="0.5dp"
+                android:background="@color/colorGray"
+                android:textColor="@color/colorwhite"
+                android:textStyle="bold"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp" />
+
+            <TextView
+                android:text="D-day"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:layout_marginLeft="0.5dp"
+                android:layout_marginRight="0.5dp"
+                android:background="@color/colorGray"
+                android:textColor="@color/colorwhite"
+                android:textStyle="bold"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp" />
+
+            <TextView
+                android:text="입장"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:layout_marginLeft="0.5dp"
+                android:background="@color/colorGray"
+                android:textColor="@color/colorwhite"
+                android:textStyle="bold"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp" />
+        </TableRow>
+    </TableLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="android.support.design.widget.AppBarLayout$ScrollingViewBehavior"
+        android:id="@+id/container">
+
+    </FrameLayout>
+
+
 </LinearLayout>

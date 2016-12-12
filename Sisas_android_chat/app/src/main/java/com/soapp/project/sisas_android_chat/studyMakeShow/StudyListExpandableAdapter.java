@@ -77,6 +77,8 @@ public class StudyListExpandableAdapter extends BaseExpandableListAdapter {
         TextView tv_room_capacity = (TextView) convertView.findViewById(R.id.tv_room_capacity);
         TextView tv_room_dday = (TextView) convertView.findViewById(R.id.tv_room_dday);
 
+        tv_room_name.setSelected(true);
+
         tv_room_category.setText(getGroup(groupPosition).getStudy_category());
         tv_room_name.setText(getGroup(groupPosition).getStudy_name());
         tv_room_capacity.setText(String.valueOf(getGroup(groupPosition).getStudy_capacity()));

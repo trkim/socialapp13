@@ -3,9 +3,11 @@ package com.soapp.project.sisas_android_chat.member;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -42,6 +45,8 @@ import java.util.Map;
  */
 public class LoginActivity extends AppCompatActivity {
 
+    Toolbar toolbar;
+
     LinearLayout login_layout;
     EditText et_login_id, et_login_pwd;
     Button btn_login_go;
@@ -50,13 +55,19 @@ public class LoginActivity extends AppCompatActivity {
     SharedPreferences memberSession;
 
     ImageButton btn_member_info;
-    //TextView app_name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        setCustomActionBar();
+
+        toolbar = (Toolbar)findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        Typeface typeface = Typeface.createFromAsset(getAssets(), "210_appgullimB.ttf");
+        TextView textView = (TextView) findViewById(R.id.title);
+        textView.setTypeface(typeface);
 
         login_layout = (LinearLayout)findViewById(R.id.login_layout);
         login_layout.setOnClickListener(new View.OnClickListener() {
@@ -79,6 +90,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent join_intent = new Intent(LoginActivity.this, JoinActivity.class);
                 startActivity(join_intent);
+                finish();
             }
         });
 
@@ -217,36 +229,6 @@ public class LoginActivity extends AppCompatActivity {
 
         Intent study_make_show_intent = new Intent(LoginActivity.this, StudyMakeShowMainActivity.class);
         startActivity(study_make_show_intent);
-    }
-
-    private void setCustomActionBar(){
-        ActionBar action_bar = getSupportActionBar();
-
-        action_bar.setDisplayShowCustomEnabled(true);
-        action_bar.setDisplayShowTitleEnabled(false);
-        action_bar.setDisplayHomeAsUpEnabled(false);
-
-        View custom_view = LayoutInflater.from(this).inflate(R.layout.action_bar,null);
-        action_bar.setCustomView(custom_view);
-
-        btn_member_info = (ImageButton)findViewById(R.id.btn_member_info);
-        btn_member_info.setVisibility(View.INVISIBLE);
-
-        //app_name = (TextView)findViewById(R.id.btn_app_name);
-
-        /*btn_member_info.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent member_info_intent = new Intent(LoginActivity.this, MemberInfoActivity.class);
-                startActivity(member_info_intent);
-            }
-        });*/
-        /*app_name.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent study_in_room_intent = new Intent(LoginActivity.this, StudyMakeShowMainActivity.class);
-                startActivity(study_in_room_intent);
-            }
-        });*/
+        finish();
     }
 }

@@ -6,13 +6,15 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/tv_logout"
         android:id="@+id/tv_study_chat_go"
         android:gravity="center"
-        android:layout_marginBottom="20dp"
-        android:layout_marginTop="50dp" />
+        android:paddingTop="70dp"
+        android:paddingBottom="50dp"
+        android:textStyle="bold"
+        android:textSize="18sp" />
 
 
 </LinearLayout>

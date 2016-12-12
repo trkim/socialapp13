@@ -17,6 +17,10 @@ public class ScrapboxFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.member_info_scrapbox_frag, container, false);
+        View view = inflater.inflate(R.layout.member_info_scrapbox_frag, container, false);
+
+
+
+        return view;
     }
 }

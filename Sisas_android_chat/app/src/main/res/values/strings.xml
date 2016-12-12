@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">Sisas</string>
-    <string name="btn_app_name">人人人</string>
+    <string name="app_name">시사스터디</string>
+    <string name="btn_app_name">시사스</string>
     <!--시작화면-->
     <string name="tv_str_start">시사스</string>
     <string name="btn_login">로그인</string>
@@ -43,7 +43,7 @@
     <string name="btn_study_join">스터디 목록보기</string>
     <!--스터디 만들기-->
     <string name="tv_study_name">방이름</string>
-    <string name="tv_study_capacity">인원</string>
+    <string name="tv_study_capacity">모집인원</string>
     <string name="tv_study_category_one">카테고리(1개만 선택가능)</string>
     <string name="tv_study_category">카테고리</string>
     <string name="rb_study_all">전체</string>

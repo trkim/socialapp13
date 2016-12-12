@@ -57,7 +57,7 @@ public class StudyShowApplyMemberListAdapter extends BaseAdapter{
         iv_member_profile.setImageDrawable(list_view_item.getProfile_pic());
         tv_member_name.setText(list_view_item.getMember_name());
         tv_member_major.setText(list_view_item.getMember_major());
-        tv_member_interest.setText(list_view_item.getMember_interest());
+        tv_member_interest.setText(list_view_item.getMember_interest().substring(1));
         tv_member_score.setText(list_view_item.getMember_score());
 
         return convertView;

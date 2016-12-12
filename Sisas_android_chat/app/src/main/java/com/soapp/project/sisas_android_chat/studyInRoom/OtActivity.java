@@ -3,6 +3,8 @@ package com.soapp.project.sisas_android_chat.studyInRoom;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -11,6 +13,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.menu.ActionMenuItemView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -20,6 +23,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +35,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.soapp.project.sisas_android_chat.Member;
 import com.soapp.project.sisas_android_chat.R;
 import com.soapp.project.sisas_android_chat.studyMakeShow.DateDialog;
+import com.soapp.project.sisas_android_chat.studyMakeShow.StudyMakeShowMainActivity;
 import com.soapp.project.sisas_android_chat.studyMakeShow.StudyShowActivity;
 import com.soapp.project.sisas_android_chat.studyMakeShow.StudyShowApplyActivity;
 import com.soapp.project.sisas_android_chat.volley;
@@ -49,6 +54,9 @@ import java.util.TimeZone;
 
 public class OtActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
 
+    Toolbar toolbar;
+    ImageButton icBackIcon;
+
     EditText et_keyword;
     TextView tv_keyword_date;
     Button btn_ot_fix_keyword;
@@ -59,6 +67,8 @@ public class OtActivity extends AppCompatActivity implements DatePickerDialog.On
     String email = Member.getInstance().getEmail();
     long keyword_date;
 
+    String study_start_date;
+    String study_end_date;
     String dday;
     long start_date_millis;
     long end_date_millis;
@@ -67,10 +77,26 @@ public class OtActivity extends AppCompatActivity implements DatePickerDialog.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.study_in_room_ot);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
+
+        toolbar = (Toolbar)findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        Typeface typeface = Typeface.createFromAsset(getAssets(), "210_appgullimB.ttf");
+        TextView textView = (TextView) findViewById(R.id.title);
+        textView.setTypeface(typeface);
+
+        icBackIcon = (ImageButton)findViewById(R.id.icBackIcon);
+        icBackIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(OtActivity.this, StudyMakeShowMainActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.rightin, R.anim.leftout);
+                finish();
+            }
+        });
 
         et_keyword = (EditText)findViewById(R.id.et_keyword);
         tv_keyword_date = (TextView)findViewById(R.id.tv_keyword_date);
@@ -78,6 +104,7 @@ public class OtActivity extends AppCompatActivity implements DatePickerDialog.On
         tv_keyword_date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //tv_keyword_date.setText("");
                 date_dialog.show(getFragmentManager(), "date_dialog");
             }
         });
@@ -94,8 +121,7 @@ public class OtActivity extends AppCompatActivity implements DatePickerDialog.On
             public void onClick(View v) {
                 try {
                     final String et_keyword_content = et_keyword.getText().toString();
-                    Log.e("et_keyword",et_keyword_content);
-                    fixKeywordToServer(et_keyword_content, String.valueOf(keyword_date), email, room_id);
+                    fixKeywordToServer(et_keyword_content, tv_keyword_date.getText().toString(), email, room_id);
                 }catch (Exception e){
                     e.printStackTrace();
                 }
@@ -114,6 +140,12 @@ public class OtActivity extends AppCompatActivity implements DatePickerDialog.On
                 }
             }
         });
+
+        try{
+            getStudyInfoFromServer(room_id);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
 
         Bundle bundle = new Bundle();
         bundle.putString("room_id",String.valueOf(room_id));
@@ -156,11 +188,16 @@ public class OtActivity extends AppCompatActivity implements DatePickerDialog.On
                                     toast.show();
                                 }else if(response.getString("result").equals("success")) {
                                     Toast toast = Toast.makeText(getApplicationContext(), "키워드가 등록되었습니다.", Toast.LENGTH_SHORT);
+                                    et_keyword.setClickable(false);
+                                    et_keyword.setCursorVisible(false);
+                                    et_keyword.setEnabled(false);
+                                    et_keyword.setFocusable(false);
+                                    tv_keyword_date.setClickable(false);
+                                    tv_keyword_date.setEnabled(false);
+                                    btn_ot_fix_keyword.setClickable(false);
+                                    btn_ot_fix_keyword.setBackgroundColor(Color.GRAY);
                                     toast.setGravity(Gravity.CENTER, 0,0);
                                     toast.show();
-
-                                    Intent new_intent = new Intent(getApplicationContext(), OtActivity.class);
-                                    startActivity(new_intent);
                                 }else if(response.getString("result").equals("duplication")){
                                     Toast toast = Toast.makeText(getApplicationContext(), "이미 같은 키워드가 등록되었습니다.", Toast.LENGTH_SHORT);
                                     toast.setGravity(Gravity.CENTER, 0,0);
@@ -183,10 +220,9 @@ public class OtActivity extends AppCompatActivity implements DatePickerDialog.On
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        Log.d("onCreateOptionsMenu", "create menu");
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.socket_activity_actions, menu);
-        getStudyInfoFromServer(room_id);
+        //getStudyInfoFromServer(room_id);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -197,11 +233,9 @@ public class OtActivity extends AppCompatActivity implements DatePickerDialog.On
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
             case R.id.action_attach:
-                Log.d("onOptionsItemSelected","action_attach");
                 openGallery();
                 return true;
             case R.id.action_capture:
-                Log.d("onOptionsItemSelected","action_capture");
                 // openSettings();
                 return true;
             default:
@@ -216,8 +250,7 @@ public class OtActivity extends AppCompatActivity implements DatePickerDialog.On
     }
 
     @Override
-    protected void onActivityResult(int requestCode,int resultCode,Intent data)
-    {
+    protected void onActivityResult(int requestCode,int resultCode,Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && resultCode == RESULT_OK
                 && null != data) {
@@ -254,15 +287,14 @@ public class OtActivity extends AppCompatActivity implements DatePickerDialog.On
                     @Override
                     public void onResponse(JSONObject response) {
                         try{
-                            String start_date = response.getString("start_date");
-                            String end_date = response.getString("end_date");
+                            study_start_date = response.getString("start_date");
+                            study_end_date = response.getString("end_date");
 
-                            Log.e("start_date : ",start_date);
-                            Log.e("end_date : ",end_date);
+                            tv_keyword_date.setText(study_start_date+" ~ "+study_end_date);
 
                             TimeZone time_zone = TimeZone.getTimeZone("Asia/Seoul");
                             Calendar start_date_picked = Calendar.getInstance(time_zone);
-                            String[] start_date_split = start_date.split("-");
+                            String[] start_date_split = study_start_date.split("-");
                             int start_year_picked = Integer.parseInt(start_date_split[0]);
                             int start_month_picked = Integer.parseInt(start_date_split[1]);
                             int start_day_picked = Integer.parseInt(start_date_split[2]);
@@ -270,7 +302,7 @@ public class OtActivity extends AppCompatActivity implements DatePickerDialog.On
                             start_date_millis = start_date_picked.getTimeInMillis() / (24 * 60 * 60 * 1000);
 
                             Calendar end_date_picked = Calendar.getInstance(time_zone);
-                            String[] end_date_split = end_date.split("-");
+                            String[] end_date_split = study_end_date.split("-");
                             int end_year_picked = Integer.parseInt(end_date_split[0]);
                             int end_month_picked = Integer.parseInt(end_date_split[1]);
                             int end_day_picked = Integer.parseInt(end_date_split[2]);
@@ -293,30 +325,14 @@ public class OtActivity extends AppCompatActivity implements DatePickerDialog.On
     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
         TimeZone time_zone = TimeZone.getTimeZone("Asia/Seoul");
 
-        int date_year_picked =0;
-        int date_month_picked=0;
-        int date_day_picked=0;
         keyword_date=0;
-        if(!tv_keyword_date.getText().toString().equals("")){
-            Calendar date_picked = Calendar.getInstance(time_zone);
-            String temp_start = tv_keyword_date.getText().toString();
-            String[] date_split = temp_start.split("-");
-            date_year_picked = Integer.parseInt(date_split[0]);
-            date_month_picked = Integer.parseInt(date_split[1]);
-            date_day_picked = Integer.parseInt(date_split[2]);
-            date_picked.set(date_year_picked, date_month_picked, date_day_picked);
-            Log.e("선택한 날짜 : ",String.valueOf(date_year_picked));
-            Log.e("선택한 날짜 : ",String.valueOf(date_month_picked));
-            Log.e("선택한 날짜 : ",String.valueOf(date_day_picked));
-            keyword_date = date_picked.getTimeInMillis() / (24 * 60 * 60 * 1000);
-        }
 
-        if(view.getTag().equals("date_dialog")) {
+        if(view.getTag().equals("date_dialog") && view.isShown()) {
             Calendar date_picked = Calendar.getInstance(time_zone);
-            date_year_picked = year;
-            date_month_picked = monthOfYear + 1;
-            date_day_picked = dayOfMonth;
-            date_picked.set(date_year_picked, date_month_picked, date_day_picked);
+            year = year;
+            monthOfYear = monthOfYear + 1;
+            dayOfMonth = dayOfMonth;
+            date_picked.set(year, monthOfYear, dayOfMonth);
             keyword_date = date_picked.getTimeInMillis() / (24 * 60 * 60 * 1000);
         }
 
@@ -330,7 +346,7 @@ public class OtActivity extends AppCompatActivity implements DatePickerDialog.On
             flag = 1;
         }
         if(flag == 0) {
-            tv_keyword_date.setText(new StringBuilder().append(date_year_picked).append("-").append(date_month_picked).append("-").append(date_day_picked));
+            tv_keyword_date.setText(new StringBuilder().append(year).append("-").append(monthOfYear).append("-").append(dayOfMonth));
         }
     }
 

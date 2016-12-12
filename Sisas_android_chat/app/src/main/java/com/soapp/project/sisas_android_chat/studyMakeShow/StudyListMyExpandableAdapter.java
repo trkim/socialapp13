@@ -63,7 +63,7 @@ public class StudyListMyExpandableAdapter extends BaseExpandableListAdapter {
 
         ib_head_icon = (ImageButton)convertView.findViewById(R.id.ib_head_icon);
         if(getGroup(groupPosition).getStudy_icon() == 1) {
-            ib_head_icon.setImageResource(R.drawable.ic_launcher);
+            ib_head_icon.setImageResource(R.mipmap.ic_header);
             ib_head_icon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -74,7 +74,10 @@ public class StudyListMyExpandableAdapter extends BaseExpandableListAdapter {
                 }
             });
         } else if(getGroup(groupPosition).getStudy_icon() == 0) {
-            ib_head_icon.setImageDrawable(null);
+            ib_head_icon.setEnabled(false);
+            ib_head_icon.setClickable(false);
+            ib_head_icon.setImageResource(R.mipmap.ic_whitespace);
+            ib_head_icon.setBackgroundColor(Color.WHITE);
         }
 
         ib_study_go = (ImageButton)convertView.findViewById(R.id.ib_study_go);

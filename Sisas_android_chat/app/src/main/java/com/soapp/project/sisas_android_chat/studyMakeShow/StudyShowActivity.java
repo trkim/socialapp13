@@ -2,25 +2,38 @@ package com.soapp.project.sisas_android_chat.studyMakeShow;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import com.soapp.project.sisas_android_chat.R;
+import com.soapp.project.sisas_android_chat.memberInfo.MemberInfoActivity;
 
 /**
  * Created by eelhea on 2016-10-21.
  */
 public class StudyShowActivity extends AppCompatActivity {
+
+    Toolbar toolbar;
+    ImageButton icBackIcon;
 
     int button_state=0;
     Button btn_study_apply;
@@ -38,7 +51,26 @@ public class StudyShowActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.study_show);
-        setCustomActionBar();
+
+        toolbar = (Toolbar)findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        Typeface typeface = Typeface.createFromAsset(getAssets(), "210_appgullimB.ttf");
+        TextView textView = (TextView) findViewById(R.id.title);
+        textView.setTypeface(typeface);
+
+        icBackIcon = (ImageButton)findViewById(R.id.icBackIcon);
+        icBackIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(StudyShowActivity.this, StudyMakeShowMainActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.rightin, R.anim.leftout);
+                finish();
+            }
+        });
+
 
         btn_study_apply = (Button)findViewById(R.id.btn_study_apply);
         btn_study_watch = (Button)findViewById(R.id.btn_study_watch);
@@ -46,8 +78,10 @@ public class StudyShowActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 button_state=0;
-                btn_study_apply.setBackgroundColor(Color.YELLOW);
+                btn_study_apply.setBackgroundResource(R.drawable.tabimage);
+                btn_study_apply.setTextColor(Color.parseColor("#1F9E8E"));
                 btn_study_watch.setBackgroundColor(Color.WHITE);
+                btn_study_watch.setTextColor(Color.parseColor("#c8d2d1"));
                 mCurrentFragmentIndex = FRAGMENT_APPLY;
                 changeFragment(mCurrentFragmentIndex);
             }
@@ -56,8 +90,10 @@ public class StudyShowActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 button_state=1;
-                btn_study_watch.setBackgroundColor(Color.YELLOW);
+                btn_study_watch.setBackgroundResource(R.drawable.tabimage);
+                btn_study_watch.setTextColor(Color.parseColor("#1F9E8E"));
                 btn_study_apply.setBackgroundColor(Color.WHITE);
+                btn_study_apply.setTextColor(Color.parseColor("#c8d2d1"));
                 mCurrentFragmentIndex = FRAGMENT_WATCH;
                 changeFragment(mCurrentFragmentIndex);
             }
@@ -113,19 +149,8 @@ public class StudyShowActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.replace( R.id.fl_study_list, fragment );
+        fragmentTransaction.replace( R.id.container, fragment );
         fragmentTransaction.commit();
-    }
-
-    private void setCustomActionBar(){
-        ActionBar action_bar = getSupportActionBar();
-
-        action_bar.setDisplayShowCustomEnabled(true);
-        action_bar.setDisplayShowTitleEnabled(false);
-        action_bar.setDisplayHomeAsUpEnabled(false);
-
-        View custom_view = LayoutInflater.from(this).inflate(R.layout.action_bar,null);
-        action_bar.setCustomView(custom_view);
     }
 
     @Override
