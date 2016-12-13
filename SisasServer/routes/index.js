@@ -321,6 +321,8 @@ router.get('/get_myroomlist', function(req,res){
     }
     if(roomlist){
       console.log('get_myroomlist 성공');
+      console.log(typeof(roomlist))
+      console.log(roomlist.room_id)
       console.log(roomlist);
       res.json(roomlist);
     }else{
