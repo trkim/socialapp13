@@ -470,9 +470,9 @@ router.post('/fix_keyword', function(req, res){
 });
 
 
-router.post('/get_keyword', function(req,res){
+router.get('/get_keyword', function(req,res){
   console.log('get_keyword 실행')
-  var keyword = req.body.keyword;
+  var keyword = req.query.keyword;
 
   var options = {
     mode : 'text',
@@ -493,9 +493,22 @@ router.post('/get_keyword', function(req,res){
       res.json({'articlelist' : results});
 
     }
-  })
+  });
 });
 
+router.get('send_fixkeyword', function(req,res){
+  console.log('send fix keyword');
+  var room_id = req.query.room_id;
 
+  Keyword_box.find({'room_id':room_id}, function(err, keywordlist){
+    if(err){
+      console.error(err);
+      res.json({'result':'fail'});
+    }else{
+      console.log('keywordlist 호출 완료');
+      res.json({'keywordlist':keywordlist});
+    }
+  });
+});
 
 module.exports = router;
