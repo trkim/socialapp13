@@ -520,6 +520,7 @@ router.post('insert_scrap', function(req,res){
   scrap_box.keyword_box_id = req.body.keyword_box_id;
   scrap_box.email = req.body.email;
   scrap_box.scrap_id = article_title + keyword_box_id;
+  scrap_box.room_id = req.body.room_id;
 
   Scrap_box.findOne({'scrap_id':scrap_id}, function(err, scrap){
     if( scrap == "" || scrap == null || scrap == undefined || ( scrap != null && typeof scrap == "object" && !Object.keys(scrap).length )){
@@ -534,6 +535,50 @@ router.post('insert_scrap', function(req,res){
     }else{
       console.log('스크랩 중복');
       res.json({'result':'fail'});
+    }
+  });
+});
+
+//scraplist와 roomlist 의 정보를 합쳐서 보내야함.
+//테스트 필요
+router.get('/get_myscraplist', function(req, res){
+  console.log('scraplist 가져오기')
+  var email = req.query.email;
+
+  Scrap_box.find({'email':email}, function(err, scraplist){
+    if(err){
+      console.error(err);
+      res.json({'result':'fail'});
+    }else{
+      console.log('scraplist 호출 성공');
+      var resultlist = [];
+      var results = {};
+      var count = 1;
+      scraplist.forEach(function(room_id){
+        Room.findOne({'room_id':room_id}, function(err, roomlist){
+          //roomlist정보와 scraplist 합치는 로직
+          if(err){
+            console.error(err);
+            res.json({'result':'fail'});
+          }
+          else {
+            for (var key in scraplist) {
+              results[key] = scraplist[key];
+            }
+            for (var key in roomlist) {
+              results[key] = roomlist[key];
+            }
+            resultlist.push(results);
+            if(count == scraplist.length){
+              console.log('전송하는 myscraplist 데이터');
+              console.log(resultlist);
+              res.json(resultlist);
+            } else {
+              count++;
+            }
+          }
+        });
+      });
     }
   });
 });
