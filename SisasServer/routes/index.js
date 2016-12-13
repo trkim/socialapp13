@@ -511,4 +511,31 @@ router.get('send_fixkeyword', function(req,res){
   });
 });
 
+router.post('insert_scrap', function(req,res){
+  var scrap_box = new Scrap_box();
+
+  scrap_box.article_title = req.body.article_title;
+  scrap_box.url = req.body.url;
+  scrap_box.comment = req.body.comment;
+  scrap_box.keyword_box_id = req.body.keyword_box_id;
+  scrap_box.email = req.body.email;
+  scrap_box.scrap_id = article_title + keyword_box_id;
+
+  Scrap_box.findOne({'scrap_id':scrap_id}, function(err, scrap){
+    if( scrap == "" || scrap == null || scrap == undefined || ( scrap != null && typeof scrap == "object" && !Object.keys(scrap).length )){
+      scrap_box.save(function(err){
+        if(err){
+          console.error(err);
+          res.json({'result':'fail'});
+        }else{
+          console.log('스크랩 성공')
+        }
+      });
+    }else{
+      console.log('스크랩 중복');
+      res.json({'result':'fail'});
+    }
+  });
+});
+
 module.exports = router;

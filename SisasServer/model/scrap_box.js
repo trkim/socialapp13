@@ -5,6 +5,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var scrap_boxSchema = new Schema({
+    scrap_id : String,
     article_title : String,
     url : String,
     comment : String,
