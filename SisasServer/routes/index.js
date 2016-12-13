@@ -491,7 +491,7 @@ router.get('/get_keyword', function(req,res){
     else{
       console.log('기사 크롤링 완료');
       console.log(typeof(results));
-      console.log(results.result_news_url);
+      console.log(results.toString());
 
     }
   })
