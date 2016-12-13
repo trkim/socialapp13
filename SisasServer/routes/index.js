@@ -470,9 +470,9 @@ router.post('/fix_keyword', function(req, res){
 });
 
 
-router.post('/get_keyword', function(req,res){
+router.get('/get_keyword', function(req,res){
   console.log('get_keyword 실행')
-  var keyword = req.body.keyword;
+  var keyword = req.query.keyword;
 
   var options = {
     mode : 'text',
@@ -490,6 +490,8 @@ router.post('/get_keyword', function(req,res){
     }
     else{
       console.log('기사 크롤링 완료');
+      console.log(typeof(results));
+      console.log(results.result_news_url);
 
     }
   })
