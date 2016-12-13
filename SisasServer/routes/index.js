@@ -470,9 +470,9 @@ router.post('/fix_keyword', function(req, res){
 });
 
 
-router.get('/get_keyword', function(req,res){
+router.post('/get_keyword', function(req,res){
   console.log('get_keyword 실행')
-  var keyword = req.query.keyword;
+  var keyword = req.body.keyword;
 
   var options = {
     mode : 'text',
@@ -489,7 +489,7 @@ router.get('/get_keyword', function(req,res){
       res.json({'result':'fail'});
     }
     else{
-      console.log(results);
+      console.log('기사 크롤링 완료');
 
     }
   })
