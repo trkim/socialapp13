@@ -321,8 +321,6 @@ router.get('/get_myroomlist', function(req,res){
     }
     if(roomlist){
       console.log('get_myroomlist 성공');
-      console.log(typeof(roomlist))
-      console.log(roomlist.room_id)
       console.log(roomlist);
       res.json(roomlist);
     }else{
@@ -492,8 +490,7 @@ router.get('/get_keyword', function(req,res){
     }
     else{
       console.log('기사 크롤링 완료');
-      console.log(typeof(results));
-      console.log(results.toString());
+      res.json({'articlelist' : results});
 
     }
   })
