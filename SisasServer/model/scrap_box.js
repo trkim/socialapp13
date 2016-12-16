@@ -9,6 +9,7 @@ var scrap_boxSchema = new Schema({
     room_id : String,
     article_title : String,
     url : String,
+    content : String,
     opinion : String,
     keyword_box_id : String,
     email : String

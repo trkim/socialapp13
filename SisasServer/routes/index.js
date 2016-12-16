@@ -480,6 +480,7 @@ router.get('/get_keyword', function(req,res){
     }
     else{
       console.log('get_keyword 성공');
+      console.log(keywordlist);
       res.json(keywordlist);
     }
   });
