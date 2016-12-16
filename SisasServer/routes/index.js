@@ -591,6 +591,7 @@ router.get('/get_myscraplist', function(req, res){
             if(count == scraplist.length){
               console.log('전송하는 myscraplist 데이터');
               console.log(resultlist);
+              res.header("Content-Type", "application/json; charset=utf-8");
               res.json(resultlist);
             } else {
               count++;
