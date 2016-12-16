@@ -508,6 +508,7 @@ router.get('/scrap_with_keyword', function(req,res){
     }
     else{
       console.log('기사 크롤링 완료');
+      res.header("Content-Type", "application/json; charset=utf-8");
       console.log(results);
       res.json({'articlelist' : results});
 
@@ -591,7 +592,6 @@ router.get('/get_myscraplist', function(req, res){
             if(count == scraplist.length){
               console.log('전송하는 myscraplist 데이터');
               console.log(resultlist);
-              res.header("Content-Type", "application/json; charset=utf-8");
               res.json(resultlist);
             } else {
               count++;
