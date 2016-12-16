@@ -23,7 +23,6 @@ def get_title(URL):
   for div in soup.find_all("a", class_="f_l"):
     text = text + str(div.find_all(text=True))
     sleep(2)
-    print(div)
   return text
 
 
@@ -34,7 +33,6 @@ def get_text(URL):
   for item in soup.find_all('p', class_='f_eb'):
     text = text + str(item.find_all(text=True))
     sleep(2)
-    print(text)
   return text
 
 def get_news_url(URL):
@@ -44,7 +42,6 @@ def get_news_url(URL):
   for link in soup.find_all('a', class_='f_l'):
     text = text + str(link.get('href'))
     sleep(2)
-    print(text)
   return text
 
 
