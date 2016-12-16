@@ -479,11 +479,9 @@ router.get('/get_keyword', function(req,res){
       res.json({'result': 'fail'});
     }
     else{
-      var itemlist = [];
-      itemlist.push(keywordlist);
       console.log('get_keyword 성공');
-      console.log(itemlist);
-      res.json(itemlist);
+      console.log(keywordlist);
+      res.json(keywordlist);
     }
   });
 

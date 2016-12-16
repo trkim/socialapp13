@@ -3,6 +3,7 @@ package com.soapp.project.sisas_android_chat.studyMakeShow;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -110,10 +111,10 @@ public class StudyListMyExpandableAdapter extends BaseExpandableListAdapter {
                     Intent intent = new Intent(context, OtChatActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     intent.putExtra("room_id", room_id);
-                    if(!keyword_available.equals("") && !date_available.equals("")) {
+                    //if(!keyword_available.equals("") && !date_available.equals("")) {
                         intent.putExtra("keyword", keyword_available);
                         intent.putExtra("date", date_available);
-                    }
+                    //}
                     context.startActivity(intent);
                 }
             }
@@ -202,7 +203,9 @@ public class StudyListMyExpandableAdapter extends BaseExpandableListAdapter {
             @Override
             public void onResponse(JSONArray response) {
                 for(int i=0; i<response.length(); i++){
+                    Log.e("ㅋㅋㅋㅋㅋㅋㅋㅋ","ㅋㅋㅋㅋㅋㅋㅋㅋㅋ");
                     keyword_list.add(response.optJSONObject(i));
+                    Log.e("나와라라아아아아아아",response.optJSONObject(i).toString());
                 }
                 getKeyword();
             }
@@ -216,6 +219,7 @@ public class StudyListMyExpandableAdapter extends BaseExpandableListAdapter {
     }
 
     private void getKeyword(){
+        long min = 999999999;
         for(int i=0 ;i<keyword_list.size(); i++) {
             String keyword_from_server = keyword_list.get(i).optString("keyword");
             String date_from_server = keyword_list.get(i).optString("date");
@@ -236,10 +240,18 @@ public class StudyListMyExpandableAdapter extends BaseExpandableListAdapter {
             long keyword_date_in_millis = keyword_calendar.getTimeInMillis() / (24 * 60 * 60 * 1000);
 
             //오늘 날짜 이후의 키워드인지 판별
-            if(today_in_millis <= keyword_date_in_millis){
+            /*if(today_in_millis <= keyword_date_in_millis){
                 keyword_available = keyword_from_server;
+                date_available = date_from_server;
+            }*/
+            long tmp = keyword_date_in_millis - today_in_millis;
+
+            if(tmp < min){
+                min = tmp;
                 date_available = date_from_server;
             }
         }
+
+
     }
 }
