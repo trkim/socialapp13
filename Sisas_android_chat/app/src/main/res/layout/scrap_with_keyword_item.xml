@@ -13,7 +13,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/tv_scrap_url"
+            android:id="@+id/tv_scrap_title"
             android:layout_weight="1"
             android:gravity="center_vertical"
             android:paddingLeft="10dp" />

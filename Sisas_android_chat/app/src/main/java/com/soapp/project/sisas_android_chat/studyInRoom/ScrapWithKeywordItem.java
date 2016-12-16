@@ -5,16 +5,9 @@ package com.soapp.project.sisas_android_chat.studyInRoom;
  */
 
 public class ScrapWithKeywordItem {
-    private String tv_scrap_url;
+    private String tv_scrap_title;
+    private String scrap_url;
     private String tv_scrap_content;
-
-    public String getTv_scrap_url() {
-        return tv_scrap_url;
-    }
-
-    public void setTv_scrap_url(String tv_scrap_url) {
-        this.tv_scrap_url = tv_scrap_url;
-    }
 
     public String getTv_scrap_content() {
         return tv_scrap_content;
@@ -22,5 +15,21 @@ public class ScrapWithKeywordItem {
 
     public void setTv_scrap_content(String tv_scrap_content) {
         this.tv_scrap_content = tv_scrap_content;
+    }
+
+    public String getTv_scrap_title() {
+        return tv_scrap_title;
+    }
+
+    public void setTv_scrap_title(String tv_scrap_title) {
+        this.tv_scrap_title = tv_scrap_title;
+    }
+
+    public String getScrap_url() {
+        return scrap_url;
+    }
+
+    public void setScrap_url(String scrap_url) {
+        this.scrap_url = scrap_url;
     }
 }

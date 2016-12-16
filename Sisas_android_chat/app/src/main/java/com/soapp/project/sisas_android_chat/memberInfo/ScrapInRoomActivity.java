@@ -96,7 +96,7 @@ public class ScrapInRoomActivity extends AppCompatActivity {
             //스터디 정보 가져오기
             getStudyDetailFromServer(room_id, Member.getInstance().getEmail());
             //keyword_box에서 keyword들 가지고 오기
-            getKeywordFromServer(room_id, Member.getInstance().getEmail());
+            //getKeywordFromServer(room_id, Member.getInstance().getEmail());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -136,7 +136,7 @@ public class ScrapInRoomActivity extends AppCompatActivity {
     }
 
     //room_id 와 email 로 keyword_box DB에서 keyword, date, keyword_box_id 가져오기
-    private void getKeywordFromServer(final int room_id, final String email) throws Exception {
+/*    private void getKeywordFromServer(final int room_id, final String email) throws Exception {
         String URL = "http://52.78.157.250:3000/get_keyword?room_id="+room_id+"&email=" + URLEncoder.encode(email, "UTF-8");
 
         JsonArrayRequest req = new JsonArrayRequest(URL, new Response.Listener<JSONArray>() {
@@ -219,5 +219,5 @@ public class ScrapInRoomActivity extends AppCompatActivity {
     private void addKeywordScrap(String keyword, String date, String article_title, String url, String content, String opinion){
         ScrapInRoomListItem scrapInRoomListItem = new ScrapInRoomListItem(keyword, date, article_title, url, content, opinion);
         scrap_in_room_list_item.add(scrapInRoomListItem);
-    }
+    }*/
 }
