@@ -57,7 +57,7 @@ def main(input_kwd):
     result_text = get_text(result_url)
     result_news_url = get_news_url(result_url)
 
-    return{
+    return {
         'result_title' : result_title,
         'result_text' : result_text,
         'result_news_url' : result_news_url
