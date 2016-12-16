@@ -508,6 +508,7 @@ router.get('/scrap_with_keyword', function(req,res){
     }
     else{
       console.log('기사 크롤링 완료');
+      console.log(results);
       res.json({'articlelist' : results});
 
     }
