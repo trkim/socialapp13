@@ -39,7 +39,8 @@
         android:paddingLeft="25dp"
         android:paddingBottom="5dp"
         android:layout_weight="0.6"
-        android:paddingTop="15dp">
+        android:paddingTop="15dp"
+        android:layout_gravity="top">
 
         <TextView
             android:layout_width="match_parent"
@@ -72,6 +73,7 @@
         android:layout_weight="0.1"
         android:paddingTop="10dp"
         android:paddingLeft="15dp"
-        android:paddingRight="15dp" />
+        android:paddingRight="15dp"
+        android:layout_gravity="top" />
 
 </LinearLayout>

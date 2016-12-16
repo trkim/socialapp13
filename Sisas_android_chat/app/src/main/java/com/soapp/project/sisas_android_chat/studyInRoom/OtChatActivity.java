@@ -110,12 +110,17 @@ public class OtChatActivity extends AppCompatActivity implements DatePickerDialo
         btn_ot_fix_keyword = (Button)findViewById(R.id.btn_ot_fix_keyword);
         btn_ot_scrap = (Button)findViewById(R.id.btn_ot_scrap);
 
+        //해당 스터디 정보 가지고 오기
+        try{
+            getStudyInfoFromServer(room_id);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        //FragmentGetMyStudy의 StudyListMyExpandableAdapter에서 보내준 정보 가져오기
         Intent intent = getIntent();
         room_id = intent.getExtras().getInt("room_id");
-//        if(!intent.getExtras().getString("keyword").equals("") && !intent.getExtras().getString("date").equals("")) {
-            Log.e("keyword_from_server",keyword_from_server);
-            Log.e("date_from_server",date_from_server);
-
+        if(!intent.getExtras().getString("keyword").equals("") && !intent.getExtras().getString("date").equals("")) {
             keyword_from_server = intent.getExtras().getString("keyword");
             date_from_server = intent.getExtras().getString("date");
 
@@ -133,7 +138,7 @@ public class OtChatActivity extends AppCompatActivity implements DatePickerDialo
             btn_ot_scrap.setClickable(true);
             btn_ot_scrap.setBackgroundColor(Color.parseColor("#1f9e8e"));
             btn_ot_fix_keyword.setBackgroundColor(Color.GRAY);
- //       }
+        }
 
         if(btn_ot_fix_keyword.isClickable()){
             btn_ot_scrap.setClickable(false);
@@ -166,12 +171,6 @@ public class OtChatActivity extends AppCompatActivity implements DatePickerDialo
                 }
             }
         });
-
-        try{
-            getStudyInfoFromServer(room_id);
-        }catch(Exception e){
-            e.printStackTrace();
-        }
 
         Bundle bundle = new Bundle();
         bundle.putString("room_id",String.valueOf(room_id));
