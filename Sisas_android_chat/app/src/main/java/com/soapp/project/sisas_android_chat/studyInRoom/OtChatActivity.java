@@ -113,11 +113,18 @@ public class OtChatActivity extends AppCompatActivity implements DatePickerDialo
         Intent intent = getIntent();
         Log.e("intent----------","ok");
         room_id = intent.getExtras().getInt("room_id");
+<<<<<<< HEAD
         Log.e("room_id : ",String.valueOf(room_id));
         Log.e("date : ", intent.getExtras().getString("date"));
         Log.e("keyword : ",intent.getExtras().getString("keyword"));
 
         if(!intent.getExtras().getString("keyword").equals("") && !intent.getExtras().getString("date").equals("")) {
+=======
+//        if(!intent.getExtras().getString("keyword").equals("") && !intent.getExtras().getString("date").equals("")) {
+            Log.e("keyword_from_server",keyword_from_server);
+            Log.e("date_from_server",date_from_server);
+
+>>>>>>> e9b9ef4797f5416cc5b776b2c0cb20288cfb07d8
             keyword_from_server = intent.getExtras().getString("keyword");
             date_from_server = intent.getExtras().getString("date");
 
@@ -135,7 +142,7 @@ public class OtChatActivity extends AppCompatActivity implements DatePickerDialo
             btn_ot_scrap.setClickable(true);
             btn_ot_scrap.setBackgroundColor(Color.parseColor("#1f9e8e"));
             btn_ot_fix_keyword.setBackgroundColor(Color.GRAY);
-        }
+ //       }
 
         if(btn_ot_fix_keyword.isClickable()){
             btn_ot_scrap.setClickable(false);

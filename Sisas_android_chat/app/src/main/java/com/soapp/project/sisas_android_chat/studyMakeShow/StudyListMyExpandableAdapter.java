@@ -37,20 +37,22 @@ public class StudyListMyExpandableAdapter extends BaseExpandableListAdapter {
     private ArrayList<StudyListMyItem> my_study_list_parent;
     private StudyListMyItemChildHolder my_study_list_child_holder = new StudyListMyItemChildHolder();
     private HashMap<StudyListMyItem, StudyListMyItemChild> my_list_child_map;
+    private ArrayList<JSONObject> keyword_list = new ArrayList<JSONObject>();
 
     ImageButton ib_head_icon;
     ImageButton ib_study_go;
 
-    ArrayList<JSONObject> keyword_list = new ArrayList<JSONObject>();
+
     String keyword_available = "";
     String date_available = "";
 
     //private Socket mSocket;
 
-    public StudyListMyExpandableAdapter(Context context, ArrayList<StudyListMyItem> my_study_list_parent, HashMap<StudyListMyItem, StudyListMyItemChild> my_list_child_map){
+    public StudyListMyExpandableAdapter(Context context, ArrayList<StudyListMyItem> my_study_list_parent, HashMap<StudyListMyItem, StudyListMyItemChild> my_list_child_map, ArrayList<JSONObject> keyword_list){
         this.context = context;
         this.my_study_list_parent = my_study_list_parent;
         this.my_list_child_map = my_list_child_map;
+        this.keyword_list = keyword_list;
     }
 
     @Override
@@ -111,10 +113,15 @@ public class StudyListMyExpandableAdapter extends BaseExpandableListAdapter {
                     Intent intent = new Intent(context, OtChatActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     intent.putExtra("room_id", room_id);
-                    //if(!keyword_available.equals("") && !date_available.equals("")) {
+                    Log.e("room_id", String.valueOf(room_id));
+                    Log.e("keyword_available",keyword_available);
+                    Log.e("date_available",date_available);
+                    if(!keyword_available.equals("") && !date_available.equals("")) {
                         intent.putExtra("keyword", keyword_available);
                         intent.putExtra("date", date_available);
-                    //}
+                        Log.e("keyword_available",keyword_available);
+                        Log.e("date_available",date_available);
+                    }
                     context.startActivity(intent);
                 }
             }
@@ -196,18 +203,20 @@ public class StudyListMyExpandableAdapter extends BaseExpandableListAdapter {
         return true;
     }
 
-    private void checkForKeywordFromServer(final int room_id){
+    public void checkForKeywordFromServer(final int room_id){
         final String URL = "http://52.78.157.250:3000/get_keyword?room_id="+room_id;
 
         JsonArrayRequest req = new JsonArrayRequest(URL, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
-                for(int i=0; i<response.length(); i++){
-                    Log.e("ㅋㅋㅋㅋㅋㅋㅋㅋ","ㅋㅋㅋㅋㅋㅋㅋㅋㅋ");
-                    keyword_list.add(response.optJSONObject(i));
-                    Log.e("나와라라아아아아아아",response.optJSONObject(i).toString());
+                try{
+                    for(int i=0; i<response.length(); i++){
+                        keyword_list.add(response.optJSONObject(i));
+                    }
+                    getKeyword();
+                }catch(Exception e){
+                    e.printStackTrace();
                 }
-                getKeyword();
             }
         }, new Response.ErrorListener() {
             @Override
@@ -218,9 +227,9 @@ public class StudyListMyExpandableAdapter extends BaseExpandableListAdapter {
         volley.getInstance().addToRequestQueue(req);
     }
 
-    private void getKeyword(){
+    public void getKeyword(){
         long min = 999999999;
-        for(int i=0 ;i<keyword_list.size(); i++) {
+        for(int i=0; i<keyword_list.size(); i++) {
             String keyword_from_server = keyword_list.get(i).optString("keyword");
             String date_from_server = keyword_list.get(i).optString("date");
 
@@ -240,16 +249,14 @@ public class StudyListMyExpandableAdapter extends BaseExpandableListAdapter {
             long keyword_date_in_millis = keyword_calendar.getTimeInMillis() / (24 * 60 * 60 * 1000);
 
             //오늘 날짜 이후의 키워드인지 판별
-            /*if(today_in_millis <= keyword_date_in_millis){
+            long temp = keyword_date_in_millis - today_in_millis;
+            if(temp < min){
+                min = temp;
                 keyword_available = keyword_from_server;
                 date_available = date_from_server;
-            }*/
-            long tmp = keyword_date_in_millis - today_in_millis;
-
-            if(tmp < min){
-                min = tmp;
-                date_available = date_from_server;
             }
+            Log.e("keyword_available1",keyword_available);
+            Log.e("date_available1",date_available);
         }
 
 

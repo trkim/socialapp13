@@ -192,10 +192,7 @@ public class StudyShowApplyActivity extends AppCompatActivity {
             if(member_name.equals(Member.getInstance().getName())){
                 btn_apply_go.setVisibility(View.INVISIBLE);
             }
-            Log.e("name", member_name);
-            Log.e("major", member_major);
-            Log.e("category", member_category);
-            Log.e("rating", member_rating);
+
             apply_member_list_adapter.addApplyMember(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_launcher), member_name, member_major,member_category,member_rating);
         }
 

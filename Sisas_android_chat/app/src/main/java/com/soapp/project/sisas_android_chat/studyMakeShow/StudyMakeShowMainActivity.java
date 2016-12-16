@@ -65,6 +65,7 @@ public class StudyMakeShowMainActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(StudyMakeShowMainActivity.this, MemberInfoActivity.class);
+                intent.putExtra("fragment", "make_show_main");
                 startActivity(intent);
                 overridePendingTransition(R.anim.leftin, R.anim.rightout);
                 finish();

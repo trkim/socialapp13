@@ -1,6 +1,8 @@
 package com.soapp.project.sisas_android_chat.studyInRoom;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,14 +48,25 @@ public class ScrapWithKeywordListAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.scrap_with_keyword_item, parent, false);
         }
 
-        TextView tv_scrap_url = (TextView)convertView.findViewById(R.id.tv_scrap_url);
+        TextView tv_scrap_title = (TextView)convertView.findViewById(R.id.tv_scrap_title);
         TextView tv_scrap_content = (TextView)convertView.findViewById(R.id.tv_scrap_content);
-        Button btn_scrap = (Button)convertView.findViewById(R.id.btn_scrap);
 
         ScrapWithKeywordItem scrap_item = scrap_keyword_item_list.get(position);
-
-        tv_scrap_url.setText(scrap_item.getTv_scrap_url());
+        tv_scrap_title.setText(scrap_item.getTv_scrap_title());
+        final String url = scrap_item.getScrap_url();
         tv_scrap_content.setText(scrap_item.getTv_scrap_content());
+
+        //제목을 클릭 시, 해당 링크 브라우저로 이동
+        tv_scrap_title.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(url));
+                context.startActivity(intent);
+            }
+        });
+
+        Button btn_scrap = (Button)convertView.findViewById(R.id.btn_scrap);
 
         return convertView;
     }
