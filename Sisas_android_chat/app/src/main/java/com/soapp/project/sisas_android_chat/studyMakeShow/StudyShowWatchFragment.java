@@ -45,6 +45,8 @@ public class StudyShowWatchFragment extends Fragment {
 
     ArrayList<JSONObject> study_list;
 
+    final int temp=1;
+
     public StudyShowWatchFragment(){}
 
     @Nullable
@@ -76,7 +78,7 @@ public class StudyShowWatchFragment extends Fragment {
             e.printStackTrace();
         }
 
-        adapter = new StudyListExpandableAdapter(getActivity(), study_list_parent_item, list_child_map);
+        adapter = new StudyListExpandableAdapter(getActivity(), study_list_parent_item, list_child_map, temp);
         adapter.notifyDataSetChanged();
         expandable_list_view.setAdapter(adapter);
 

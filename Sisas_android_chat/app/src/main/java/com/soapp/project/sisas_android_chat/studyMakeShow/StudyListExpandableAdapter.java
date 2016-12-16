@@ -2,8 +2,6 @@ package com.soapp.project.sisas_android_chat.studyMakeShow;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +10,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.soapp.project.sisas_android_chat.R;
+import com.soapp.project.sisas_android_chat.memberInfo.ScrapInRoomActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,14 +25,16 @@ public class StudyListExpandableAdapter extends BaseExpandableListAdapter {
     private ArrayList<StudyListItem> study_list_parent;
     private StudyListItemChildHolder study_list_child_holder = new StudyListItemChildHolder();
     private HashMap<StudyListItem, StudyListItemChild> list_child_map;
+    int temp=0;
 
     ImageButton ib_study_go;
 
-    public StudyListExpandableAdapter(Context context, ArrayList<StudyListItem> study_list_parent, HashMap<StudyListItem, StudyListItemChild> list_child_map){
+    public StudyListExpandableAdapter(Context context, ArrayList<StudyListItem> study_list_parent, HashMap<StudyListItem, StudyListItemChild> list_child_map, int temp){
         this.context = context;
         this.study_list_parent = study_list_parent;
         this.list_child_map = list_child_map;
         inflater = LayoutInflater.from(context);
+        this.temp = temp;
     }
 
     @Override
@@ -55,22 +56,32 @@ public class StudyListExpandableAdapter extends BaseExpandableListAdapter {
     public View getGroupView(final int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
 
         if(convertView == null){
-            //LayoutInflater group_inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            //convertView = group_inflater.inflate(R.layout.study_list_item, parent, false);
             convertView = inflater.inflate(R.layout.study_list_item, parent, false);
 
         }
 
         ib_study_go = (ImageButton)convertView.findViewById(R.id.ib_study_go);
-        ib_study_go.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, StudyShowApplyActivity.class);
-                int room_id = study_list_parent.get(groupPosition).getRoom_id();
-                intent.putExtra("room_id", room_id);
-                context.startActivity(intent);
-            }
-        });
+        if(temp==1) {
+            ib_study_go.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, StudyShowApplyActivity.class);
+                    int room_id = study_list_parent.get(groupPosition).getRoom_id();
+                    intent.putExtra("room_id", room_id);
+                    context.startActivity(intent);
+                }
+            });
+        } else if(temp==2){
+            ib_study_go.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, ScrapInRoomActivity.class);
+                    int room_id = study_list_parent.get(groupPosition).getRoom_id();
+                    intent.putExtra("room_id", room_id);
+                    context.startActivity(intent);
+                }
+            });
+        }
 
         TextView tv_room_category = (TextView) convertView.findViewById(R.id.tv_room_category);
         TextView tv_room_name = (TextView) convertView.findViewById(R.id.tv_room_name);

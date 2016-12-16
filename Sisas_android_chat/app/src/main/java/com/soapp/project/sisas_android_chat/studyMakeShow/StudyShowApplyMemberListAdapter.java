@@ -28,7 +28,7 @@ public class StudyShowApplyMemberListAdapter extends BaseAdapter{
     }
 
     @Override
-    public Object getItem(int position) {
+    public StudyShowApplyMemberListItem getItem(int position) {
         return apply_member_item_list.get(position);
     }
 

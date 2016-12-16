@@ -3,12 +3,7 @@ package com.soapp.project.sisas_android_chat.studyMakeShow;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.widget.TextView;
-
-import com.soapp.project.sisas_android_chat.R;
-import com.soapp.project.sisas_android_chat.studyInRoom.OtActivity;
 
 import java.util.Calendar;
 

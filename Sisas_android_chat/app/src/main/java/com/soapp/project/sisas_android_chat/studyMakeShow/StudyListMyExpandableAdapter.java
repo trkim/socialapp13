@@ -3,7 +3,6 @@ package com.soapp.project.sisas_android_chat.studyMakeShow;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,11 +11,21 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.soapp.project.sisas_android_chat.R;
-import com.soapp.project.sisas_android_chat.studyInRoom.OtActivity;
+import com.soapp.project.sisas_android_chat.studyInRoom.OtChatActivity;
+import com.soapp.project.sisas_android_chat.volley;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
+import java.util.TimeZone;
 
 /**
  * Created by eelhea on 2016-10-31.
@@ -30,6 +39,10 @@ public class StudyListMyExpandableAdapter extends BaseExpandableListAdapter {
 
     ImageButton ib_head_icon;
     ImageButton ib_study_go;
+
+    ArrayList<JSONObject> keyword_list = new ArrayList<JSONObject>();
+    String keyword_available = "";
+    String date_available = "";
 
     //private Socket mSocket;
 
@@ -88,20 +101,19 @@ public class StudyListMyExpandableAdapter extends BaseExpandableListAdapter {
                 int room_id = my_study_list_parent.get(groupPosition).getRoom_id();
                 String dday = my_study_list_parent.get(groupPosition).getStudy_dday();
 
-                //D-day가 ~ing이면 ot 채팅방으로 못 들어가게 함.
-                if(dday.equals("~ing")){
-                    Toast.makeText(context, "이미 진행중인 스터디입니다." , Toast.LENGTH_LONG).show();
-                }
-                //D-day가 D+ 이면 ot 채팅방으로 못 들어가게 함.
-                else if(dday.contains("D+")){
+                if(dday.contains("D+")){ //D-day가 D+ 이면 ot 채팅방으로 못 들어가게 함.
                     Toast.makeText(context, "이미 끝난 스터디입니다." , Toast.LENGTH_LONG).show();
-                }
-                //ot 채팅방으로 들어감
-                else{
-                    Intent intent = new Intent(context, OtActivity.class);
+                } else{ //ot 채팅방으로 들어감
+                    //등록된 키워드가 있는지 체크
+                    checkForKeywordFromServer(room_id);
+
+                    Intent intent = new Intent(context, OtChatActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     intent.putExtra("room_id", room_id);
-                    Log.e("adapter room_id", String.valueOf(room_id));
+                    if(!keyword_available.equals("") && !date_available.equals("")) {
+                        intent.putExtra("keyword", keyword_available);
+                        intent.putExtra("date", date_available);
+                    }
                     context.startActivity(intent);
                 }
             }
@@ -183,4 +195,51 @@ public class StudyListMyExpandableAdapter extends BaseExpandableListAdapter {
         return true;
     }
 
+    private void checkForKeywordFromServer(final int room_id){
+        final String URL = "http://52.78.157.250:3000/get_keyword?room_id="+room_id;
+
+        JsonArrayRequest req = new JsonArrayRequest(URL, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                for(int i=0; i<response.length(); i++){
+                    keyword_list.add(response.optJSONObject(i));
+                }
+                getKeyword();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                VolleyLog.d("development", "Error: " + volleyError.getMessage());
+            }
+        });
+        volley.getInstance().addToRequestQueue(req);
+    }
+
+    private void getKeyword(){
+        for(int i=0 ;i<keyword_list.size(); i++) {
+            String keyword_from_server = keyword_list.get(i).optString("keyword");
+            String date_from_server = keyword_list.get(i).optString("date");
+
+            //오늘 날짜
+            TimeZone time_zone = TimeZone.getTimeZone("Asia/Seoul");
+            Calendar today_calendar = Calendar.getInstance(time_zone);
+            today_calendar.set(today_calendar.get(Calendar.YEAR), today_calendar.get(Calendar.MONTH) + 1, today_calendar.get(Calendar.DAY_OF_MONTH));
+            long today_in_millis = today_calendar.getTimeInMillis() / (24 * 60 * 60 * 1000);
+
+            //키워드 날짜
+            Calendar keyword_calendar = Calendar.getInstance(time_zone);
+            String[] keyword_date_split = date_from_server.split("-");
+            int keyword_date_year = Integer.parseInt(keyword_date_split[0]);
+            int keyword_date_month = Integer.parseInt(keyword_date_split[1]);
+            int keyword_date_day = Integer.parseInt(keyword_date_split[2]);
+            keyword_calendar.set(keyword_date_year, keyword_date_month, keyword_date_day);
+            long keyword_date_in_millis = keyword_calendar.getTimeInMillis() / (24 * 60 * 60 * 1000);
+
+            //오늘 날짜 이후의 키워드인지 판별
+            if(today_in_millis <= keyword_date_in_millis){
+                keyword_available = keyword_from_server;
+                date_available = date_from_server;
+            }
+        }
+    }
 }

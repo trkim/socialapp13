@@ -73,7 +73,13 @@ public class MemberInfoActivity extends AppCompatActivity {
         timelineFragment = new TimelineFragment();
         scrapboxFragment = new ScrapboxFragment();
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, myProfileFragment).commit();
+        Intent intent = getIntent();
+        String frag = intent.getExtras().getString("fragment");
+        if(frag.equals("scrapbox")){
+            getSupportFragmentManager().beginTransaction().replace(R.id.container, scrapboxFragment).commit();
+        } else{
+            getSupportFragmentManager().beginTransaction().replace(R.id.container, myProfileFragment).commit();
+        }
 
         TabLayout tabs = (TabLayout)findViewById(R.id.tabs);
         tabs.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {

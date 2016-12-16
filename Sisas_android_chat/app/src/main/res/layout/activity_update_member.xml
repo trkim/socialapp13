@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    android:id="@+id/join_layout">
+    android:id="@+id/update_layout">
 
     <android.support.v7.widget.Toolbar
         android:layout_height="?attr/actionBarSize"
@@ -292,8 +292,8 @@
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/btn_member_go"
-                    android:id="@+id/btn_join_go"
+                    android:text="@string/btn_profile_update"
+                    android:id="@+id/btn_update_go"
                     android:background="@color/colorAccent"
                     android:textColor="@android:color/white"
                     android:textStyle="bold"

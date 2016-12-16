@@ -35,7 +35,7 @@
     <string name="tv_profile_coupon">보유한 관전쿠폰</string>
     <string name="tv_profile_coupon_num">개</string>
     <string name="tv_study_alert">스터디 시작 알림</string>
-    <string name="btn_profile_update">내 정보수정</string>
+    <string name="btn_profile_update">수정하기</string>
     <string name="btn_logout">로그아웃</string>
     <string name="btn_leave">탈퇴</string>
     <!--스터디-->

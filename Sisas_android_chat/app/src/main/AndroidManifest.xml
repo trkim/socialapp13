@@ -20,14 +20,19 @@
             </intent-filter>
         </activity>
         <activity android:name=".member.JoinActivity"/>
+
         <activity android:name=".memberInfo.MemberInfoActivity"/>
         <activity android:name=".memberInfo.MemberUpdateActivity"/>
-        <activity android:name=".studyMakeShow.StudyMakeShowMainActivity"/>
+        <activity android:name=".memberInfo.ScrapInRoomActivity"/>
+
+        <activity android:name=".studyInRoom.OtChatActivity" android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".studyInRoom.ScrapWithKeywordActivity"/>
+
         <activity android:name=".studyMakeShow.StudyMakeCreateActivity"/>
+        <activity android:name=".studyMakeShow.StudyMakeShowMainActivity"/>
         <activity android:name=".studyMakeShow.StudyMakeUpdateDeleteActivity"/>
         <activity android:name=".studyMakeShow.StudyShowActivity"/>
         <activity android:name=".studyMakeShow.StudyShowApplyActivity"/>
-        <activity android:name=".studyInRoom.OtActivity"/>
     </application>
 
 </manifest>

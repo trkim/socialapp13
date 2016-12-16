@@ -5,8 +5,9 @@
     <color name="colorAccent">#1f9e8e</color>
     <color name="background">#f4f2f5</color>
     <color name="colorwhite">#ffffff</color>
-    <color name="colorGray">#e5eceb</color>
+    <color name="colorGray">#E8E6EA</color>
     <color name="colorOrange">#EB9844</color>
+    <color name="colorDisableButton">#C1C9C8</color>
 
 
     <color name="username0">#e21400</color>

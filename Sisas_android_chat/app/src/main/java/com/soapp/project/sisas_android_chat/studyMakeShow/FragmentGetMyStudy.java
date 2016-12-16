@@ -75,6 +75,7 @@ public class FragmentGetMyStudy extends Fragment{
     }
 
     public void getMyStudy(){
+        int count = 0;
         for(int i=0 ;i<study_list.size(); i++) {
             int room_id = study_list.get(i).optInt("room_id");
             String king_name = study_list.get(i).optString("king_name");
@@ -134,9 +135,10 @@ public class FragmentGetMyStudy extends Fragment{
             String date = start_date + " ~ " + end_date;
             String comment = study_list.get(i).optString("comment");
             String keyword = "아직";
-            addMyStudy(room_id, head_icon, category, room_name, capacity, dday_result);
-            addMyStudyChild(room_name, date, comment, keyword);
-            my_list_child_map.put(my_study_list_parent_item.get(i), my_study_list_child_item.get(i));
+            if(!dday_result.startsWith("D+")) {
+                add(count, room_id, head_icon, category, room_name, capacity, dday_result, date, comment, keyword);
+                count++;
+            }
         }
 
         // 앞서 정의해 놓은 ExpandableListView와 그 CustomAdapter를 선언 및 연결한 후
@@ -156,6 +158,12 @@ public class FragmentGetMyStudy extends Fragment{
                 }
             }
         });
+    }
+
+    private void add(int i, int room_id, int icon, String category, String room_name, int capacity, String dday_result, String date, String comment, String keyword){
+        addMyStudy(room_id, icon, category, room_name, capacity, dday_result);
+        addMyStudyChild(room_name, date, comment, keyword);
+        my_list_child_map.put(my_study_list_parent_item.get(i), my_study_list_child_item.get(i));
     }
 
     public void addMyStudy(int room_id, int icon, String category, String room_name, int capacity, String dday){

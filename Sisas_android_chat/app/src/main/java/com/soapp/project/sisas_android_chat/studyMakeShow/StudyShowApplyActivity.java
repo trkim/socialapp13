@@ -50,7 +50,6 @@ public class StudyShowApplyActivity extends AppCompatActivity {
     public ListView list_view;
     ArrayList<JSONObject> member_list = new ArrayList<JSONObject>();
 
-
     int room_id;
     TextView tv_study_name;
     TextView tv_study_category;
@@ -60,7 +59,6 @@ public class StudyShowApplyActivity extends AppCompatActivity {
     TextView tv_study_comment;
 
     Button btn_apply_go;
-    boolean i_am_in_study = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -79,7 +77,7 @@ public class StudyShowApplyActivity extends AppCompatActivity {
         icBackIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(StudyShowApplyActivity.this, StudyShowApplyActivity.class);
+                Intent intent = new Intent(StudyShowApplyActivity.this, StudyShowActivity.class);
                 startActivity(intent);
                 finish();
             }
@@ -113,13 +111,7 @@ public class StudyShowApplyActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        if(i_am_in_study){
-            btn_apply_go.setBackgroundColor(Color.parseColor("#c8d2d1"));
-            btn_apply_go.setEnabled(false);
-            btn_apply_go.setClickable(false);
-            btn_apply_go.setText("참여신청한 스터디 입니다.");
-        } else {
-            btn_apply_go.setOnClickListener(new View.OnClickListener() {
+        btn_apply_go.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     try {
@@ -129,7 +121,6 @@ public class StudyShowApplyActivity extends AppCompatActivity {
                     }
                 }
             });
-        }
     }
 
     private void getStudyDetailFromServer(final int room_id, final String email) throws Exception{
@@ -171,7 +162,6 @@ public class StudyShowApplyActivity extends AppCompatActivity {
     }
 
     private void getMemberDetailFromServer(final int room_id) throws Exception{
-        Log.e("getMemberDetail", "FromServer");
         final String URL = "http://52.78.157.250:3000/get_study_member?room_id="+ URLEncoder.encode(String.valueOf(room_id), "UTF-8");
 
         JsonArrayRequest req = new JsonArrayRequest(URL, new Response.Listener<JSONArray>() {
@@ -200,7 +190,7 @@ public class StudyShowApplyActivity extends AppCompatActivity {
             String member_rating = member_list.get(i).optString("rating");
 
             if(member_name.equals(Member.getInstance().getName())){
-                i_am_in_study = true;
+                btn_apply_go.setVisibility(View.INVISIBLE);
             }
             Log.e("name", member_name);
             Log.e("major", member_major);
@@ -208,7 +198,6 @@ public class StudyShowApplyActivity extends AppCompatActivity {
             Log.e("rating", member_rating);
             apply_member_list_adapter.addApplyMember(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_launcher), member_name, member_major,member_category,member_rating);
         }
-
 
         list_view.setAdapter(apply_member_list_adapter);
     }

@@ -1,6 +1,7 @@
 package com.soapp.project.sisas_android_chat.studyInRoom;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -14,8 +15,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+
+import com.github.nkzawa.emitter.Emitter;
+import com.github.nkzawa.socketio.client.IO;
+import com.github.nkzawa.socketio.client.Socket;
+import com.soapp.project.sisas_android_chat.Member;
+import com.soapp.project.sisas_android_chat.R;
+import com.soapp.project.sisas_android_chat.memberInfo.ScrapInRoomActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,18 +37,11 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.github.nkzawa.emitter.Emitter;
-import com.github.nkzawa.socketio.client.IO;
-import com.github.nkzawa.socketio.client.Socket;
-import com.soapp.project.sisas_android_chat.Member;
-import com.soapp.project.sisas_android_chat.R;
-
 /**
- * Created by eelhea on 2016-11-28.
+ * Created by eelhea on 2016-12-14.
  */
 
-
-public class OtChatFragment extends Fragment {
+public class MainChatFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -50,13 +52,15 @@ public class OtChatFragment extends Fragment {
     private String mParam2;
     private EditText mInputMessageView;
     private RecyclerView mMessagesView;
-    private OnFragmentInteractionListener mListener;
-    private List<OtChatMsgs> mMessages = new ArrayList<OtChatMsgs>();
+    private MainChatFragment.OnFragmentInteractionListener mListener;
+    private List<MainChatMsgs> mMessages = new ArrayList<MainChatMsgs>();
     private RecyclerView.Adapter mAdapter;
 
 
 
     int room_id;
+    String keyword;
+    String date;
 
     private Socket socket;
     {
@@ -74,17 +78,18 @@ public class OtChatFragment extends Fragment {
      * @return A new instance of fragment ChatFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static OtChatFragment newInstance(String room_id) {
-        OtChatFragment fragment = new OtChatFragment();
+    public static MainChatFragment newInstance(int room_id, String keyword, String date) {
+        MainChatFragment fragment = new MainChatFragment();
         Bundle args = new Bundle();
-        args.putString("room_id", room_id);
-        Log.e("frag instance room_id", String.valueOf(room_id));
+        args.putString("room_id", String.valueOf(room_id));
+        args.putString("keyword", keyword);
+        args.putString("date", date);
 
         fragment.setArguments(args);
         return fragment;
     }
 
-    public OtChatFragment() {
+    public MainChatFragment() {
         // Required empty public constructor
     }
 
@@ -97,7 +102,8 @@ public class OtChatFragment extends Fragment {
         Bundle bundle_arg = getArguments();
         if(bundle_arg != null) {
             room_id = Integer.parseInt(bundle_arg.getString("room_id"));
-            Log.e("frag oncreate room_id", String.valueOf(room_id));
+            keyword = bundle_arg.getString("keyword");
+            date = bundle_arg.getString("date");
         }
 
         /*socket.emit("login", username);
@@ -138,7 +144,7 @@ public class OtChatFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        mAdapter = new OtChatMsgsAdapter(mMessages);
+        mAdapter = new MainChatMsgsAdapter(mMessages);
         /*try {
             mListener = (OnFragmentInteractionListener) activity;
         } catch (ClassCastException e) {
@@ -156,9 +162,10 @@ public class OtChatFragment extends Fragment {
         mMessagesView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mMessagesView.setAdapter(mAdapter);
 
-        ImageButton sendButton = (ImageButton) view.findViewById(R.id.send_button);
+        Button sendButton = (Button) view.findViewById(R.id.send_button);
         mInputMessageView = (EditText) view.findViewById(R.id.message_input);
 
+        // 전송 버튼 클릭 시
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -166,7 +173,19 @@ public class OtChatFragment extends Fragment {
             }
         });
 
-
+        // 기사 가져오기 버튼 클릭 시
+        Button btn_get_article = (Button)view.findViewById(R.id.btn_get_article);
+        btn_get_article.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //해당 방에 저장해둔 해당 날짜의 해당 키워드를 스크랩 할 수 있도록 키워드 박스 페이지로 이동
+                Intent intent = new Intent(getActivity(), ScrapInRoomActivity.class);
+                intent.putExtra("room_id", room_id);
+                intent.putExtra("keyword", keyword);
+                intent.putExtra("date", date);
+                getActivity().startActivity(intent);
+            }
+        });
     }
 
     private void sendMessage(){
@@ -204,18 +223,18 @@ public class OtChatFragment extends Fragment {
 
     private void addMessage(String message) {
 
-        mMessages.add(new OtChatMsgs.Builder(OtChatMsgs.TYPE_MESSAGE)
+        mMessages.add(new MainChatMsgs.Builder(MainChatMsgs.TYPE_MESSAGE)
                 .message(message).build());
         // mAdapter = new MessageAdapter(mMessages);
-        mAdapter = new OtChatMsgsAdapter( mMessages);
+        mAdapter = new MainChatMsgsAdapter( mMessages);
         mAdapter.notifyItemInserted(0);
         scrollToBottom();
     }
 
     private void addImage(Bitmap bmp){
-        mMessages.add(new OtChatMsgs.Builder(OtChatMsgs.TYPE_MESSAGE)
+        mMessages.add(new MainChatMsgs.Builder(MainChatMsgs.TYPE_MESSAGE)
                 .image(bmp).build());
-        mAdapter = new OtChatMsgsAdapter( mMessages);
+        mAdapter = new MainChatMsgsAdapter( mMessages);
         mAdapter.notifyItemInserted(0);
         scrollToBottom();
     }
