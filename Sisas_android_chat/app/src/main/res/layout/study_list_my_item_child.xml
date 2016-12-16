@@ -3,48 +3,112 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
-        android:orientation="vertical"
+    <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="55dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginRight="55dp">
+        android:paddingLeft="80dp">
 
-        <TextView
+        <TableRow
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/tv_slide_room_name"
-            android:hint="방이름"
+            android:layout_height="match_parent"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp">
+
+            <TextView
+                android:text="방이름 : "
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="5dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_slide_room_name"
+                android:hint="방이름"
+                android:paddingBottom="5dp"
+                android:maxLines="2"
+                android:ellipsize="none"
+                android:scrollHorizontally="false"
+                android:singleLine="false"
+                android:layout_weight="1" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:paddingBottom="5dp"
-            android:maxLines="2"
-            android:ellipsize="none"
-            android:scrollHorizontally="false"
-            android:singleLine="false" />
+            android:paddingTop="5dp">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/tv_slide_room_date"
-            android:hint="YYYY-MM-DD~YYYY-MM-DD"
-            android:paddingBottom="5dp" />
+            <TextView
+                android:text="날짜 : "
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="5dp"
+                android:textStyle="bold" />
 
-        <TextView
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_slide_room_date"
+                android:hint="YYYY-MM-DD~YYYY-MM-DD"
+                android:paddingBottom="5dp" />
+
+        </TableRow>
+
+        <TableRow
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/tv_slide_room_comment"
-            android:hint="스터디 설명"
+            android:layout_height="match_parent"
+            android:paddingTop="5dp">
+
+            <TextView
+                android:text="스터디 설명 : "
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_span="2"
+                android:paddingBottom="3dp"
+                android:textStyle="bold" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_slide_room_comment"
+                android:hint="스터디 설명"
+                android:paddingBottom="5dp"
+                android:inputType="textMultiLine"
+                android:maxLines="3"
+                android:layout_span="2" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:paddingBottom="5dp"
-            android:inputType="textMultiLine"
-            android:maxLines="3" />
+            android:paddingTop="5dp">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/tv_slide_room_keyword"
-            android:hint="키워드"
-            android:paddingBottom="5dp" />
-    </LinearLayout>
+            <TextView
+                android:text="키워드 : "
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="5dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_slide_room_keyword"
+                android:hint="키워드"
+                android:paddingBottom="5dp" />
+
+        </TableRow>
+
+    </TableLayout>
 
 </LinearLayout>

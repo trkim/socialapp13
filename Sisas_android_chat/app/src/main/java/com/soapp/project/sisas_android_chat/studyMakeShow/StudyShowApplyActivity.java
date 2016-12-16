@@ -1,16 +1,20 @@
 package com.soapp.project.sisas_android_chat.studyMakeShow;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,10 +43,12 @@ import java.util.Map;
  */
 public class StudyShowApplyActivity extends AppCompatActivity {
 
+    Toolbar toolbar;
+    ImageButton icBackIcon;
+
     public StudyShowApplyMemberListAdapter apply_member_list_adapter;
     public ListView list_view;
     ArrayList<JSONObject> member_list = new ArrayList<JSONObject>();
-
 
     int room_id;
     TextView tv_study_name;
@@ -58,6 +64,24 @@ public class StudyShowApplyActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.study_show_apply);
+
+        toolbar = (Toolbar)findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        Typeface typeface = Typeface.createFromAsset(getAssets(), "210_appgullimB.ttf");
+        TextView textView = (TextView) findViewById(R.id.title);
+        textView.setTypeface(typeface);
+
+        icBackIcon = (ImageButton)findViewById(R.id.icBackIcon);
+        icBackIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(StudyShowApplyActivity.this, StudyShowActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
         Intent intent = getIntent();
         room_id = intent.getExtras().getInt("room_id");
@@ -88,16 +112,15 @@ public class StudyShowApplyActivity extends AppCompatActivity {
         }
 
         btn_apply_go.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    joinRoomToServer(room_id);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                @Override
+                public void onClick(View v) {
+                    try {
+                        joinRoomToServer(room_id);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
-        });
-
+            });
     }
 
     private void getStudyDetailFromServer(final int room_id, final String email) throws Exception{
@@ -139,7 +162,6 @@ public class StudyShowApplyActivity extends AppCompatActivity {
     }
 
     private void getMemberDetailFromServer(final int room_id) throws Exception{
-        Log.e("getMemberDetail", "FromServer");
         final String URL = "http://52.78.157.250:3000/get_study_member?room_id="+ URLEncoder.encode(String.valueOf(room_id), "UTF-8");
 
         JsonArrayRequest req = new JsonArrayRequest(URL, new Response.Listener<JSONArray>() {
@@ -166,13 +188,16 @@ public class StudyShowApplyActivity extends AppCompatActivity {
             String member_major = member_list.get(i).optString("major");
             String member_category = member_list.get(i).optString("category");
             String member_rating = member_list.get(i).optString("rating");
+
+            if(member_name.equals(Member.getInstance().getName())){
+                btn_apply_go.setVisibility(View.INVISIBLE);
+            }
             Log.e("name", member_name);
             Log.e("major", member_major);
             Log.e("category", member_category);
             Log.e("rating", member_rating);
             apply_member_list_adapter.addApplyMember(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_launcher), member_name, member_major,member_category,member_rating);
         }
-
 
         list_view.setAdapter(apply_member_list_adapter);
     }
@@ -200,6 +225,7 @@ public class StudyShowApplyActivity extends AppCompatActivity {
 
                                     Intent new_intent = new Intent(getApplicationContext(), StudyShowApplyActivity.class);
                                     startActivity(new_intent);
+                                    finish();
                                 }
                             }
                         }catch(Exception e){
@@ -219,5 +245,6 @@ public class StudyShowApplyActivity extends AppCompatActivity {
     public void onBackPressed() {
         Intent intent = new Intent(getApplicationContext(), StudyShowActivity.class);
         startActivity(intent);
+        finish();
     }
 }

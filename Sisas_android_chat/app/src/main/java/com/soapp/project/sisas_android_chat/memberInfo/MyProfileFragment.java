@@ -66,7 +66,7 @@ public class MyProfileFragment extends Fragment {
         profile_email.setText(Member.getInstance().getEmail());
         profile_grade.setText(Member.getInstance().getRating());
         profile_major.setText(Member.getInstance().getMajor());
-        profile_interest.setText(Member.getInstance().getCategory());
+        profile_interest.setText(Member.getInstance().getCategory().substring(1));
         profile_coupon_num.setText(String.valueOf(Member.getInstance().getCoupon()));
 
         btn_profile_update = (Button)view.findViewById(R.id.btn_profile_update);

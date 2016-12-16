@@ -3,16 +3,20 @@ package com.soapp.project.sisas_android_chat.studyMakeShow;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -38,6 +42,9 @@ import java.util.concurrent.ExecutionException;
  */
 public class StudyMakeUpdateDeleteActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
 
+    Toolbar toolbar;
+    ImageButton icBackIcon;
+
     int room_id;
     EditText et_study_name;
     EditText et_study_capacity;
@@ -60,7 +67,22 @@ public class StudyMakeUpdateDeleteActivity extends AppCompatActivity implements 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.study_make_update_delete);
-        setCustomActionBar();
+
+        toolbar = (Toolbar)findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        Typeface typeface = Typeface.createFromAsset(getAssets(), "210_appgullimB.ttf");
+        TextView textView = (TextView) findViewById(R.id.title);
+        textView.setTypeface(typeface);
+
+        icBackIcon = (ImageButton)findViewById(R.id.icBackIcon);
+        icBackIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cancelStudyUpdateDeleteDialog();
+            }
+        });
 
         Intent intent = getIntent();
         room_id = intent.getExtras().getInt("room_id");
@@ -102,10 +124,12 @@ public class StudyMakeUpdateDeleteActivity extends AppCompatActivity implements 
             @Override
             public void onClick(View v) {
                 try{
+                    Log.e("btn_study_update_go","btn_study_update_go");
                     selected_radio_button = rg_study_category.getCheckedRadioButtonId();
                     rb_selected_radio_button = (RadioButton)findViewById(selected_radio_button);
 
-                    updateStudyDetailToServer(room_id, Member.getInstance().getEmail(),
+                    updateStudyDetailToServer(room_id,
+                            Member.getInstance().getEmail(),
                             Member.getInstance().getName(),
                             et_study_name.getText().toString(),
                             et_study_capacity.getText().toString(),
@@ -293,14 +317,28 @@ public class StudyMakeUpdateDeleteActivity extends AppCompatActivity implements 
         volley.getInstance().addToRequestQueue(req);
     }
 
-    private void setCustomActionBar(){
-        ActionBar action_bar = getSupportActionBar();
+    public void cancelStudyUpdateDeleteDialog(){
+        LayoutInflater current_layout = LayoutInflater.from(StudyMakeUpdateDeleteActivity.this);
+        View dialog_view = current_layout.inflate(R.layout.study_up_del_cancel_dialog, null);
+        final AlertDialog.Builder alert_dialog_builder = new AlertDialog.Builder(StudyMakeUpdateDeleteActivity.this);
+        alert_dialog_builder.setView(dialog_view);
 
-        action_bar.setDisplayShowCustomEnabled(true);
-        action_bar.setDisplayShowTitleEnabled(false);
-        action_bar.setDisplayHomeAsUpEnabled(false);
+        alert_dialog_builder.setCancelable(false).setPositiveButton("예", new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent(StudyMakeUpdateDeleteActivity.this, StudyMakeShowMainActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.rightin, R.anim.leftout);
+                finish();
+            }
+        }).setNegativeButton("아니오", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
 
-        View custom_view = LayoutInflater.from(this).inflate(R.layout.action_bar,null);
-        action_bar.setCustomView(custom_view);
+        AlertDialog alert = alert_dialog_builder.create();
+        alert.show();
     }
 }

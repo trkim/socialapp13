@@ -1,35 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingLeft="20dp"
-    android:paddingRight="20dp"
-    android:paddingTop="20dp">
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.Toolbar
+        android:layout_height="?attr/actionBarSize"
+        android:layout_width="match_parent"
+        android:id="@+id/toolbar"
+        android:elevation="0dp"
+        android:background="@color/colorPrimaryDark">
+
+        <ImageButton
+            android:id= "@+id/icBackIcon"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:background="@drawable/ic_back" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/btn_app_name"
+            style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+            android:id="@+id/title"
+            android:textColor="@color/colorwhite"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:textStyle="bold"
+            android:textSize="30sp" />
+
+    </android.support.v7.widget.Toolbar>
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
+        <TableLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/tv_study_name"
-            android:singleLine="false"
-            android:textStyle="bold" />
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="10dp">
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="10dp">
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical">
 
-            <LinearLayout
-                android:orientation="horizontal"
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_study_name"
+                    android:singleLine="false"
+                    android:textStyle="bold"
+                    android:layout_span="4"
+                    android:layout_weight="1"
+                    android:paddingBottom="20dp"
+                    android:paddingTop="20dp"
+                    android:gravity="center"
+                    android:textSize="18sp" />
+            </TableRow>
+
+            <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:paddingRight="5dp">
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -37,23 +73,15 @@
                     android:text="@string/tv_study_category"
                     android:gravity="center_vertical"
                     android:textStyle="bold"
-                    android:layout_weight="1" />
+                    android:textColor="@color/colorGray" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/tv_study_category"
                     android:layout_weight="1"
-                    android:gravity="center_vertical" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:paddingLeft="5dp">
+                    android:gravity="center_vertical"
+                    android:paddingLeft="15dp" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -61,92 +89,117 @@
                     android:text="@string/tv_study_capacity"
                     android:gravity="center_vertical"
                     android:textStyle="bold"
-                    android:layout_weight="1" />
+                    android:textColor="@color/colorGray" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/tv_study_capacity"
                     android:layout_weight="1"
-                    android:gravity="center_vertical" />
+                    android:gravity="center_vertical"
+                    android:paddingLeft="15dp" />
+            </TableRow>
 
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="10dp">
-
-            <TextView
+            <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="@string/tv_study_start_date"
-                android:layout_weight="3"
-                android:textStyle="bold" />
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp">
 
-            <TextView
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/tv_study_start_date"
+                    android:textStyle="bold"
+                    android:layout_span="2"
+                    android:textColor="@color/colorGray" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/tv_study_start_date"
+                    android:layout_span="2"
+                    android:layout_weight="1"
+                    android:paddingLeft="15dp" />
+            </TableRow>
+
+            <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/tv_study_start_date"
-                android:layout_weight="1" />
-        </LinearLayout>
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp">
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="10dp" >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/tv_study_end_date"
+                    android:textStyle="bold"
+                    android:layout_span="2"
+                    android:textColor="@color/colorGray" />
 
-            <TextView
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/tv_study_end_date"
+                    android:layout_span="2"
+                    android:layout_weight="1"
+                    android:paddingLeft="15dp" />
+            </TableRow>
+
+            <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="@string/tv_study_end_date"
-                android:layout_weight="3"
-                android:textStyle="bold" />
+                android:paddingBottom="3dp"
+                android:paddingTop="3dp">
 
-            <TextView
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/tv_study_comment"
+                    android:textStyle="bold"
+                    android:layout_span="4"
+                    android:layout_weight="1"
+                    android:textColor="@color/colorGray" />
+
+            </TableRow>
+
+            <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/tv_study_end_date"
-                android:layout_weight="1" />
-        </LinearLayout>
+                android:paddingBottom="3dp"
+                android:paddingTop="3dp">
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="10dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/tv_study_comment"
+                    android:maxLines="10"
+                    android:minLines="2"
+                    android:inputType="textMultiLine"
+                    android:layout_span="4"
+                    android:layout_weight="1"
+                    android:paddingLeft="15dp" />
+            </TableRow>
+        </TableLayout>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="@string/tv_study_comment"
-                android:layout_weight="3"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/tv_study_comment"
-                android:layout_weight="1"
-                android:maxLines="10"
-                android:minLines="2"
-                android:inputType="textMultiLine" />
-        </LinearLayout>
     </LinearLayout>
 
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/apply_member_list_view" />
+        android:id="@+id/apply_member_list_view"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="참여하기"
-        android:id="@+id/btn_apply_go" />
+        android:id="@+id/btn_apply_go"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:textColor="@color/colorwhite"
+        android:textStyle="bold"
+        android:background="@color/colorAccent" />
 
 </LinearLayout>

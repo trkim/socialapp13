@@ -1,16 +1,23 @@
 package com.soapp.project.sisas_android_chat.studyMakeShow;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -37,6 +44,11 @@ import java.util.TimeZone;
  */
 public class StudyMakeCreateActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
 
+    Toolbar toolbar;
+    ImageButton icBackIcon;
+
+    LinearLayout create_layout;
+
     EditText et_study_name;
     EditText et_study_capacity;
     RadioGroup rg_category_group;
@@ -51,7 +63,22 @@ public class StudyMakeCreateActivity extends AppCompatActivity implements DatePi
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.study_make_create);
-        setCustomActionBar();
+
+        toolbar = (Toolbar)findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        Typeface typeface = Typeface.createFromAsset(getAssets(), "210_appgullimB.ttf");
+        TextView textView = (TextView) findViewById(R.id.title);
+        textView.setTypeface(typeface);
+
+        icBackIcon = (ImageButton)findViewById(R.id.icBackIcon);
+        icBackIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cancelStudyDialog();
+            }
+        });
 
         et_study_name = (EditText)findViewById(R.id.et_study_name);
         et_study_capacity = (EditText)findViewById(R.id.et_study_capacity);
@@ -93,7 +120,47 @@ public class StudyMakeCreateActivity extends AppCompatActivity implements DatePi
                         et_study_comment.getText().toString());
             }
         });
+
+        create_layout = (LinearLayout) findViewById(R.id.create_layout);
+        create_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(et_study_name.getWindowToken(), 0);
+                imm.hideSoftInputFromWindow(et_study_capacity.getWindowToken(), 0);
+                imm.hideSoftInputFromWindow(rg_category_group.getWindowToken(), 0);
+                imm.hideSoftInputFromWindow(tv_study_start_date_picked.getWindowToken(), 0);
+                imm.hideSoftInputFromWindow(tv_study_end_date_picked.getWindowToken(), 0);
+                imm.hideSoftInputFromWindow(et_study_comment.getWindowToken(), 0);
+            }
+        });
     }
+
+    public void cancelStudyDialog(){
+        LayoutInflater current_layout = LayoutInflater.from(StudyMakeCreateActivity.this);
+        View dialog_view = current_layout.inflate(R.layout.study_make_cancel_dialog, null);
+        final AlertDialog.Builder alert_dialog_builder = new AlertDialog.Builder(StudyMakeCreateActivity.this);
+        alert_dialog_builder.setView(dialog_view);
+
+        alert_dialog_builder.setCancelable(false).setPositiveButton("예", new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent(StudyMakeCreateActivity.this, StudyMakeShowMainActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.rightin, R.anim.leftout);
+                finish();
+            }
+        }).setNegativeButton("아니오", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        AlertDialog alert = alert_dialog_builder.create();
+        alert.show();
+    }
+
     @Override
     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
         TimeZone time_zone = TimeZone.getTimeZone("Asia/Seoul");
@@ -104,11 +171,11 @@ public class StudyMakeCreateActivity extends AppCompatActivity implements DatePi
         int start_year_picked=today_calendar.get(Calendar.YEAR);
         int start_month_picked=today_calendar.get(Calendar.MONTH) + 1;
         int start_day_picked=today_calendar.get(Calendar.DAY_OF_MONTH);
-        long start =today;
+        long start=today;
         int end_year_picked=3000;
         int end_month_picked=13;
         int end_day_picked=32;
-        long end =today*2;
+        long end=today*2;
 
         if(!tv_study_start_date_picked.getText().toString().equals("")){
             Calendar start_picked = Calendar.getInstance(time_zone);
@@ -131,14 +198,13 @@ public class StudyMakeCreateActivity extends AppCompatActivity implements DatePi
             end = end_picked.getTimeInMillis() / (24 * 60 * 60 * 1000);
         }
 
-        if(view.getTag().equals("start_date_dialog")) {
+        if(view.getTag().equals("start_date_dialog") && view.isShown()) {
             Calendar start_picked = Calendar.getInstance(time_zone);
             start_year_picked = year;
             start_month_picked = monthOfYear + 1;
             start_day_picked = dayOfMonth;
             start_picked.set(start_year_picked, start_month_picked, start_day_picked);
             start = start_picked.getTimeInMillis() / (24 * 60 * 60 * 1000);
-            //today_start = (int)(today - start);
         } else if(view.getTag().equals("end_date_dialog")){
             Calendar end_picked = Calendar.getInstance(time_zone);
             end_year_picked = year;
@@ -205,16 +271,5 @@ public class StudyMakeCreateActivity extends AppCompatActivity implements DatePi
             }
         });
         volley.getInstance().addToRequestQueue(req);
-    }
-
-    private void setCustomActionBar(){
-        ActionBar action_bar = getSupportActionBar();
-
-        action_bar.setDisplayShowCustomEnabled(true);
-        action_bar.setDisplayShowTitleEnabled(false);
-        action_bar.setDisplayHomeAsUpEnabled(false);
-
-        View custom_view = LayoutInflater.from(this).inflate(R.layout.action_bar,null);
-        action_bar.setCustomView(custom_view);
     }
 }

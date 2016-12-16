@@ -1,35 +1,22 @@
 package com.soapp.project.sisas_android_chat.studyInRoom;
 
 import android.app.Activity;
-import android.app.DatePickerDialog;
-import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.util.Base64;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.TextView;
-import android.widget.Toast;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -39,24 +26,13 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.TimeZone;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
 import com.soapp.project.sisas_android_chat.Member;
 import com.soapp.project.sisas_android_chat.R;
-import com.soapp.project.sisas_android_chat.studyMakeShow.StudyShowActivity;
-import com.soapp.project.sisas_android_chat.volley;
 
 /**
  * Created by eelhea on 2016-11-28.
@@ -149,7 +125,7 @@ public class OtChatFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.study_in_room_ot_frag, container, false);
+        return inflater.inflate(R.layout.study_in_room_ot_chat_frag, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

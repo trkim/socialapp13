@@ -3,10 +3,12 @@ package com.soapp.project.sisas_android_chat.member;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Patterns;
@@ -17,6 +19,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,6 +42,10 @@ import java.util.Map;
  * Created by eelhea on 2016-10-14.
  */
 public class JoinActivity extends AppCompatActivity{
+
+    Toolbar toolbar;
+    ImageButton icBackIcon;
+
     LinearLayout join_layout;
     EditText et_member_name;
     EditText et_member_email;
@@ -58,7 +65,26 @@ public class JoinActivity extends AppCompatActivity{
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_join);
-        setCustomActionBar();
+
+        toolbar = (Toolbar)findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        Typeface typeface = Typeface.createFromAsset(getAssets(), "210_appgullimB.ttf");
+        TextView textView = (TextView) findViewById(R.id.title);
+        textView.setTypeface(typeface);
+
+        icBackIcon = (ImageButton)findViewById(R.id.icBackIcon);
+        icBackIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(JoinActivity.this, LoginActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.rightin, R.anim.leftout);
+                finish();
+            }
+        });
 
         join_layout = (LinearLayout)findViewById(R.id.join_layout);
         join_layout.setOnClickListener(new View.OnClickListener() {
@@ -87,10 +113,10 @@ public class JoinActivity extends AppCompatActivity{
 
                 if(pwd.equals(pwd_chk)){
                     tv_pwd_chk.setText("비밀번호가 일치합니다.");
-                    tv_pwd_chk.setTextColor(Color.GREEN);
+                    tv_pwd_chk.setTextColor(Color.parseColor("#315556"));
                 } else{
                     tv_pwd_chk.setText("비밀번호가 일치하지 않습니다.");
-                    tv_pwd_chk.setTextColor(Color.RED);
+                    tv_pwd_chk.setTextColor(Color.parseColor("#EB9844"));
                 }
             }
             @Override public void afterTextChanged(Editable s) { }
@@ -179,6 +205,7 @@ public class JoinActivity extends AppCompatActivity{
 
                             Intent new_intent = new Intent(JoinActivity.this, LoginActivity.class);
                             startActivity(new_intent);
+                            finish();
                         }
                     }
                 }catch(Exception e){
@@ -192,16 +219,5 @@ public class JoinActivity extends AppCompatActivity{
             }
         });
         volley.getInstance().addToRequestQueue(req);
-    }
-
-    private void setCustomActionBar(){
-        ActionBar action_bar = getSupportActionBar();
-
-        action_bar.setDisplayShowCustomEnabled(true);
-        action_bar.setDisplayShowTitleEnabled(false);
-        action_bar.setDisplayHomeAsUpEnabled(false);
-
-        View custom_view = LayoutInflater.from(this).inflate(R.layout.action_bar,null);
-        action_bar.setCustomView(custom_view);
     }
 }

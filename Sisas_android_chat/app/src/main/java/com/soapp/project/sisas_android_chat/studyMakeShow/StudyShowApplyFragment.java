@@ -34,11 +34,13 @@ public class StudyShowApplyFragment extends Fragment{
     String selected_category;
     ExpandableListView expandable_list_view;
     StudyListExpandableAdapter adapter;
-    ArrayList<StudyListItem> study_list_parent_item;
-    ArrayList<StudyListItemChild> study_list_child_item;
-    HashMap<StudyListItem, StudyListItemChild> list_child_map;
+    ArrayList<StudyListItem> study_list_parent_item = new ArrayList<StudyListItem>();
+    ArrayList<StudyListItemChild> study_list_child_item = new ArrayList<StudyListItemChild>();
+    HashMap<StudyListItem, StudyListItemChild> list_child_map = new HashMap<StudyListItem, StudyListItemChild>();
 
-    ArrayList<JSONObject> study_list;
+    ArrayList<JSONObject> study_list = new ArrayList<JSONObject>();
+
+    final int temp=1;
 
     public StudyShowApplyFragment(){}
 
@@ -71,7 +73,7 @@ public class StudyShowApplyFragment extends Fragment{
             e.printStackTrace();
         }
 
-        adapter = new StudyListExpandableAdapter(getActivity(), study_list_parent_item, list_child_map);
+        adapter = new StudyListExpandableAdapter(getActivity(), study_list_parent_item, list_child_map, temp);
         adapter.notifyDataSetChanged();
         expandable_list_view.setAdapter(adapter);
 

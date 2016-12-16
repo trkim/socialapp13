@@ -3,18 +3,25 @@ package com.soapp.project.sisas_android_chat.memberInfo;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.soapp.project.sisas_android_chat.R;
+import com.soapp.project.sisas_android_chat.member.JoinActivity;
+import com.soapp.project.sisas_android_chat.member.LoginActivity;
+import com.soapp.project.sisas_android_chat.studyMakeShow.StudyMakeShowMainActivity;
+import com.soapp.project.sisas_android_chat.studyMakeShow.StudyShowActivity;
 
 /**
  * Created by eelhea on 2016-10-14.
@@ -23,34 +30,70 @@ public class MemberInfoActivity extends AppCompatActivity {
 
     SharedPreferences member_session;
 
-    private TabLayout tab_layout;
+    Toolbar toolbar;
+    ImageButton icBackIcon;
+
+    MyProfileFragment myProfileFragment;
+    TimelineFragment timelineFragment;
+    ScrapboxFragment scrapboxFragment;
+
+    /*private TabLayout tab_layout;
     private ViewPager view_pager;
 
-    ImageButton btn_member_info;
+    ImageButton btn_member_info;*/
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.member_info);
-        setCustomActionBar();
+
+        toolbar = (Toolbar)findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        Typeface typeface = Typeface.createFromAsset(getAssets(), "210_appgullimB.ttf");
+        TextView textView = (TextView) findViewById(R.id.title);
+        textView.setTypeface(typeface);
+
+        icBackIcon = (ImageButton)findViewById(R.id.icBackIcon);
+        icBackIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MemberInfoActivity.this, StudyMakeShowMainActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.rightin, R.anim.leftout);
+                finish();
+            }
+        });
 
         member_session = getSharedPreferences("MemberSession", Context.MODE_PRIVATE);
 
-        tab_layout = (TabLayout)findViewById(R.id.member_info_layout);
-        tab_layout.addTab(tab_layout.newTab().setText("프로필"));
-        tab_layout.addTab(tab_layout.newTab().setText("타임라인"));
-        tab_layout.addTab(tab_layout.newTab().setText("스크랩박스"));
-        tab_layout.setTabGravity(TabLayout.GRAVITY_FILL);
+        myProfileFragment = new MyProfileFragment();
+        timelineFragment = new TimelineFragment();
+        scrapboxFragment = new ScrapboxFragment();
 
-        view_pager = (ViewPager)findViewById(R.id.member_info_pager);
-        TabPagerAdapter adapter = new TabPagerAdapter(getSupportFragmentManager(), tab_layout.getTabCount());
-        view_pager.setAdapter(adapter);
-        view_pager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tab_layout));
+        Intent intent = getIntent();
+        String frag = intent.getExtras().getString("fragment");
+        if(frag.equals("scrapbox")){
+            getSupportFragmentManager().beginTransaction().replace(R.id.container, scrapboxFragment).commit();
+        } else{
+            getSupportFragmentManager().beginTransaction().replace(R.id.container, myProfileFragment).commit();
+        }
 
-        tab_layout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        TabLayout tabs = (TabLayout)findViewById(R.id.tabs);
+        tabs.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                view_pager.setCurrentItem(tab.getPosition());
+                int position = tab.getPosition();
+
+                if(position==0){
+                    getSupportFragmentManager().beginTransaction().replace(R.id.container, myProfileFragment).commit();
+                } else if(position==1){
+                    getSupportFragmentManager().beginTransaction().replace(R.id.container, timelineFragment).commit();
+                } else if(position==2){
+                    getSupportFragmentManager().beginTransaction().replace(R.id.container, scrapboxFragment).commit();
+                }
             }
 
             @Override
@@ -61,23 +104,4 @@ public class MemberInfoActivity extends AppCompatActivity {
         });
     }
 
-    private void setCustomActionBar(){
-        ActionBar action_bar = getSupportActionBar();
-
-        action_bar.setDisplayShowCustomEnabled(true);
-        action_bar.setDisplayShowTitleEnabled(false);
-        action_bar.setDisplayHomeAsUpEnabled(false);
-
-        View custom_view = LayoutInflater.from(this).inflate(R.layout.action_bar,null);
-        action_bar.setCustomView(custom_view);
-
-        btn_member_info = (ImageButton)findViewById(R.id.btn_member_info);
-
-        btn_member_info.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-    }
 }

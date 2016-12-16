@@ -12,7 +12,7 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:gravity="center"
         android:layout_weight="1">
 
@@ -54,8 +54,8 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="10"
+        android:layout_height="match_parent"
+        android:layout_weight="0.3"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="20dp"
         android:layout_marginRight="20dp">
@@ -64,7 +64,8 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp">
+            android:layout_marginBottom="20dp"
+            android:gravity="center_vertical">
 
             <TextView
                 android:layout_width="match_parent"
@@ -85,7 +86,8 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp">
+            android:layout_marginBottom="20dp"
+            android:gravity="center_vertical">
 
             <TextView
                 android:layout_width="match_parent"
@@ -106,7 +108,8 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp">
+            android:layout_marginBottom="20dp"
+            android:gravity="center_vertical">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -162,26 +165,40 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="top|center"
-        android:layout_weight="2">
+        android:layout_height="match_parent"
+        android:gravity="bottom|center"
+        android:layout_weight="1"
+        android:layout_marginBottom="10dp">
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/btn_profile_update"
-            android:id="@+id/btn_profile_update" />
+            android:id="@+id/btn_profile_update"
+            android:layout_weight="1"
+            android:textColor="@color/colorwhite"
+            android:background="@color/colorAccent"
+            android:layout_marginRight="2.5dp" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/btn_logout"
-            android:id="@+id/btn_logout" />
+            android:id="@+id/btn_logout"
+            android:layout_weight="1"
+            android:background="@color/colorAccent"
+            android:textColor="@color/colorwhite"
+            android:layout_marginLeft="2.5dp"
+            android:layout_marginRight="2.5dp" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/btn_leave"
-            android:id="@+id/btn_leave" />
+            android:id="@+id/btn_leave"
+            android:layout_weight="1"
+            android:background="@color/colorAccent"
+            android:textColor="@color/colorwhite"
+            android:layout_marginLeft="2.5dp" />
     </LinearLayout>
 </LinearLayout>
