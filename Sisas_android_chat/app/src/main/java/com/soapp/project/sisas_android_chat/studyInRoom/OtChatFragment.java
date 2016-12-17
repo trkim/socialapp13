@@ -52,6 +52,7 @@ public class OtChatFragment extends Fragment {
     private RecyclerView mMessagesView;
     private OnFragmentInteractionListener mListener;
     private List<OtChatMsgs> mMessages = new ArrayList<OtChatMsgs>();
+    private String mUsername;
     private RecyclerView.Adapter mAdapter;
 
 
@@ -138,7 +139,7 @@ public class OtChatFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        mAdapter = new OtChatMsgsAdapter(mMessages);
+        mAdapter = new OtChatMsgsAdapter(activity, mMessages);
         /*try {
             mListener = (OnFragmentInteractionListener) activity;
         } catch (ClassCastException e) {
@@ -171,13 +172,14 @@ public class OtChatFragment extends Fragment {
 
     private void sendMessage(){
         String message = mInputMessageView.getText().toString().trim();
+        String username = Member.getInstance().getName();
         if(TextUtils.isEmpty((message))){
             return;
         }
         mInputMessageView.setText("");
-        addMessage(message);
+        addMessage(username, message);
         JSONObject json = new JSONObject();
-        String username = Member.getInstance().getName();
+
         try {
             json.put("message", message);
             json.put("room_id", String.valueOf(room_id));
@@ -202,12 +204,11 @@ public class OtChatFragment extends Fragment {
         }
     }
 
-    private void addMessage(String message) {
-
+    private void addMessage(String username, String message) {
         mMessages.add(new OtChatMsgs.Builder(OtChatMsgs.TYPE_MESSAGE)
-                .message(message).build());
+                .username(username).message(message).build());
         // mAdapter = new MessageAdapter(mMessages);
-        mAdapter = new OtChatMsgsAdapter( mMessages);
+        //mAdapter = new OtChatMsgsAdapter( mMessages);
         mAdapter.notifyItemInserted(0);
         scrollToBottom();
     }
@@ -215,7 +216,7 @@ public class OtChatFragment extends Fragment {
     private void addImage(Bitmap bmp){
         mMessages.add(new OtChatMsgs.Builder(OtChatMsgs.TYPE_MESSAGE)
                 .image(bmp).build());
-        mAdapter = new OtChatMsgsAdapter( mMessages);
+        //mAdapter = new OtChatMsgsAdapter( mMessages);
         mAdapter.notifyItemInserted(0);
         scrollToBottom();
     }
@@ -267,8 +268,7 @@ public class OtChatFragment extends Fragment {
                     }
 
                     // add the message to view
-                    addMessage(username);
-                    addMessage(message);
+                    addMessage(username, message);
 
                 }
             });
