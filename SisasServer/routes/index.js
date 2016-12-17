@@ -261,8 +261,6 @@ router.post('/delete_room', function(req,res){
       res.json({'result':'fail'});
     }
     else{
-      if (room == "" || room == null || room == undefined || ( room != null && typeof room == "object" && !Object.keys(room).length )) {
-        
         //이 부분 안되면 함수 나눠서 따로 진행
         room.remove(function (err) {
           if (err) {
@@ -274,7 +272,6 @@ router.post('/delete_room', function(req,res){
             res.json({'result':'success'});
           }
         });
-      }
     }
   });
 });
