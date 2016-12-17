@@ -392,12 +392,14 @@ router.get('/get_ctgroomlist', function(req,res){
 
 router.post('/join_room', function(req,res){
   var room_id = req.body.room_id;
+  var email = req.body.email;
 
   Room.findOne({'room_id':room_id}).count(function(err,num){
       Room.findOne({'room_id':room_id}, function(err,room){
         if(room.capacity - num >= 1) {
+          room.capacity = room.capacity -1;
           var myroom = new Room();
-          myroom.email = room.email;
+          myroom.email = email;
           myroom.room_id = room.room_id;
           myroom.king_id = room.king_id;
           myroom.room_name = room.room_name;
