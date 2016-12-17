@@ -575,11 +575,18 @@ router.post('/insert_scrap', function(req,res){
   scrap_box.content = req.body.content;
   scrap_box.keyword_box_id = req.body.keyword_box_id;
   scrap_box.email = req.body.email;
-  scrap_box.scrap_id = article_title + keyword_box_id;
+  scrap_box.scrap_id = scrap_box.article_title + scrap_box.keyword_box_id;
   scrap_box.room_id = req.body.room_id;
 
   Scrap_box.findOne({'scrap_id':scrap_box.scrap_id}, function(err, scrap){
+    if(err){
+      console.error(err);
+      res.json({'result':'fail'});
+    }
     if( scrap == "" || scrap == null || scrap == undefined || ( scrap != null && typeof scrap == "object" && !Object.keys(scrap).length )){
+      console.log('스크랩 중복');
+      res.json({'result':'fail'});
+    }else{
       scrap_box.save(function(err){
         if(err){
           console.error(err);
@@ -589,9 +596,6 @@ router.post('/insert_scrap', function(req,res){
           res.json({'result':'success'});
         }
       });
-    }else{
-      console.log('스크랩 중복');
-      res.json({'result':'fail'});
     }
   });
 });
