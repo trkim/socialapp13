@@ -27,14 +27,6 @@ def get_url_with_keyword(URL, keyword):
   source_code_from_URL = URL+keyword
   return source_code_from_URL
 
-def json_list(list):
-  lst = []
-  for pn in list:
-    d = {}
-    d['mpn']=pn
-    lst.append(d)
-  return json.dumps(lst)
-
 
 def crawling(URL):
   count =0
@@ -45,7 +37,7 @@ def crawling(URL):
   contentlist = soup.find_all('p', class_='f_eb')
   url = ''
   for i in soup.find_all("a", class_="f_link_bu"):
-    obj = {'title':'', 'content':'', 'url':''}
+    obj = {}
     title = str(i.find_all(text=True))
     content = str(contentlist[count].find_all(text=True))
     url = str(i.get('href'))
@@ -55,8 +47,8 @@ def crawling(URL):
     sleep(2)
     count = count+1
     objarray.append(obj)
-  #json.dumps(objarray, default=obj_dict)
-  #print(objarray)
+  return json.dumps(objarray)
+
 
 
 def main(input_kwd):
@@ -64,8 +56,8 @@ def main(input_kwd):
     keyword = urllib.parse.quote(keyword)
 
     result_url = get_url_with_keyword(URL, keyword)
-    crawling(result_url)
-    print json_list(objarray)
+    resultarray = crawling(result_url)
+    print(resultarray)
 
 
 
