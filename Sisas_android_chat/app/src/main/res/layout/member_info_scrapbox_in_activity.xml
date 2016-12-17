@@ -29,85 +29,94 @@
             android:textSize="30sp" />
     </android.support.v7.widget.Toolbar>
 
-    <TableLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="20dp">
+        android:layout_height="match_parent">
 
-        <TableRow
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical">
+            android:layout_height="wrap_content">
 
-            <TextView
+            <TableLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/tv_study_name"
-                android:singleLine="false"
-                android:textStyle="bold"
-                android:layout_weight="1"
-                android:paddingBottom="20dp"
-                android:paddingTop="20dp"
-                android:gravity="center"
-                android:textSize="18sp" />
-        </TableRow>
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="20dp">
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical">
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/tv_study_date"
-                android:layout_weight="1"
-                android:paddingBottom="10dp"
-                android:paddingTop="10dp" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/tv_study_name"
+                        android:singleLine="false"
+                        android:textStyle="bold"
+                        android:layout_weight="1"
+                        android:paddingBottom="20dp"
+                        android:paddingTop="20dp"
+                        android:gravity="center"
+                        android:textSize="18sp" />
+                </TableRow>
 
-        </TableRow>
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical">
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingBottom="3dp"
-            android:paddingTop="3dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/tv_study_date"
+                        android:layout_weight="1"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp" />
 
-            <TextView
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingBottom="3dp"
+                    android:paddingTop="3dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="@string/tv_study_comment"
+                        android:textStyle="bold"
+                        android:layout_weight="1"
+                        android:textColor="@color/colorGray" />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingBottom="3dp"
+                    android:paddingTop="3dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/tv_study_comment"
+                        android:maxLines="10"
+                        android:minLines="2"
+                        android:inputType="textMultiLine"
+                        android:layout_weight="1"
+                        android:paddingLeft="15dp" />
+                </TableRow>
+            </TableLayout>
+
+            <ListView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="@string/tv_study_comment"
-                android:textStyle="bold"
-                android:layout_weight="1"
-                android:textColor="@color/colorGray" />
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingBottom="3dp"
-            android:paddingTop="3dp">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/tv_study_comment"
-                android:maxLines="10"
-                android:minLines="2"
-                android:inputType="textMultiLine"
-                android:layout_weight="1"
-                android:paddingLeft="15dp" />
-        </TableRow>
-    </TableLayout>
-
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/lv_scrapbox_keyword"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp" />
+                android:id="@+id/lv_scrapbox_keyword" />
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

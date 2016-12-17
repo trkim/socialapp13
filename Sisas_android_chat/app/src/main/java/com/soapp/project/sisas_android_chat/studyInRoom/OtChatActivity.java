@@ -181,6 +181,8 @@ public class OtChatActivity extends AppCompatActivity implements DatePickerDialo
                     Intent intent = new Intent(OtChatActivity.this, ScrapWithKeywordActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                     intent.putExtra("keyword", et_keyword_content);
+                    intent.putExtra("date", date_from_server);
+                    intent.putExtra("room_id", room_id);
                     startActivity(intent);
                 }catch (Exception e){
                     e.printStackTrace();

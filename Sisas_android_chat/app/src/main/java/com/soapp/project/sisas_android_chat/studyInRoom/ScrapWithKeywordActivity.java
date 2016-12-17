@@ -2,50 +2,30 @@ package com.soapp.project.sisas_android_chat.studyInRoom;
 
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.NetworkError;
-import com.android.volley.NetworkResponse;
-import com.android.volley.NoConnectionError;
-import com.android.volley.ParseError;
-import com.android.volley.Request;
 import com.android.volley.Response;
-import com.android.volley.RetryPolicy;
-import com.android.volley.ServerError;
-import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.soapp.project.sisas_android_chat.Member;
 import com.soapp.project.sisas_android_chat.R;
-import com.soapp.project.sisas_android_chat.member.LoginActivity;
-import com.soapp.project.sisas_android_chat.memberInfo.ScrapInRoomListItem;
-import com.soapp.project.sisas_android_chat.studyMakeShow.StudyShowApplyActivity;
+import com.soapp.project.sisas_android_chat.studyMakeShow.ProgressDlg;
 import com.soapp.project.sisas_android_chat.volley;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by eelhea on 2016-12-12.
@@ -55,8 +35,12 @@ public class ScrapWithKeywordActivity extends AppCompatActivity {
 
     Toolbar toolbar;
     //ImageButton icBackIcon;
+    private AsyncTask<Integer, String, Integer> mProgressDlg;
 
     TextView tv_scrap_keyword;
+    String email = Member.getInstance().getEmail();
+    int room_id;
+    String date;
     String keyword;
     public ListView scarp_listview;
     public ScrapWithKeywordListAdapter scrap_keyword_adapter;
@@ -69,8 +53,6 @@ public class ScrapWithKeywordActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.scrap_with_keyword);
-
-        Log.e("scrap oncreate", "scrap oncreate");
 
         toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -95,10 +77,14 @@ public class ScrapWithKeywordActivity extends AppCompatActivity {
         scrap_keyword_adapter = new ScrapWithKeywordListAdapter();
 
         Intent intent = getIntent();
+        room_id = intent.getExtras().getInt("room_id");
         keyword = intent.getExtras().getString("keyword");
+        date = intent.getExtras().getString("date");
 
         tv_scrap_keyword = (TextView)findViewById(R.id.tv_scrap_keyword);
         tv_scrap_keyword.setText(keyword);
+
+        mProgressDlg = new ProgressDlg(ScrapWithKeywordActivity.this).execute(100);
 
         try {
             getScrapWithKeywordListFromServer(keyword);
@@ -122,7 +108,7 @@ public class ScrapWithKeywordActivity extends AppCompatActivity {
                             scrap_obj_array_list.add(obj);
                         }
 
-                        getArticlesDetail();
+                        getArticlesDetail(keyword);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -139,15 +125,16 @@ public class ScrapWithKeywordActivity extends AppCompatActivity {
         volley.getInstance().addToRequestQueue(req);
     }
 
-    private void getArticlesDetail(){
+    private void getArticlesDetail(final String keyword){
         Log.e("scrap getArticlesDetail", "scrap getArticlesDetail");
         for(int i=0; i<scrap_obj_array_list.size(); i++){
             String title = scrap_obj_array_list.get(i).optString("title");
             String url = scrap_obj_array_list.get(i).optString("url");
             String content = scrap_obj_array_list.get(i).optString("content");
 
-            scrap_keyword_adapter.addArticleInfo(title, url, content);
+            scrap_keyword_adapter.addArticleInfo(title, url, content, "", keyword, date, email, room_id);
         }
         scarp_listview.setAdapter(scrap_keyword_adapter);
     }
+
 }
