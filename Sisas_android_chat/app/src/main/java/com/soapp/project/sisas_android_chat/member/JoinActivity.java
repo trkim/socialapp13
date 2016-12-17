@@ -188,7 +188,7 @@ public class JoinActivity extends AppCompatActivity{
         join_param.put("password", password);
         join_param.put("major", major);
         join_param.put("category", category);
-        join_param.put("coupon", 0);
+        join_param.put("coupon", 3);
         join_param.put("rating", 0.0);
 
         JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, URL, new JSONObject(join_param), new Response.Listener<JSONObject>() {
