@@ -584,6 +584,7 @@ router.post('/insert_scrap', function(req,res){
       console.error(err);
       res.json({'result':'fail'});
     }
+    console.log(scrap);
     if( scrap == "" || scrap == null || scrap == undefined || ( scrap != null && typeof scrap == "object" && !Object.keys(scrap).length )){
       scrap_box.save(function(err){
         if(err){
@@ -594,8 +595,6 @@ router.post('/insert_scrap', function(req,res){
           res.json({'result':'success'});
         }
       });
-
-
     }else{
       console.log('스크랩 중복');
       res.json({'result':'fail'});
