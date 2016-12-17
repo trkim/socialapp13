@@ -54,6 +54,11 @@ def main(input_kwd):
     result_text = get_text(result_url)
     result_news_url = get_news_url(result_url)
 
+    print('python코드에서 출력')
+    print(result_title)
+    print(result_text)
+    print(result_news_url)
+
     return {
         'result_title' : result_title,
         'result_text' : result_text,

@@ -512,6 +512,7 @@ router.get('/scrap_with_keyword', function(req,res){
       console.log('기사 크롤링 완료');
      // var resultBuffer = encoding.convert(results, 'EUC-KR', 'UTF-8');
       //res.header("Content-Type", "application/json; charset=utf-8");
+      console.log('서버에서 출력*********');
       console.log(results);
       //console.log(resultBuffer);
       res.json({'articlelist' : results});
