@@ -502,10 +502,6 @@ router.get('/scrap_with_keyword', function(req,res){
     args:[keyword]
   };
 
-  var pyshell = new PythonShell('run.py', options, {
-
-  });
-
   PythonShell.run('run.py', options, function(err, results){
     console.log('python script 실행')
     if(err){
@@ -524,7 +520,6 @@ router.get('/scrap_with_keyword', function(req,res){
   });
 });
 
-  //pyshell.stdout.on('objarray')
 
 router.get('send_fixkeyword', function(req,res){
   console.log('send fix keyword');

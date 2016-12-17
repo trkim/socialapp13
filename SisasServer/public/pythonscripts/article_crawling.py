@@ -7,6 +7,7 @@ from bs4 import BeautifulSoup
 import urllib.parse
 import requests
 from time import sleep
+import json
 
 URL = 'http://search.daum.net/search?w=news&nil_search=btn&DA=NTB&enc=utf8&cluster=y&cluster_page=1&q='
 s = "사드"
@@ -15,14 +16,11 @@ a = urllib.parse.quote(a)
 
 objarray = []
 
-class Obj:
-    title = ""
-    content = ""
-    url = ""
-    def __str__(self):
-        return 'title=%s, content=%s, url=%s'%(self.title, self.content, self.url)
+obj = {'title':'', 'content':'', 'url':''}
 
 
+def __str__(self):
+    return 'title=%s, content=%s, url=%s'%(self.title, self.content, self.url)
 
 def get_url_with_keyword(URL, keyword):
   source_code_from_URL = URL+keyword
@@ -30,7 +28,6 @@ def get_url_with_keyword(URL, keyword):
   return source_code_from_URL
 
 def crawling(URL):
-  obj = Obj()
   count =0
   soup = BeautifulSoup(requests.get(URL).text, 'lxml')
   title = ''
@@ -41,14 +38,13 @@ def crawling(URL):
     title = str(i.find_all(text=True))
     content = str(contentlist[count].find_all(text=True))
     url = str(i.get('href'))
-    obj.title = title
-    obj.content = content
-    obj.url = url
-    objarray.append(obj)
+    obj['title'] = title
+    obj['content'] = content
+    obj['url'] = url
     sleep(2)
     count = count+1
-    print(obj)
-  #print(objarray)
+    json_val = json.dumps(obj)
+    print(json_val)
 
 
 def main(input_kwd):
@@ -57,7 +53,6 @@ def main(input_kwd):
 
     result_url = get_url_with_keyword(URL, keyword)
     crawling(result_url)
-
 
 
 
