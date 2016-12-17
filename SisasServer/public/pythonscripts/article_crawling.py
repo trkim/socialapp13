@@ -50,6 +50,7 @@ def crawling(URL):
     count = count+1
     objarray.append(obj)
   json.dumps(objarray, default=obj_dict)
+  print(objarray)
 
 
 def main(input_kwd):
