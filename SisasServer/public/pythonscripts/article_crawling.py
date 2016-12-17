@@ -1,8 +1,6 @@
 #-*- coding: utf-8 -*-
 import sys
 sys.path.insert(0,"../usr/local/lib/python3.5/site-packages/")
-#reload(sys)
-#sys.setdefaultencoding('utf-8')
 from bs4 import BeautifulSoup
 import urllib.parse
 import requests
@@ -27,7 +25,6 @@ def obj_dict(obj):
 
 def get_url_with_keyword(URL, keyword):
   source_code_from_URL = URL+keyword
-  #print(source_code_from_URL)
   return source_code_from_URL
 
 def crawling(URL):
@@ -49,7 +46,7 @@ def crawling(URL):
     sleep(2)
     count = count+1
     objarray.append(obj)
-  json.dumps(objarray, default=obj_dict)
+  #json.dumps(objarray, default=obj_dict)
   print(objarray)
 
 
