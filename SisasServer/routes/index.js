@@ -493,7 +493,6 @@ router.get('/get_keyword', function(req,res){
 router.get('/scrap_with_keyword', function(req,res){
   console.log('scrap_with_keyword 실행')
   var keyword = req.query.keyword;
-  console.log(keyword);
 
   var options = {
     mode : 'text',
@@ -503,6 +502,10 @@ router.get('/scrap_with_keyword', function(req,res){
     args:[keyword]
   };
 
+  var pyshell = new PythonShell('run.py', options, {
+
+  });
+
   PythonShell.run('run.py', options, function(err, results){
     console.log('python script 실행')
     if(err){
@@ -510,7 +513,7 @@ router.get('/scrap_with_keyword', function(req,res){
       res.json({'result':'fail'});
     }
     else{
-      console.log('keyword : '+keyword)
+      console.log('keyword : %s'+keyword)
       console.log('기사 크롤링 완료');
       console.log('서버에서 출력*********');
       console.log(typeof results);
@@ -520,6 +523,8 @@ router.get('/scrap_with_keyword', function(req,res){
     }
   });
 });
+
+  //pyshell.stdout.on('objarray')
 
 router.get('send_fixkeyword', function(req,res){
   console.log('send fix keyword');

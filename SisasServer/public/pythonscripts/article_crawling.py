@@ -47,7 +47,8 @@ def crawling(URL):
     objarray.append(obj)
     sleep(2)
     count = count+1
-  print(objarray)
+    print(obj)
+  #print(objarray)
 
 
 def main(input_kwd):
