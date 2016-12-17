@@ -510,7 +510,6 @@ router.get('/scrap_with_keyword', function(req,res){
     }
     else{
       console.log('기사 크롤링 완료');
-      console.log('서버에서 출력*********');
       console.log(results);
       res.json(results);
 
@@ -529,7 +528,7 @@ router.get('send_fixkeyword', function(req,res){
       res.json({'result':'fail'});
     }else{
       console.log('keywordlist 호출 완료');
-      res.json({'keywordlist':keywordlist});
+      res.json(keywordlist);
     }
   });
 });

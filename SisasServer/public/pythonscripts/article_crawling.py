@@ -14,7 +14,7 @@ a = urllib.parse.quote(a)
 
 
 
-
+objarray = []
 
 
 def __str__(self):
@@ -27,9 +27,18 @@ def get_url_with_keyword(URL, keyword):
   source_code_from_URL = URL+keyword
   return source_code_from_URL
 
+def json_list(list):
+  lst = []
+  for pn in list:
+    d = {}
+    d['mpn']=pn
+    lst.append(d)
+  return json.dumps(lst)
+
+
 def crawling(URL):
   count =0
-  objarray = []
+
   soup = BeautifulSoup(requests.get(URL).text, 'lxml')
   title = ''
   content = ''
@@ -47,7 +56,7 @@ def crawling(URL):
     count = count+1
     objarray.append(obj)
   #json.dumps(objarray, default=obj_dict)
-  print(objarray)
+  #print(objarray)
 
 
 def main(input_kwd):
@@ -56,6 +65,7 @@ def main(input_kwd):
 
     result_url = get_url_with_keyword(URL, keyword)
     crawling(result_url)
+    print json_list(objarray)
 
 
 
