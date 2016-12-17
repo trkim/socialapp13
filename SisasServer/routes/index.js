@@ -626,6 +626,9 @@ router.post('/save_opinion', function(req, res){
   var scrap_id = req.body.scrap_id;
   var opinion = req.body.opinion;
 
+  console.log(scrap_id);
+  console.log(opinion);
+
   Scrap_box.findOne({'scrap_id':scrap_id}, function(err, scrap_box){
     if(err){
       console.error(err);
