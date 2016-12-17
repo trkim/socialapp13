@@ -21,10 +21,11 @@ public class OtChatMsgsAdapter extends RecyclerView.Adapter<OtChatMsgsAdapter.Vi
     private List<OtChatMsgs> mMessages;
     private int[] mUsernameColors;
 
-    public OtChatMsgsAdapter(List<OtChatMsgs> messages) {
+    public OtChatMsgsAdapter(Context context, List<OtChatMsgs> messages) {
         mMessages = messages;
-        //  mUsernameColors = context.getResources().getIntArray(R.array.username_colors);
+        mUsernameColors = context.getResources().getIntArray(R.array.username_colors);
     }
+
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -50,6 +51,7 @@ public class OtChatMsgsAdapter extends RecyclerView.Adapter<OtChatMsgsAdapter.Vi
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
         OtChatMsgs message = mMessages.get(position);
         viewHolder.setMessage(message.getMessage());
+        viewHolder.setUsername(message.getUsername());
         viewHolder.setImage(message.getImage());
     }
 
@@ -66,8 +68,10 @@ public class OtChatMsgsAdapter extends RecyclerView.Adapter<OtChatMsgsAdapter.Vi
     public class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView mImageView;
         private TextView mMessageView;
+        private TextView mUsernameView;
         public ViewHolder(View itemView) {
             super(itemView);
+            mUsernameView = (TextView) itemView.findViewById(R.id.username);
             mImageView = (ImageView) itemView.findViewById(R.id.imageView);
             mMessageView = (TextView) itemView.findViewById(R.id.message);
         }
@@ -76,6 +80,12 @@ public class OtChatMsgsAdapter extends RecyclerView.Adapter<OtChatMsgsAdapter.Vi
             if (null == mMessageView) return;
             if(null == message) return;
             mMessageView.setText(message);
+        }
+
+        public void setUsername(String username) {
+            if (null == mUsernameView) return;
+            mUsernameView.setText(username);
+            mUsernameView.setTextColor(getUsernameColor(username));
         }
 
         public void setImage(Bitmap bmp){
@@ -91,5 +101,7 @@ public class OtChatMsgsAdapter extends RecyclerView.Adapter<OtChatMsgsAdapter.Vi
             int index = Math.abs(hash % mUsernameColors.length);
             return mUsernameColors[index];
         }
+
+
     }
 }

@@ -12,6 +12,7 @@ public class OtChatMsgs {
 
     private int mType;
     private String mMessage;
+    private String mUsername;
     private Bitmap mImage;
 
     private OtChatMsgs() {}
@@ -24,6 +25,8 @@ public class OtChatMsgs {
         return mMessage;
     };
 
+    public String getUsername() { return mUsername; };
+
     public Bitmap getImage() {
         return mImage;
     };
@@ -33,6 +36,7 @@ public class OtChatMsgs {
         private final int mType;
         private Bitmap mImage;
         private String mMessage;
+        private String mUsername;
 
         public Builder(int type) {
             mType = type;
@@ -40,6 +44,11 @@ public class OtChatMsgs {
 
         public Builder image(Bitmap image) {
             mImage = image;
+            return this;
+        }
+
+        public Builder username(String username) {
+            mUsername = username;
             return this;
         }
 
@@ -52,6 +61,7 @@ public class OtChatMsgs {
             OtChatMsgs message = new OtChatMsgs();
             message.mType = mType;
             message.mImage = mImage;
+            message.mUsername = mUsername;
             message.mMessage = mMessage;
             return message;
         }

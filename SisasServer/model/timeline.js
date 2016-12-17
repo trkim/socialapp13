@@ -6,6 +6,8 @@ var Schema = mongoose.Schema;
 
 var timelineSchema = new Schema({
     keyword_box_id : String,
+    title : String,
+    content : String,
     url : String,
     opinion : String,
     email : String

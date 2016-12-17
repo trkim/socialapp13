@@ -261,8 +261,6 @@ router.post('/delete_room', function(req,res){
       res.json({'result':'fail'});
     }
     else{
-      if (room == "" || room == null || room == undefined || ( room != null && typeof room == "object" && !Object.keys(room).length )) {
-        res.json({'result': 'delete_room'});
         //이 부분 안되면 함수 나눠서 따로 진행
         room.remove(function (err) {
           if (err) {
@@ -270,11 +268,10 @@ router.post('/delete_room', function(req,res){
             res.json({'result': 'fail'});
           }
           else {
-            console.log('room delete success');
-
+            console.log('방 삭제 성공');
+            res.json({'result':'success'});
           }
         });
-      }
     }
   });
 });
@@ -437,6 +434,23 @@ router.post('/join_room', function(req,res){
       });
   });
 });
+////////////////////////////////////////////
+router.post('/check_coupon', function(req, res){
+  console.log('check_coupon');
+  var email = req.body.email;
+
+  Member.findOne({'email':email}, function(err, member){
+    if(err){
+      console.error(err);
+      res.json({'result':'fail'});
+    }
+    if((member.coupon*1) > 1){
+      console.log('관전 가능. 잔여 쿠폰 : '+member.coupon);
+
+    }
+  });
+
+});
 
 router.post('/get_room_and_member', function(req, res){
   var room_id = req.body.room_id;
@@ -536,7 +550,7 @@ router.get('/scrap_with_keyword', function(req,res){
 });
 
 
-router.get('send_fixkeyword', function(req,res){
+router.get('/send_fixkeyword', function(req,res){
   console.log('send fix keyword');
   var room_id = req.query.room_id;
 
@@ -551,27 +565,37 @@ router.get('send_fixkeyword', function(req,res){
   });
 });
 
-router.post('insert_scrap', function(req,res){
+router.post('/insert_scrap', function(req,res){
+  req.accepts('application/json');
+  console.log('insert_scrap');
   var scrap_box = new Scrap_box();
 
   scrap_box.article_title = req.body.article_title;
   scrap_box.url = req.body.url;
   scrap_box.opinion = req.body.opinion;
+  scrap_box.content = req.body.content;
   scrap_box.keyword_box_id = req.body.keyword_box_id;
   scrap_box.email = req.body.email;
-  scrap_box.scrap_id = article_title + keyword_box_id;
+  scrap_box.scrap_id = scrap_box.article_title + scrap_box.keyword_box_id;
   scrap_box.room_id = req.body.room_id;
 
-  Scrap_box.findOne({'scrap_id':scrap_id}, function(err, scrap){
+  Scrap_box.findOne({'scrap_id':scrap_box.scrap_id}, function(err, scrap){
+    if(err){
+      console.error(err);
+      res.json({'result':'fail'});
+    }
     if( scrap == "" || scrap == null || scrap == undefined || ( scrap != null && typeof scrap == "object" && !Object.keys(scrap).length )){
       scrap_box.save(function(err){
         if(err){
           console.error(err);
           res.json({'result':'fail'});
         }else{
-          console.log('스크랩 성공')
+          console.log('스크랩 성공');
+          res.json({'result':'success'});
         }
       });
+
+
     }else{
       console.log('스크랩 중복');
       res.json({'result':'fail'});
@@ -584,8 +608,20 @@ router.post('insert_scrap', function(req,res){
 router.get('/get_myscraplist', function(req, res){
   console.log('scraplist 가져오기')
   var email = req.query.email;
+  var room_id = req.query.room_id;
 
-  Scrap_box.find({'email':email}, function(err, scraplist){
+  Scrap_box.find({'email':email, 'room_id':room_id}, function(err, scraplist){
+    if(err){
+      console.error(err);
+      res.json({'result':'fail'});
+    }
+    else{
+      console.log('scraplist 가져오기 성공');
+      res.json(scraplist);
+    }
+  });
+
+/*  Scrap_box.find({'email':email}, function(err, scraplist){
     if(err){
       console.error(err);
       res.json({'result':'fail'});
@@ -619,6 +655,94 @@ router.get('/get_myscraplist', function(req, res){
           }
         });
       });
+    }
+  });*/
+});
+//스터디 중 기사 가져오기********
+router.get('/get_scraplist', function(req, res){
+  console.log('get_scraplist')
+  var email = req.query.email;
+  var keyword_box_id = req.query.keyword_box_id;
+
+  Scrap_box.find({'email':email, 'keyword_box_id':keyword_box_id}, function(err, scraplist){
+    if(err){
+      console.error(err);
+      res.json({'result':'fail'});
+    }
+    else{
+      console.log('기사 가져오기 성공');
+      res.json(scraplist);
+    }
+  });
+});
+
+router.post('/get_scrap', function(req, res){
+  console.log('get_scrap');
+  var scrap_id = req.body.scrap_id;
+
+  Scrap_box.findOne({'scrap_id':scrap_id}, function(err, scrap){
+    if(err){
+      console.error(err);
+      res.json({'result':'fail'});
+    }
+    else{
+      console.log('선택 기사 가져오기 성공');
+      res.json(scrap);
+    }
+  });
+});
+
+
+/////////////////timeline
+router.post('/insert_timeline', function(req, res){
+  req.accepts('application/json');
+  console.log('insert_timeline');
+
+  var timeline = new Timeline();
+
+  timeline.keyword_box_id = req.body.keyword_box_id;
+  timeline.title = req.body.title;
+  timeline.content = req.body.content;
+  timeline.url = req.body.url;
+  timeline.opinion = req.body.opinion;
+  timeline.email = req.body.email;
+
+  Timeline.findOne({'title':title}, function(err, timeline){
+    if(err){
+      console.error(err);
+      res.json({'result':'fail'});
+    }
+    else{
+      if( timeline == "" || timeline == null || timeline == undefined || ( timeline != null && typeof timeline == "object" && !Object.keys(timeline).length )){
+        timeline.save(function(err){
+          if(err){
+            console.error(err);
+            res.json({'result':'fail'});
+          }else{
+            console.log('타임라인 저장 성공');
+            res.json({'result':'success'});
+          }
+        });
+      }else{
+        console.log('타임라인 중복');
+        res.json({'result':'fail'});
+      }
+    }
+  })
+});
+
+router.get('/get_mytimelinelist', function(req, res){
+  console.log('get_mytimelinelist');
+  var email = req.query.email;
+
+  Timeline.find({'email':email}, function(err, timelinelist){
+    if(err){
+      console.error(err);
+      res.json({'result':'fail'});
+    }
+    else{
+      console.log('타임라인 리스트 호출 성공');
+      res.json(timelinelist);
     }
   });
 });
