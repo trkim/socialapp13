@@ -11,7 +11,6 @@ s = "사드"
 a = s.encode("utf-8")
 a = urllib.parse.quote(a)
 
-objarray = []
 
 def __str__(self):
     return 'title=%s, content=%s, url=%s'%(self.title, self.content, self.url)
@@ -27,7 +26,7 @@ def crawling(URL):
   content = ''
   contentlist = soup.find_all('p', class_='f_eb')
   url = ''
-  for i in soup.find_all("a", class_="f_l"):
+  for i in soup.find_all("a", class_="f_link_bu"):
     obj = {}
     title = str(i.find_all(text=True))
     content = str(contentlist[count].find_all(text=True))
@@ -35,10 +34,9 @@ def crawling(URL):
     obj['title'] = title
     obj['content'] = content
     obj['url'] = url
-    objarray.append(obj)
-    sleep(2)
     count = count+1
-  print(objarray)
+    print(obj)
+    sleep(2)
 
 
 def main(input_kwd):
