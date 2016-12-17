@@ -19,6 +19,8 @@ class Obj:
     title = ""
     content = ""
     url = ""
+    def __str__(self):
+        return 'title=%s, content=%s, url=%s'%(self.title, self.content, self.url)
 
 
 
@@ -35,13 +37,10 @@ def crawling(URL):
   content = ''
   contentlist = soup.find_all('p', class_='f_eb')
   url = ''
-  for i in soup.find_all("a", class_="f_l"):
+  for i in soup.find_all("a", class_="f_link_bu"):
     title = str(i.find_all(text=True))
-    print(title)
     content = str(contentlist[count].find_all(text=True))
-    print(content)
     url = str(i.get('href'))
-    print(url)
     obj.title = title
     obj.content = content
     obj.url = url
@@ -64,4 +63,4 @@ def main(input_kwd):
 
 
 if __name__ == '__main__':
-  main(a)
+  main(s)
