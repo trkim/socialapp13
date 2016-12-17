@@ -118,6 +118,7 @@ public class OtChatActivity extends AppCompatActivity implements DatePickerDialo
 
         //FragmentGetMyStudy의 StudyListMyExpandableAdapter에서 보내준 정보 가져오기
         Intent intent = getIntent();
+        Log.e("intent----------","ok");
         room_id = intent.getExtras().getInt("room_id");
         if(intent.getExtras().containsKey("keyword") && intent.getExtras().containsKey("date")) {
             if (!intent.getExtras().getString("keyword").equals("") && !intent.getExtras().getString("date").equals("")) {

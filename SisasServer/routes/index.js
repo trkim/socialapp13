@@ -2,8 +2,8 @@ var express = require('express');
 var app = express();
 var router = express.Router();
 var mongoose = require('mongoose');
-var bodyParser = require('body-parser');
-var exec = require('child_process').exec;
+var PythonShell = require('python-shell');
+var encoding = require('encoding');
 
 
 
@@ -200,7 +200,16 @@ router.post('/insert_room', function(req,res){
       room.comment = req.body.comment;
 
 
-      result.save();
+      result.save(function(err){
+        if(err){
+          console.error(err);
+          res.json({'result':'fail'});
+        }
+        else{
+          console.log('방 수정 성공');
+          res.json({'result': 'success'});
+        }
+      });
 
       room.save(function(err){
         if(err){
@@ -241,28 +250,37 @@ router.post('/delete_room_req', function(req,res){
 });
 
 router.post('/delete_room', function(req,res){
+  console.log('delete_room');
   var email = req.body.email;
   var room_id = req.body.room_id;
+  console.log('email : '+email+'  room_id : '+room_id);
 
-  Room.findOne({'email':email, 'room_id':room_id}, function(err, room){
-    if( room == "" || room == null || room == undefined || ( room != null && typeof room == "object" && !Object.keys(room).length )){
-      res.json({'result':'delete_room'});
-      //이 부분 안되면 함수 나눠서 따로 진행
-      room.remove(function(err){
-        if(err){
-          console.error(err);
-          res.json({'result':'fail'});
-        }
-        else{
-          console.log('room delete success');
+  Room.findOne({'email':email, 'room_id':room_id}, function(err, room) {
+    if(err){
+      console.error(err);
+      res.json({'result':'fail'});
+    }
+    else{
+      if (room == "" || room == null || room == undefined || ( room != null && typeof room == "object" && !Object.keys(room).length )) {
+        res.json({'result': 'delete_room'});
+        //이 부분 안되면 함수 나눠서 따로 진행
+        room.remove(function (err) {
+          if (err) {
+            console.error(err);
+            res.json({'result': 'fail'});
+          }
+          else {
+            console.log('room delete success');
 
-        }
-      });
+          }
+        });
+      }
     }
   });
 });
 
 router.post('/update_room', function(req,res){
+  console.log('update_room');
   var room_id = req.body.room_id;
   var email = req.body.email;
   var king_name = req.body.king_name;
@@ -276,7 +294,7 @@ router.post('/update_room', function(req,res){
   Room.findOne({'room_id':room_id}, function(err, room){
 
     if(err){
-      console.log('room 수정 완료');
+      console.error(err);
       res.json({'result':'fail'});
     }
     if(room) {
@@ -392,12 +410,14 @@ router.get('/get_ctgroomlist', function(req,res){
 
 router.post('/join_room', function(req,res){
   var room_id = req.body.room_id;
+  var email = req.body.email;
 
   Room.findOne({'room_id':room_id}).count(function(err,num){
       Room.findOne({'room_id':room_id}, function(err,room){
         if(room.capacity - num >= 1) {
+          room.capacity = room.capacity -1;
           var myroom = new Room();
-          myroom.email = room.email;
+          myroom.email = email;
           myroom.room_id = room.room_id;
           myroom.king_id = room.king_id;
           myroom.room_name = room.room_name;
@@ -421,14 +441,14 @@ router.post('/join_room', function(req,res){
 router.post('/get_room_and_member', function(req, res){
   var room_id = req.body.room_id;
 
-  Room.find({'room_id':room_id}, function(err, memberlist){
+  Room.findOne({'room_id':room_id}, function(err, room){
     if(err){
       console.error(err);
       res.json({'result':'fail'});
-    }y
-    if(memberlist){
+    }
+    if(room){
       console.log('스터디 참여 회원 정보 조회 완료');
-      res.json(memberlist);
+      res.json(room);
     }
   });
 });
@@ -467,10 +487,140 @@ router.post('/fix_keyword', function(req, res){
       res.json({"result":"duplication"});
     }
   });
+});
 
+router.get('/get_keyword', function(req,res){
+  console.log('get_keyword');
+  var room_id = req.query.room_id;
+
+  Keyword_box.find({'room_id' : room_id}, function(err, keywordlist){
+    if(err) {
+      console.error(err);
+      res.json({'result': 'fail'});
+    }
+    else{
+      console.log('get_keyword 성공');
+      console.log(keywordlist);
+      res.json(keywordlist);
+    }
+  });
 
 });
 
 
+router.get('/scrap_with_keyword', function(req,res){
+  console.log('scrap_with_keyword 실행')
+  var keyword = req.query.keyword;
+
+  var options = {
+    mode : 'text',
+    pythonPath : '/usr/bin/python3.5',
+    pythonOptions : ['-u'],
+    scriptPath : './public/pythonscripts',
+    args:[keyword]
+  };
+
+  PythonShell.run('run.py', options, function(err, results){
+    console.log('python script 실행')
+    if(err){
+      console.error(err);
+      res.json({'result':'fail'});
+    }
+    else{
+      console.log('기사 크롤링 완료');
+      console.log(results);
+      res.json(results);
+
+    }
+  });
+});
+
+
+router.get('send_fixkeyword', function(req,res){
+  console.log('send fix keyword');
+  var room_id = req.query.room_id;
+
+  Keyword_box.find({'room_id':room_id}, function(err, keywordlist){
+    if(err){
+      console.error(err);
+      res.json({'result':'fail'});
+    }else{
+      console.log('keywordlist 호출 완료');
+      res.json(keywordlist);
+    }
+  });
+});
+
+router.post('insert_scrap', function(req,res){
+  var scrap_box = new Scrap_box();
+
+  scrap_box.article_title = req.body.article_title;
+  scrap_box.url = req.body.url;
+  scrap_box.opinion = req.body.opinion;
+  scrap_box.keyword_box_id = req.body.keyword_box_id;
+  scrap_box.email = req.body.email;
+  scrap_box.scrap_id = article_title + keyword_box_id;
+  scrap_box.room_id = req.body.room_id;
+
+  Scrap_box.findOne({'scrap_id':scrap_id}, function(err, scrap){
+    if( scrap == "" || scrap == null || scrap == undefined || ( scrap != null && typeof scrap == "object" && !Object.keys(scrap).length )){
+      scrap_box.save(function(err){
+        if(err){
+          console.error(err);
+          res.json({'result':'fail'});
+        }else{
+          console.log('스크랩 성공')
+        }
+      });
+    }else{
+      console.log('스크랩 중복');
+      res.json({'result':'fail'});
+    }
+  });
+});
+
+//scraplist와 roomlist 의 정보를 합쳐서 보내야함.
+//테스트 필요
+router.get('/get_myscraplist', function(req, res){
+  console.log('scraplist 가져오기')
+  var email = req.query.email;
+
+  Scrap_box.find({'email':email}, function(err, scraplist){
+    if(err){
+      console.error(err);
+      res.json({'result':'fail'});
+    }else{
+      console.log('scraplist 호출 성공');
+      var resultlist = [];
+      var results = {};
+      var count = 1;
+      scraplist.forEach(function(room_id){
+        Room.findOne({'room_id':room_id}, function(err, roomlist){
+          //roomlist정보와 scraplist 합치는 로직
+          if(err){
+            console.error(err);
+            res.json({'result':'fail'});
+          }
+          else {
+            for (var key in scraplist) {
+              results[key] = scraplist[key];
+            }
+            for (var key in roomlist) {
+              results[key] = roomlist[key];
+            }
+            resultlist.push(results);
+            if(count == scraplist.length){
+              console.log('전송하는 myscraplist 데이터');
+              console.log(resultlist);
+              res.json(resultlist);
+            } else {
+              count++;
+            }
+          }
+        });
+      });
+    }
+  });
+});
 
 module.exports = router;

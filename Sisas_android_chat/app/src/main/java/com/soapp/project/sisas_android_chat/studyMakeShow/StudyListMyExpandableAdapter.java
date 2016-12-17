@@ -264,5 +264,7 @@ public class StudyListMyExpandableAdapter extends BaseExpandableListAdapter {
                 context.startActivity(intent);
             }
         }
+
+
     }
 }

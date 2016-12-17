@@ -229,11 +229,13 @@ public class StudyMakeUpdateDeleteActivity extends AppCompatActivity implements 
                     public void onResponse(JSONObject response) {
                         try{
                             if(response.toString().contains("result")){
-                                if(response.getString("result").equals("room_update_success")){
+                                if(response.getString("result").equals("success")){
                                     Toast.makeText(getApplicationContext(), "수정되었습니다", Toast.LENGTH_SHORT).show();
 
                                     Intent intent = new Intent(getApplicationContext(), StudyMakeShowMainActivity.class);
                                     startActivity(intent);
+                                }else if(response.getString("result").equals("fail")){
+                                    Toast.makeText(getApplicationContext(), "알 수 없는 에러가 발생합니다.", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         }catch(Exception e){
@@ -270,7 +272,7 @@ public class StudyMakeUpdateDeleteActivity extends AppCompatActivity implements 
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 try{
-                    deleteStudyToServer(room_id);
+                    deleteStudyToServer(room_id, Member.getInstance().getEmail());
                 }catch(Exception e){
                     e.printStackTrace();
                 }
@@ -286,11 +288,12 @@ public class StudyMakeUpdateDeleteActivity extends AppCompatActivity implements 
         alert.show();
     }
 
-    private void deleteStudyToServer(final int room_id) throws Exception{
+    private void deleteStudyToServer(final int room_id, final String email) throws Exception{
         final String URL = "http://52.78.157.250:3000/delete_room";
 
         Map<String, Object> delete_room_param = new HashMap<String, Object>();
         delete_room_param.put("room_id", room_id);
+        delete_room_param.put("email", email);
 
         JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, URL, new JSONObject(delete_room_param),
                 new Response.Listener<JSONObject>() {
