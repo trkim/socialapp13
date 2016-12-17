@@ -585,9 +585,6 @@ router.post('/insert_scrap', function(req,res){
       res.json({'result':'fail'});
     }
     if( scrap == "" || scrap == null || scrap == undefined || ( scrap != null && typeof scrap == "object" && !Object.keys(scrap).length )){
-      console.log('스크랩 중복');
-      res.json({'result':'fail'});
-    }else{
       scrap_box.save(function(err){
         if(err){
           console.error(err);
@@ -597,6 +594,11 @@ router.post('/insert_scrap', function(req,res){
           res.json({'result':'success'});
         }
       });
+
+
+    }else{
+      console.log('스크랩 중복');
+      res.json({'result':'fail'});
     }
   });
 });
