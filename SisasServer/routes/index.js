@@ -692,4 +692,59 @@ router.post('/get_scrap', function(req, res){
   });
 });
 
+
+/////////////////timeline
+router.post('/insert_timeline', function(req, res){
+  req.accepts('application/json');
+  console.log('insert_timeline');
+
+  var timeline = new Timeline();
+
+  timeline.keyword_box_id = req.body.keyword_box_id;
+  timeline.title = req.body.title;
+  timeline.content = req.body.content;
+  timeline.url = req.body.url;
+  timeline.opinion = req.body.opinion;
+  timeline.email = req.body.email;
+
+  Timeline.findOne({'title':title}, function(err, timeline){
+    if(err){
+      console.error(err);
+      res.json({'result':'fail'});
+    }
+    else{
+      if( timeline == "" || timeline == null || timeline == undefined || ( timeline != null && typeof timeline == "object" && !Object.keys(timeline).length )){
+        timeline.save(function(err){
+          if(err){
+            console.error(err);
+            res.json({'result':'fail'});
+          }else{
+            console.log('타임라인 저장 성공');
+            res.json({'result':'success'});
+          }
+        });
+      }else{
+        console.log('타임라인 중복');
+        res.json({'result':'fail'});
+      }
+    }
+  })
+});
+
+router.get('/get_mytimelinelist', function(req, res){
+  console.log('get_mytimelinelist');
+  var email = req.query.email;
+
+  Timeline.find({'email':email}, function(err, timelinelist){
+    if(err){
+      console.error(err);
+      res.json({'result':'fail'});
+    }
+    else{
+      console.log('타임라인 리스트 호출 성공');
+      res.json(timelinelist);
+    }
+  });
+});
+
 module.exports = router;
