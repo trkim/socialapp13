@@ -514,7 +514,7 @@ router.get('/scrap_with_keyword', function(req,res){
       console.log('서버에서 출력*********');
       console.log(typeof results);
       console.log(results);
-      res.json(results);
+      res.send(results);
 
     }
   });
