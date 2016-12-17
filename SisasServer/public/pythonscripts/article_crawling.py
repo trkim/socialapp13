@@ -27,7 +27,7 @@ def obj_dict(obj):
 
 def get_url_with_keyword(URL, keyword):
   source_code_from_URL = URL+keyword
-  print(source_code_from_URL)
+  #print(source_code_from_URL)
   return source_code_from_URL
 
 def crawling(URL):
