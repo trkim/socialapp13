@@ -626,18 +626,26 @@ router.post('/save_opinion', function(req, res){
   var scrap_id = req.body.scrap_id;
   var opinion = req.body.opinion;
 
-  var scrap_box = Scrap_box.findOne({'scrap_id':scrap_id});
-  scrap_box.opinion = opinion;
-  scrap_box.save(function(err){
+  Scrap_box.findOne({'scrap_id':scrap_id}, function(err, scrap_box){
     if(err){
       console.error(err);
       res.json({'result':'fail'});
-    }else{
-      console.log('scrap_box에 opinion 추가 성공');
-      console.log(scrap_box);
-      res.json({'result':'insert_success'});
+    }
+    else{
+      scrap_box.opinion = opinion;
+      scrap_box.save(function(err){
+        if(err){
+          console.error(err);
+          res.json({'result':'fail'});
+        }else{
+          console.log('scrap_box에 opinion 추가 성공');
+          console.log(scrap_box);
+          res.json({'result':'insert_success'});
+        }
+      });
     }
   });
+
 
 
 
