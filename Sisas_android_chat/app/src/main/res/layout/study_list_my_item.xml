@@ -23,7 +23,6 @@
                 android:layout_height="wrap_content"
                 app:srcCompat="@mipmap/ic_header"
                 android:background="@color/colorwhite"
-                android:layout_weight="1"
                 android:adjustViewBounds="false" />
 
             <TextView
@@ -43,13 +42,14 @@
             <TextView
                 android:id="@+id/tv_my_room_name"
                 android:hint="방이름"
-                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="marquee"
+                android:focusable="true"
+                android:marqueeRepeatLimit="marquee_forever"
                 android:singleLine="true"
-                android:layout_weight="1"
                 android:layout_gravity="center"
-                android:gravity="center" />
+                android:gravity="center"
+                android:layout_width="130dp" />
 
             <TextView
                 android:id="@+id/tv_my_room_capacity"
@@ -78,8 +78,7 @@
                 android:src="@mipmap/ic_go_in_study"
                 android:id="@+id/ib_study_go"
                 app:srcCompat="@mipmap/ic_go_in_study"
-                android:background="@color/colorwhite"
-                android:layout_weight="1" />
+                android:background="@color/colorwhite" />
         </TableRow>
 
     </TableLayout>

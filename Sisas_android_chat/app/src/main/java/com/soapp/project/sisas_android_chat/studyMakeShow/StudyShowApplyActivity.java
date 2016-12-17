@@ -98,18 +98,7 @@ public class StudyShowApplyActivity extends AppCompatActivity {
         list_view = (ListView)findViewById(R.id.apply_member_list_view);
         apply_member_list_adapter = new StudyShowApplyMemberListAdapter();
 
-        //스터디 상세정보 + 참여하는 멤버정보 가져오기
-        try {
-            getStudyDetailFromServer(room_id, Member.getInstance().getEmail());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
-        try{
-            getMemberDetailFromServer(room_id);
-        }catch(Exception e){
-            e.printStackTrace();
-        }
 
         btn_apply_go.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -120,15 +109,22 @@ public class StudyShowApplyActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 }
-            });
+        });
+
+        //스터디 상세정보 + 참여하는 멤버정보 가져오기
+        try {
+            getStudyDetailFromServer(room_id, Member.getInstance().getEmail());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void getStudyDetailFromServer(final int room_id, final String email) throws Exception{
-        final String URL = "http://52.78.157.250:3000/get_room";
+        Log.e("get", "studydetailfromserver");
+        final String URL = "http://52.78.157.250:3000/get_room_and_member";
 
         Map<String, Object> room_member_detail_param = new HashMap<String, Object>();
         room_member_detail_param.put("room_id", room_id);
-        room_member_detail_param.put("email", email);
 
         JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, URL, new JSONObject(room_member_detail_param),
                 new Response.Listener<JSONObject>() {
@@ -148,6 +144,8 @@ public class StudyShowApplyActivity extends AppCompatActivity {
                             tv_study_start_date.setText(start_date);
                             tv_study_end_date.setText(end_date);
                             tv_study_comment.setText(comment);
+
+                            getMemberDetailFromServer(room_id);
                         }catch(Exception e){
                             e.printStackTrace();
                         }
@@ -204,6 +202,7 @@ public class StudyShowApplyActivity extends AppCompatActivity {
 
         Map<String, Object> room_member_detail_param = new HashMap<String, Object>();
         room_member_detail_param.put("room_id", room_id);
+        room_member_detail_param.put("email", Member.getInstance().getEmail());
 
         JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, URL, new JSONObject(room_member_detail_param),
                 new Response.Listener<JSONObject>() {
@@ -221,6 +220,7 @@ public class StudyShowApplyActivity extends AppCompatActivity {
                                     toast.show();
 
                                     Intent new_intent = new Intent(getApplicationContext(), StudyShowApplyActivity.class);
+                                    new_intent.putExtra("room_id", room_id);
                                     startActivity(new_intent);
                                     finish();
                                 }

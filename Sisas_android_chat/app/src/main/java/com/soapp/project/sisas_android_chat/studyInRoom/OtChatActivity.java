@@ -1,6 +1,7 @@
 package com.soapp.project.sisas_android_chat.studyInRoom;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -13,6 +14,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -78,6 +80,8 @@ public class OtChatActivity extends AppCompatActivity implements DatePickerDialo
         super.onCreate(savedInstanceState);
         setContentView(R.layout.study_in_room_ot_chat);
 
+        Log.e("activity onCreate", "activity onCreate");
+
         toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -110,40 +114,49 @@ public class OtChatActivity extends AppCompatActivity implements DatePickerDialo
         btn_ot_fix_keyword = (Button)findViewById(R.id.btn_ot_fix_keyword);
         btn_ot_scrap = (Button)findViewById(R.id.btn_ot_scrap);
 
-        //해당 스터디 정보 가지고 오기
-        try{
-            getStudyInfoFromServer(room_id);
-        }catch(Exception e){
-            e.printStackTrace();
-        }
+        Log.e("datefFromServer1", date_from_server);
 
         //FragmentGetMyStudy의 StudyListMyExpandableAdapter에서 보내준 정보 가져오기
         Intent intent = getIntent();
         room_id = intent.getExtras().getInt("room_id");
-        if(!intent.getExtras().getString("keyword").equals("") && !intent.getExtras().getString("date").equals("")) {
-            keyword_from_server = intent.getExtras().getString("keyword");
-            date_from_server = intent.getExtras().getString("date");
+        if(intent.getExtras().containsKey("keyword") && intent.getExtras().containsKey("date")) {
+            if (!intent.getExtras().getString("keyword").equals("") && !intent.getExtras().getString("date").equals("")) {
+                keyword_from_server = intent.getExtras().getString("keyword");
+                date_from_server = intent.getExtras().getString("date");
 
-            et_keyword.setText(keyword_from_server);
-            tv_keyword_date.setText(date_from_server);
+                et_keyword.setText(keyword_from_server);
+                tv_keyword_date.setText(date_from_server);
 
-            et_keyword.setClickable(false);
-            et_keyword.setCursorVisible(false);
-            et_keyword.setEnabled(false);
-            et_keyword.setFocusable(false);
-            tv_keyword_date.setClickable(false);
-            tv_keyword_date.setEnabled(false);
-            btn_ot_fix_keyword.setClickable(false);
-            btn_ot_fix_keyword.setBackgroundColor(Color.parseColor("#C1C9C8"));
-            btn_ot_scrap.setClickable(true);
-            btn_ot_scrap.setBackgroundColor(Color.parseColor("#1f9e8e"));
-            btn_ot_fix_keyword.setBackgroundColor(Color.GRAY);
+                et_keyword.setClickable(false);
+                et_keyword.setCursorVisible(false);
+                et_keyword.setEnabled(false);
+                et_keyword.setFocusable(false);
+                tv_keyword_date.setClickable(false);
+                tv_keyword_date.setEnabled(false);
+                btn_ot_fix_keyword.setClickable(false);
+                btn_ot_fix_keyword.setBackgroundColor(Color.parseColor("#C1C9C8"));
+                btn_ot_scrap.setClickable(true);
+                btn_ot_scrap.setBackgroundColor(Color.parseColor("#1f9e8e"));
+                btn_ot_fix_keyword.setBackgroundColor(Color.GRAY);
+            }
+        } else {
+            //해당 스터디 정보 가지고 오기
+            try{
+                getStudyInfoFromServer(room_id);
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
 
+        Log.e("datefFromServer2", date_from_server);
+
+        //확정 혹은 스크랩 두개를 동시에 눌리도록 가능하게 하지 않기
         if(btn_ot_fix_keyword.isClickable()){
             btn_ot_scrap.setClickable(false);
+            btn_ot_scrap.setEnabled(false);
         } else {
             btn_ot_scrap.setClickable(true);
+            btn_ot_scrap.setEnabled(true);
         }
 
         btn_ot_fix_keyword.setOnClickListener(new View.OnClickListener() {
@@ -162,8 +175,10 @@ public class OtChatActivity extends AppCompatActivity implements DatePickerDialo
             public void onClick(View v) {
                 try {
                     //키워드로 크롤링
+                    Log.e("btn_ot_scrap", "clicked");
                     String et_keyword_content = et_keyword.getText().toString();
                     Intent intent = new Intent(OtChatActivity.this, ScrapWithKeywordActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                     intent.putExtra("keyword", et_keyword_content);
                     startActivity(intent);
                 }catch (Exception e){
@@ -179,7 +194,7 @@ public class OtChatActivity extends AppCompatActivity implements DatePickerDialo
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.replace( R.id.container, fragment );
+        fragmentTransaction.add( R.id.container, fragment );
         fragmentTransaction.commit();
 
         btn_main_start = (Button)findViewById(R.id.btn_main_start);
@@ -212,6 +227,12 @@ public class OtChatActivity extends AppCompatActivity implements DatePickerDialo
                 }
             }
         });
+
+        Log.e("datefFromServer3", date_from_server);
+
+
+
+        Log.e("datefFromServer4", date_from_server);
     }
 
     private void fixKeywordToServer(final String keyword, final String date, final String email, final int room_id) throws Exception{
@@ -247,6 +268,12 @@ public class OtChatActivity extends AppCompatActivity implements DatePickerDialo
                                     Toast toast = Toast.makeText(getApplicationContext(), "키워드가 등록되었습니다.", Toast.LENGTH_SHORT);
                                     toast.setGravity(Gravity.CENTER, 0,0);
                                     toast.show();
+
+                                    Intent intent = getIntent();
+                                    intent.putExtra("keyword", keyword);
+                                    intent.putExtra("date", date);
+                                    startActivity(intent);
+                                    finish();
                                 }else if(response.getString("result").equals("duplication")){
                                     Toast toast = Toast.makeText(getApplicationContext(), "이미 같은 키워드가 등록되었습니다.", Toast.LENGTH_SHORT);
                                     toast.setGravity(Gravity.CENTER, 0,0);
@@ -269,6 +296,7 @@ public class OtChatActivity extends AppCompatActivity implements DatePickerDialo
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
+        Log.e("activity OptionsMenu", "activity OptionsMenu");
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.socket_activity_actions, menu);
         return super.onCreateOptionsMenu(menu);
@@ -279,6 +307,8 @@ public class OtChatActivity extends AppCompatActivity implements DatePickerDialo
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
+        Log.e("activity ItemSelected", "activity ItemSelected");
+
         switch (item.getItemId()) {
             case R.id.action_attach:
                 openGallery();
@@ -300,6 +330,7 @@ public class OtChatActivity extends AppCompatActivity implements DatePickerDialo
     @Override
     protected void onActivityResult(int requestCode,int resultCode,Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Log.e("activity ActivityResult", "activity onActivityResult");
         if (requestCode == 1 && resultCode == RESULT_OK
                 && null != data) {
             Uri selectedImage = data.getData();
@@ -367,6 +398,8 @@ public class OtChatActivity extends AppCompatActivity implements DatePickerDialo
             }
         });
         volley.getInstance().addToRequestQueue(req);
+
+
     }
 
     @Override
@@ -377,9 +410,7 @@ public class OtChatActivity extends AppCompatActivity implements DatePickerDialo
 
         if(view.getTag().equals("date_dialog") && view.isShown()) {
             Calendar date_picked = Calendar.getInstance(time_zone);
-            year = year;
             monthOfYear = monthOfYear + 1;
-            dayOfMonth = dayOfMonth;
             date_picked.set(year, monthOfYear, dayOfMonth);
             keyword_date = date_picked.getTimeInMillis() / (24 * 60 * 60 * 1000);
         }
@@ -400,7 +431,7 @@ public class OtChatActivity extends AppCompatActivity implements DatePickerDialo
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(getApplicationContext(), StudyShowActivity.class);
+        Intent intent = new Intent(getApplicationContext(), StudyMakeShowMainActivity.class);
         startActivity(intent);
     }
 }
