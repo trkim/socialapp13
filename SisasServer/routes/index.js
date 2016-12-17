@@ -495,7 +495,7 @@ router.get('/scrap_with_keyword', function(req,res){
   var keyword = req.query.keyword;
 
   var options = {
-    mode : 'text',
+    mode : 'json',
     pythonPath : '/usr/bin/python3.5',
     pythonOptions : ['-u'],
     scriptPath : './public/pythonscripts',
