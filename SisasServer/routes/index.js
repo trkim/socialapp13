@@ -583,7 +583,8 @@ router.post('insert_scrap', function(req,res){
           console.error(err);
           res.json({'result':'fail'});
         }else{
-          console.log('스크랩 성공')
+          console.log('스크랩 성공');
+          res.json({'result':'success'});
         }
       });
     }else{
@@ -598,8 +599,20 @@ router.post('insert_scrap', function(req,res){
 router.get('/get_myscraplist', function(req, res){
   console.log('scraplist 가져오기')
   var email = req.query.email;
+  var room_id = req.query.room_id;
 
-  Scrap_box.find({'email':email}, function(err, scraplist){
+  Scrap_box.find({'email':email, 'room_id':room_id}, function(err, scraplist){
+    if(err){
+      console.error(err);
+      res.json({'result':'fail'});
+    }
+    else{
+      console.log('scraplist 가져오기 성공');
+      res.json(scraplist);
+    }
+  });
+
+/*  Scrap_box.find({'email':email}, function(err, scraplist){
     if(err){
       console.error(err);
       res.json({'result':'fail'});
@@ -634,7 +647,7 @@ router.get('/get_myscraplist', function(req, res){
         });
       });
     }
-  });
+  });*/
 });
 
 module.exports = router;
