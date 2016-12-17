@@ -241,23 +241,31 @@ router.post('/delete_room_req', function(req,res){
 });
 
 router.post('/delete_room', function(req,res){
+  console.log('delete_room');
   var email = req.body.email;
   var room_id = req.body.room_id;
+  console.log('email : '+email+'  room_id : '+room_id);
 
-  Room.findOne({'email':email, 'room_id':room_id}, function(err, room){
-    if( room == "" || room == null || room == undefined || ( room != null && typeof room == "object" && !Object.keys(room).length )){
-      res.json({'result':'delete_room'});
-      //이 부분 안되면 함수 나눠서 따로 진행
-      room.remove(function(err){
-        if(err){
-          console.error(err);
-          res.json({'result':'fail'});
-        }
-        else{
-          console.log('room delete success');
+  Room.findOne({'email':email, 'room_id':room_id}, function(err, room) {
+    if(err){
+      console.error(err);
+      res.json({'result':'fail'});
+    }
+    else{
+      if (room == "" || room == null || room == undefined || ( room != null && typeof room == "object" && !Object.keys(room).length )) {
+        res.json({'result': 'delete_room'});
+        //이 부분 안되면 함수 나눠서 따로 진행
+        room.remove(function (err) {
+          if (err) {
+            console.error(err);
+            res.json({'result': 'fail'});
+          }
+          else {
+            console.log('room delete success');
 
-        }
-      });
+          }
+        });
+      }
     }
   });
 });

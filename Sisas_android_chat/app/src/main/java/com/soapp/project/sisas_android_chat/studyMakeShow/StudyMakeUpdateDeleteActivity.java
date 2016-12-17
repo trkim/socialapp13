@@ -270,7 +270,7 @@ public class StudyMakeUpdateDeleteActivity extends AppCompatActivity implements 
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 try{
-                    deleteStudyToServer(room_id);
+                    deleteStudyToServer(room_id, Member.getInstance().getEmail());
                 }catch(Exception e){
                     e.printStackTrace();
                 }
@@ -286,11 +286,12 @@ public class StudyMakeUpdateDeleteActivity extends AppCompatActivity implements 
         alert.show();
     }
 
-    private void deleteStudyToServer(final int room_id) throws Exception{
+    private void deleteStudyToServer(final int room_id, final String email) throws Exception{
         final String URL = "http://52.78.157.250:3000/delete_room";
 
         Map<String, Object> delete_room_param = new HashMap<String, Object>();
         delete_room_param.put("room_id", room_id);
+        delete_room_param.put("email", email);
 
         JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, URL, new JSONObject(delete_room_param),
                 new Response.Listener<JSONObject>() {
