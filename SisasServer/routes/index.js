@@ -423,14 +423,14 @@ router.post('/join_room', function(req,res){
 router.post('/get_room_and_member', function(req, res){
   var room_id = req.body.room_id;
 
-  Room.find({'room_id':room_id}, function(err, memberlist){
+  Room.findOne({'room_id':room_id}, function(err, room){
     if(err){
       console.error(err);
       res.json({'result':'fail'});
     }
-    if(memberlist){
+    if(room){
       console.log('스터디 참여 회원 정보 조회 완료');
-      res.json(memberlist);
+      res.json(room);
     }
   });
 });
