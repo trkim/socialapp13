@@ -200,7 +200,16 @@ router.post('/insert_room', function(req,res){
       room.comment = req.body.comment;
 
 
-      result.save();
+      result.save(function(err){
+        if(err){
+          console.error(err);
+          res.json({'result':'fail'});
+        }
+        else{
+          console.log('방 수정 성공');
+          res.json({'result': 'success'});
+        }
+      });
 
       room.save(function(err){
         if(err){
@@ -271,6 +280,7 @@ router.post('/delete_room', function(req,res){
 });
 
 router.post('/update_room', function(req,res){
+  console.log('update_room');
   var room_id = req.body.room_id;
   var email = req.body.email;
   var king_name = req.body.king_name;
@@ -284,7 +294,7 @@ router.post('/update_room', function(req,res){
   Room.findOne({'room_id':room_id}, function(err, room){
 
     if(err){
-      console.log('room 수정 완료');
+      console.error(err);
       res.json({'result':'fail'});
     }
     if(room) {
