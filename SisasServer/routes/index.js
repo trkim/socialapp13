@@ -510,7 +510,7 @@ router.get('/scrap_with_keyword', function(req,res){
     }
     else{
       console.log('기사 크롤링 완료');
-      var resultBuffer = encoding.convert(results, 'ASCII', 'UTF-8');
+      var resultBuffer = encoding.convert(results, 'EUC-KR', 'UTF-8');
       res.header("Content-Type", "application/json; charset=utf-8");
       console.log(results);
       console.log(resultBuffer);
