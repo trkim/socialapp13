@@ -22,6 +22,9 @@ obj = {'title':'', 'content':'', 'url':''}
 def __str__(self):
     return 'title=%s, content=%s, url=%s'%(self.title, self.content, self.url)
 
+def obj_dict(obj):
+    return obj.__dict__
+
 def get_url_with_keyword(URL, keyword):
   source_code_from_URL = URL+keyword
   print(source_code_from_URL)
@@ -44,7 +47,7 @@ def crawling(URL):
     sleep(2)
     count = count+1
     objarray.append(obj)
-  json.dumps(objarray)
+  json.dumps(objarray, default=obj_dict)
 
 
 def main(input_kwd):
