@@ -550,7 +550,7 @@ router.get('/scrap_with_keyword', function(req,res){
 });
 
 
-router.get('send_fixkeyword', function(req,res){
+router.get('/send_fixkeyword', function(req,res){
   console.log('send fix keyword');
   var room_id = req.query.room_id;
 
@@ -566,6 +566,7 @@ router.get('send_fixkeyword', function(req,res){
 });
 
 router.post('/insert_scrap', function(req,res){
+  console.log('insert_scrap');
   var scrap_box = new Scrap_box();
 
   scrap_box.article_title = req.body.article_title;
@@ -577,7 +578,7 @@ router.post('/insert_scrap', function(req,res){
   scrap_box.scrap_id = article_title + keyword_box_id;
   scrap_box.room_id = req.body.room_id;
 
-  Scrap_box.findOne({'scrap_id':scrap_id}, function(err, scrap){
+  Scrap_box.findOne({'scrap_id':scrap_box.scrap_id}, function(err, scrap){
     if( scrap == "" || scrap == null || scrap == undefined || ( scrap != null && typeof scrap == "object" && !Object.keys(scrap).length )){
       scrap_box.save(function(err){
         if(err){
