@@ -566,6 +566,7 @@ router.get('/send_fixkeyword', function(req,res){
 });
 
 router.post('/insert_scrap', function(req,res){
+  req.accepts('application/json');
   console.log('insert_scrap');
   var scrap_box = new Scrap_box();
 
