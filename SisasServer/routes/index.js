@@ -492,16 +492,31 @@ router.get('/scrap_with_keyword', function(req,res){
   console.log('scrap_with_keyword 실행')
   var keyword = req.query.keyword;
 
-  var options = {
+/*  var options = {
     mode : 'text',
     pythonPath : '/usr/bin/python3.5',
     pythonOptions : ['-u'],
     scriptPath : './public/pythonscripts',
     args:[keyword]
-  };
+  };*/
 
-  PythonShell.run('run.py', options, function(err, results){
+/*  PythonShell.run('run.py', options, function(err, results){
     console.log('python script 실행')
+    if(err){
+      console.error(err);
+      res.json({'result':'fail'});
+    }
+    else{
+      console.log('기사 크롤링 완료');
+      res.header("Content-Type", "application/json; charset=utf-8");
+      console.log(results);
+      res.json({'articlelist' : results});
+
+    }
+  });*/
+
+  var shell = new PythonShell('run.py', {mode : 'text'});
+  shell.send({args:[keyword]}, function(err, results){
     if(err){
       console.error(err);
       res.json({'result':'fail'});
