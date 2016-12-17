@@ -2,8 +2,8 @@ var express = require('express');
 var app = express();
 var router = express.Router();
 var mongoose = require('mongoose');
-var bodyParser = require('body-parser');
 var PythonShell = require('python-shell');
+var encoding = require('encoding');
 
 
 
@@ -495,7 +495,7 @@ router.get('/scrap_with_keyword', function(req,res){
   var keyword = req.query.keyword;
 
   var options = {
-    mode : 'text',
+    mode : 'json',
     pythonPath : '/usr/bin/python3.5',
     pythonOptions : ['-u'],
     scriptPath : './public/pythonscripts',
@@ -510,9 +510,11 @@ router.get('/scrap_with_keyword', function(req,res){
     }
     else{
       console.log('기사 크롤링 완료');
+      var resultBuffer = encoding.convert(results, 'ASCII', 'UTF-8');
       res.header("Content-Type", "application/json; charset=utf-8");
       console.log(results);
-      res.json({'articlelist' : results});
+      console.log(resultBuffer);
+      res.json({'articlelist' : resultBuffer});
 
     }
   });
