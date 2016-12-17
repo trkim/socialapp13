@@ -43,7 +43,8 @@ def crawling(URL):
     obj['url'] = url
     sleep(2)
     count = count+1
-    json.dumps(obj)
+    objarray.append(obj)
+   json.dumps(objarray)
 
 
 def main(input_kwd):
