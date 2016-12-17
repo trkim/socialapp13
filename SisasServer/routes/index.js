@@ -510,6 +510,7 @@ router.get('/scrap_with_keyword', function(req,res){
       res.json({'result':'fail'});
     }
     else{
+      console.log('keyword : '+keyword)
       console.log('기사 크롤링 완료');
       console.log('서버에서 출력*********');
       console.log(typeof results);
