@@ -650,5 +650,38 @@ router.get('/get_myscraplist', function(req, res){
     }
   });*/
 });
+//스터디 중 기사 가져오기********
+router.get('/get_scraplist', function(req, res){
+  console.log('get_scraplist')
+  var email = req.query.email;
+  var keyword_box_id = req.query.keyword_box_id;
+
+  Scrap_box.find({'email':email, 'keyword_box_id':keyword_box_id}, function(err, scraplist){
+    if(err){
+      console.error(err);
+      res.json({'result':'fail'});
+    }
+    else{
+      console.log('기사 가져오기 성공');
+      res.json(scraplist);
+    }
+  });
+});
+
+router.post('/get_scrap', function(req, res){
+  console.log('get_scrap');
+  var scrap_id = req.body.scrap_id;
+
+  Scrap_box.findOne({'scrap_id':scrap_id}, function(err, scrap){
+    if(err){
+      console.error(err);
+      res.json({'result':'fail'});
+    }
+    else{
+      console.log('선택 기사 가져오기 성공');
+      res.json(scrap);
+    }
+  });
+});
 
 module.exports = router;
