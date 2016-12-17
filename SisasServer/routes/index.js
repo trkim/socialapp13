@@ -495,7 +495,7 @@ router.get('/scrap_with_keyword', function(req,res){
   var keyword = req.query.keyword;
 
   var options = {
-    mode : 'json',
+    mode : 'text',
     pythonPath : '/usr/bin/python3.5',
     pythonOptions : ['-u'],
     scriptPath : './public/pythonscripts',
@@ -511,6 +511,7 @@ router.get('/scrap_with_keyword', function(req,res){
     else{
       console.log('기사 크롤링 완료');
       console.log('서버에서 출력*********');
+      console.log(typeof results);
       console.log(results);
       res.json({'articlelist' : results});
 
