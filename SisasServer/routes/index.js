@@ -493,6 +493,7 @@ router.get('/get_keyword', function(req,res){
 router.get('/scrap_with_keyword', function(req,res){
   console.log('scrap_with_keyword 실행')
   var keyword = req.query.keyword;
+  console.log(keyword);
 
   var options = {
     mode : 'text',
