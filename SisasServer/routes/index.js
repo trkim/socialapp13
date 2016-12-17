@@ -565,7 +565,7 @@ router.get('send_fixkeyword', function(req,res){
   });
 });
 
-router.post('insert_scrap', function(req,res){
+router.post('/insert_scrap', function(req,res){
   var scrap_box = new Scrap_box();
 
   scrap_box.article_title = req.body.article_title;
