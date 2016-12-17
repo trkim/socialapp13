@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -89,7 +90,7 @@ public class MemberUpdateActivity extends AppCompatActivity {
             }
         });
 
-        update_layout = (LinearLayout)findViewById(R.id.join_layout);
+        update_layout = (LinearLayout)findViewById(R.id.update_layout);
         update_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -127,12 +128,26 @@ public class MemberUpdateActivity extends AppCompatActivity {
 
         String my_interest = Member.getInstance().getCategory();
         String[] interests_array = my_interest.split(",");
-        for(int i=0; i<interests_array.length; i++){
-            if(interests_array[i].equals("정치")){ cb_member_politics.setChecked(true); }
-            if(interests_array[i].equals("경제")){ cb_member_economics.setChecked(true); }
-            if(interests_array[i].equals("사회")){ cb_member_social.setChecked(true); }
-            if(interests_array[i].equals("IT")){ cb_member_it.setChecked(true); }
-            if(interests_array[i].equals("세계")){ cb_member_world.setChecked(true); }
+        if(my_interest.startsWith(",")) {
+            for (int i = 0; i < interests_array.length; i++) {
+                if (interests_array[i].equals("정치")) {
+                    cb_member_politics.setChecked(true);
+                } else if (interests_array[i].equals("경제")) {
+                    cb_member_economics.setChecked(true);
+                } else if (interests_array[i].equals("사회")) {
+                    cb_member_social.setChecked(true);
+                } else if (interests_array[i].equals("IT")) {
+                    cb_member_it.setChecked(true);
+                } else if (interests_array[i].equals("세계")) {
+                    cb_member_world.setChecked(true);
+                }
+            }
+        }else {
+            if (my_interest.equals("politic")) { cb_member_politics.setChecked(true); }
+            if (my_interest.equals("economics")) { cb_member_economics.setChecked(true); }
+            if (my_interest.equals("social")) { cb_member_social.setChecked(true); }
+            if (my_interest.equals("it")) { cb_member_it.setChecked(true); }
+            if (my_interest.equals("world")) { cb_member_world.setChecked(true); }
         }
 
         et_member_pwd_chk.addTextChangedListener(new TextWatcher() {
@@ -228,7 +243,8 @@ public class MemberUpdateActivity extends AppCompatActivity {
         alert_dialog_builder.setCancelable(false).setPositiveButton("예", new DialogInterface.OnClickListener(){
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Intent intent = new Intent(MemberUpdateActivity.this, StudyMakeShowMainActivity.class);
+                Intent intent = new Intent(MemberUpdateActivity.this, MemberInfoActivity.class);
+                intent.putExtra("fragment","profile");
                 startActivity(intent);
                 overridePendingTransition(R.anim.rightin, R.anim.leftout);
                 finish();

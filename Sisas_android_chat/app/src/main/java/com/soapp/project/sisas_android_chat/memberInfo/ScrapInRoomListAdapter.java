@@ -37,6 +37,7 @@ import java.util.Map;
 public class ScrapInRoomListAdapter extends BaseAdapter {
 
     private Context context;
+    ScrapInRoomListItem scrap_in_room_item;
     public ArrayList<ScrapInRoomListItem> scrap_in_room_item_list = new ArrayList<ScrapInRoomListItem>();
 
     public ScrapInRoomListAdapter(Context context){
@@ -68,19 +69,19 @@ public class ScrapInRoomListAdapter extends BaseAdapter {
             convertView.setTag(position);
         }
 
+
         final TextView tv_single_keyword = (TextView)convertView.findViewById(R.id.tv_single_keyword);
         final TextView tv_single_keyword_date = (TextView)convertView.findViewById(R.id.tv_single_keyword_date);
         final TextView tv_scrap_article_title = (TextView)convertView.findViewById(R.id.tv_scrap_article_title);
         TextView tv_scrap_content = (TextView)convertView.findViewById(R.id.tv_scrap_content);
 
+        scrap_in_room_item = scrap_in_room_item_list.get(position);
 
-        ScrapInRoomListItem scrapInRoomListItem = scrap_in_room_item_list.get(position);
-
-        tv_single_keyword.setText("< " + scrapInRoomListItem.getSingle_keyword() + " >");
-        tv_single_keyword_date.setText(scrapInRoomListItem.getSingle_keyword_date());
-        tv_scrap_article_title.setText(scrapInRoomListItem.getScrap_article_title());
-        tv_scrap_content.setText(scrapInRoomListItem.getScrap_content());
-        final String scrap_article_url = scrapInRoomListItem.getScrap_url();
+        tv_single_keyword.setText("< " + scrap_in_room_item.getSingle_keyword() + " >");
+        tv_single_keyword_date.setText(scrap_in_room_item.getSingle_keyword_date());
+        tv_scrap_article_title.setText(scrap_in_room_item.getScrap_article_title());
+        tv_scrap_content.setText(scrap_in_room_item.getScrap_content());
+        final String scrap_article_url = scrap_in_room_item.getScrap_url();
 
         //제목을 클릭 시, 해당 링크 브라우저로 이동
         tv_scrap_article_title.setOnClickListener(new View.OnClickListener() {
@@ -94,8 +95,8 @@ public class ScrapInRoomListAdapter extends BaseAdapter {
 
         final EditText et_opinion = (EditText)convertView.findViewById(R.id.et_opinion);
         //의견이 있는 기사는 의견 가지고 오기
-        if(!scrapInRoomListItem.getScrap_opinion().equals("")){
-            et_opinion.setText(scrapInRoomListItem.getScrap_opinion());
+        if(!scrap_in_room_item.getScrap_opinion().equals("")){
+            et_opinion.setText(scrap_in_room_item.getScrap_opinion());
         }
 
         //의견 저장 버튼 클릭 시
@@ -117,6 +118,18 @@ public class ScrapInRoomListAdapter extends BaseAdapter {
         Button btn_bring_to_chat = (Button)convertView.findViewById(R.id.btn_bring_to_chat);
 
         return convertView;
+    }
+
+    public void addKeywordScrap(String keyword, String date, String article_title, String url, String content, String opinion){
+        ScrapInRoomListItem item = new ScrapInRoomListItem(keyword, date, article_title, url, content, opinion);
+        item.setSingle_keyword(keyword);
+        item.setSingle_keyword_date(date);
+        item.setScrap_article_title(article_title);
+        item.setScrap_url(url);
+        item.setScrap_content(content);
+        item.setScrap_opinion(opinion);
+
+        scrap_in_room_item_list.add(item);
     }
 
     private void saveOpinionToServer(String article_title, String opinion){
@@ -152,4 +165,6 @@ public class ScrapInRoomListAdapter extends BaseAdapter {
         });
         volley.getInstance().addToRequestQueue(req);
     }
+
+
 }

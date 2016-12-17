@@ -3,6 +3,7 @@ package com.soapp.project.sisas_android_chat.studyMakeShow;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -90,6 +91,7 @@ public class StudyListMyExpandableAdapter extends BaseExpandableListAdapter {
                 }
             });
         } else if(getGroup(groupPosition).getStudy_icon() == 0) {
+            ib_head_icon.setVisibility(View.INVISIBLE);
             ib_head_icon.setEnabled(false);
             ib_head_icon.setClickable(false);
             ib_head_icon.setImageResource(R.mipmap.ic_whitespace);
@@ -126,9 +128,11 @@ public class StudyListMyExpandableAdapter extends BaseExpandableListAdapter {
         tv_my_room_name.setText(getGroup(groupPosition).getStudy_name());
         tv_my_room_capacity.setText(String.valueOf(getGroup(groupPosition).getStudy_capacity()));
         tv_my_room_dday.setText(getGroup(groupPosition).getStudy_dday());
-
         tv_my_room_category.setTextColor(Color.BLACK);
         tv_my_room_name.setTextColor(Color.BLACK);
+        tv_my_room_name.setSingleLine(true); //한줄로 나오게 하기.
+        tv_my_room_name.setEllipsize(TextUtils.TruncateAt.MARQUEE);//Ellipsize의 MARQUEE 속성 주기
+        tv_my_room_name.setSelected(true); //해당 텍스트뷰에 포커스가 없어도 문자 흐르게 하기
         tv_my_room_capacity.setTextColor(Color.BLACK);
         tv_my_room_dday.setTextColor(Color.BLACK);
 
@@ -219,43 +223,48 @@ public class StudyListMyExpandableAdapter extends BaseExpandableListAdapter {
 
     private void getKeyword(final int room_id){
         long min = 999999999;
-        for(int i=0; i<keyword_list.size(); i++) {
-            String keyword_from_server = keyword_list.get(i).optString("keyword");
-            String date_from_server = keyword_list.get(i).optString("date");
-
-            //오늘 날짜
-            TimeZone time_zone = TimeZone.getTimeZone("Asia/Seoul");
-            Calendar today_calendar = Calendar.getInstance(time_zone);
-            today_calendar.set(today_calendar.get(Calendar.YEAR), today_calendar.get(Calendar.MONTH) + 1, today_calendar.get(Calendar.DAY_OF_MONTH));
-            long today_in_millis = today_calendar.getTimeInMillis() / (24 * 60 * 60 * 1000);
-
-            //키워드 날짜
-            Calendar keyword_calendar = Calendar.getInstance(time_zone);
-            String[] keyword_date_split = date_from_server.split("-");
-            int keyword_date_year = Integer.parseInt(keyword_date_split[0]);
-            int keyword_date_month = Integer.parseInt(keyword_date_split[1]);
-            int keyword_date_day = Integer.parseInt(keyword_date_split[2]);
-            keyword_calendar.set(keyword_date_year, keyword_date_month, keyword_date_day);
-            long keyword_date_in_millis = keyword_calendar.getTimeInMillis() / (24 * 60 * 60 * 1000);
-
-            //오늘 날짜 이후의 키워드인지 판별
-            long temp = keyword_date_in_millis - today_in_millis;
-            if(temp < min){
-                min = temp;
-                keyword_available = keyword_from_server;
-                date_available = date_from_server;
-            }
+        if(keyword_list.size()==0){
             Intent intent = new Intent(context, OtChatActivity.class);
-            //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.putExtra("room_id", room_id);
-            if(!keyword_available.equals("") && !date_available.equals("")) {
-                intent.putExtra("keyword", keyword_available);
-                intent.putExtra("date", date_available);
-            }
             context.startActivity(intent);
+        } else {
+            for (int i = 0; i < keyword_list.size(); i++) {
+                String keyword_from_server = keyword_list.get(i).optString("keyword");
+                String date_from_server = keyword_list.get(i).optString("date");
+
+                //오늘 날짜
+                TimeZone time_zone = TimeZone.getTimeZone("Asia/Seoul");
+                Calendar today_calendar = Calendar.getInstance(time_zone);
+                today_calendar.set(today_calendar.get(Calendar.YEAR), today_calendar.get(Calendar.MONTH) + 1, today_calendar.get(Calendar.DAY_OF_MONTH));
+                long today_in_millis = today_calendar.getTimeInMillis() / (24 * 60 * 60 * 1000);
+
+                //키워드 날짜
+                Calendar keyword_calendar = Calendar.getInstance(time_zone);
+                String[] keyword_date_split = date_from_server.split("-");
+                int keyword_date_year = Integer.parseInt(keyword_date_split[0]);
+                int keyword_date_month = Integer.parseInt(keyword_date_split[1]);
+                int keyword_date_day = Integer.parseInt(keyword_date_split[2]);
+                keyword_calendar.set(keyword_date_year, keyword_date_month, keyword_date_day);
+                long keyword_date_in_millis = keyword_calendar.getTimeInMillis() / (24 * 60 * 60 * 1000);
+
+                //오늘 날짜 이후의 키워드인지 판별
+                long temp = keyword_date_in_millis - today_in_millis;
+                if (temp < min) {
+                    min = temp;
+                    keyword_available = keyword_from_server;
+                    date_available = date_from_server;
+                }
+                Intent intent = new Intent(context, OtChatActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                intent.putExtra("room_id", room_id);
+                if (!keyword_available.equals("") && !date_available.equals("")) {
+                    intent.putExtra("keyword", keyword_available);
+                    intent.putExtra("date", date_available);
+                }
+                context.startActivity(intent);
+            }
         }
 
 
     }
-
 }

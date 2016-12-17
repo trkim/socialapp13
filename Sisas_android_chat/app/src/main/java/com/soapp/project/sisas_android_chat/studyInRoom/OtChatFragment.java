@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -95,6 +96,8 @@ public class OtChatFragment extends Fragment {
         setHasOptionsMenu(true);
         String username = Member.getInstance().getName();
 
+        Log.e("frag oncreate", "frag oncreate");
+
         Bundle bundle_arg = getArguments();
         if(bundle_arg != null) {
             room_id = Integer.parseInt(bundle_arg.getString("room_id"));
@@ -116,8 +119,6 @@ public class OtChatFragment extends Fragment {
         //socket.on("system", handleIncomingMessages);
         socket.on("get message", handleIncomingMessages);
         socket.connect();
-
-
     }
 
 
@@ -126,7 +127,15 @@ public class OtChatFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.study_in_room_ot_chat_frag, container, false);
+        View view = null;
+        Log.e("frag onCreateView", "frag onCreateView");
+
+        if(view == null){
+            view = (ViewGroup) inflater.inflate(R.layout.study_in_room_ot_chat_frag, container, false);
+        } else {
+            ((ViewGroup) view.getParent()).removeView(view);
+        }
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -159,6 +168,8 @@ public class OtChatFragment extends Fragment {
 
         ImageButton sendButton = (ImageButton) view.findViewById(R.id.send_button);
         mInputMessageView = (EditText) view.findViewById(R.id.message_input);
+
+        Log.e("frag onViewCreated", "frag onViewCreated");
 
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
