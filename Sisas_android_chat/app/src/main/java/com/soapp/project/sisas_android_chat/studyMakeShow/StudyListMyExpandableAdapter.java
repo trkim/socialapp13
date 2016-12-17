@@ -108,21 +108,11 @@ public class StudyListMyExpandableAdapter extends BaseExpandableListAdapter {
                     Toast.makeText(context, "이미 끝난 스터디입니다." , Toast.LENGTH_LONG).show();
                 } else{ //ot 채팅방으로 들어감
                     //등록된 키워드가 있는지 체크
-                    checkForKeywordFromServer(room_id);
-
-                    Intent intent = new Intent(context, OtChatActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    intent.putExtra("room_id", room_id);
-                    Log.e("room_id", String.valueOf(room_id));
-                    Log.e("keyword_available",keyword_available);
-                    Log.e("date_available",date_available);
-                    if(!keyword_available.equals("") && !date_available.equals("")) {
-                        intent.putExtra("keyword", keyword_available);
-                        intent.putExtra("date", date_available);
-                        Log.e("keyword_available",keyword_available);
-                        Log.e("date_available",date_available);
+                    try {
+                        checkForKeywordFromServer(room_id);
+                    }catch(Exception e){
+                        e.printStackTrace();
                     }
-                    context.startActivity(intent);
                 }
             }
         });
@@ -203,7 +193,7 @@ public class StudyListMyExpandableAdapter extends BaseExpandableListAdapter {
         return true;
     }
 
-    public void checkForKeywordFromServer(final int room_id){
+    private void checkForKeywordFromServer(final int room_id){
         final String URL = "http://52.78.157.250:3000/get_keyword?room_id="+room_id;
 
         JsonArrayRequest req = new JsonArrayRequest(URL, new Response.Listener<JSONArray>() {
@@ -213,7 +203,7 @@ public class StudyListMyExpandableAdapter extends BaseExpandableListAdapter {
                     for(int i=0; i<response.length(); i++){
                         keyword_list.add(response.optJSONObject(i));
                     }
-                    getKeyword();
+                    getKeyword(room_id);
                 }catch(Exception e){
                     e.printStackTrace();
                 }
@@ -227,7 +217,7 @@ public class StudyListMyExpandableAdapter extends BaseExpandableListAdapter {
         volley.getInstance().addToRequestQueue(req);
     }
 
-    public void getKeyword(){
+    private void getKeyword(final int room_id){
         long min = 999999999;
         for(int i=0; i<keyword_list.size(); i++) {
             String keyword_from_server = keyword_list.get(i).optString("keyword");
@@ -255,10 +245,17 @@ public class StudyListMyExpandableAdapter extends BaseExpandableListAdapter {
                 keyword_available = keyword_from_server;
                 date_available = date_from_server;
             }
-            Log.e("keyword_available1",keyword_available);
-            Log.e("date_available1",date_available);
+            Intent intent = new Intent(context, OtChatActivity.class);
+            //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra("room_id", room_id);
+            if(!keyword_available.equals("") && !date_available.equals("")) {
+                intent.putExtra("keyword", keyword_available);
+                intent.putExtra("date", date_available);
+            }
+            context.startActivity(intent);
         }
 
 
     }
+
 }
