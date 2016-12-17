@@ -241,8 +241,10 @@ router.post('/delete_room_req', function(req,res){
 });
 
 router.post('/delete_room', function(req,res){
+  console.log('delete_room');
   var email = req.body.email;
   var room_id = req.body.room_id;
+  console.log('email : '+email+'  room_id : '+room_id);
 
   Room.findOne({'email':email, 'room_id':room_id}, function(err, room){
     if( room == "" || room == null || room == undefined || ( room != null && typeof room == "object" && !Object.keys(room).length )){
