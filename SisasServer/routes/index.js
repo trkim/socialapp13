@@ -571,6 +571,7 @@ router.post('insert_scrap', function(req,res){
   scrap_box.article_title = req.body.article_title;
   scrap_box.url = req.body.url;
   scrap_box.opinion = req.body.opinion;
+  scrap_box.content = req.body.content;
   scrap_box.keyword_box_id = req.body.keyword_box_id;
   scrap_box.email = req.body.email;
   scrap_box.scrap_id = article_title + keyword_box_id;
