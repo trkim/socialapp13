@@ -14,9 +14,9 @@ s = "사드"
 a = s.encode("utf-8")
 a = urllib.parse.quote(a)
 
-objarray = []
 
-obj = {'title':'', 'content':'', 'url':''}
+
+
 
 
 def __str__(self):
@@ -32,12 +32,14 @@ def get_url_with_keyword(URL, keyword):
 
 def crawling(URL):
   count =0
+  objarray = []
   soup = BeautifulSoup(requests.get(URL).text, 'lxml')
   title = ''
   content = ''
   contentlist = soup.find_all('p', class_='f_eb')
   url = ''
   for i in soup.find_all("a", class_="f_link_bu"):
+    obj = {'title':'', 'content':'', 'url':''}
     title = str(i.find_all(text=True))
     content = str(contentlist[count].find_all(text=True))
     url = str(i.get('href'))
