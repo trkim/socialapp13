@@ -25,6 +25,7 @@
         <activity android:name=".memberInfo.MemberUpdateActivity"/>
         <activity android:name=".memberInfo.ScrapInRoomActivity"/>
 
+        <activity android:name=".studyInRoom.MainChatActivity" android:windowSoftInputMode="adjustResize"/>
         <activity android:name=".studyInRoom.OtChatActivity" android:windowSoftInputMode="adjustResize"/>
         <activity android:name=".studyInRoom.ScrapWithKeywordActivity"/>
 

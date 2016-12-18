@@ -9,12 +9,30 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.soapp.project.sisas_android_chat.Member;
 import com.soapp.project.sisas_android_chat.R;
 import com.soapp.project.sisas_android_chat.memberInfo.ScrapInRoomActivity;
+import com.soapp.project.sisas_android_chat.studyInRoom.MainChatActivity;
+import com.soapp.project.sisas_android_chat.studyInRoom.MainChatFragment;
+import com.soapp.project.sisas_android_chat.studyInRoom.OtChatActivity;
+import com.soapp.project.sisas_android_chat.volley;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.TimeZone;
 
 /**
  * Created by eelhea on 2016-11-03.
@@ -27,6 +45,9 @@ public class StudyListExpandableAdapter extends BaseExpandableListAdapter {
     private StudyListItemChildHolder study_list_child_holder = new StudyListItemChildHolder();
     private HashMap<StudyListItem, StudyListItemChild> list_child_map;
     int temp=0;
+    private ArrayList<JSONObject> keyword_list = new ArrayList<JSONObject>();
+    String keyword_available = "";
+    String date_available = "";
 
     ImageButton ib_study_go;
 
@@ -62,24 +83,26 @@ public class StudyListExpandableAdapter extends BaseExpandableListAdapter {
         }
 
         ib_study_go = (ImageButton)convertView.findViewById(R.id.ib_study_go);
-        if(temp==1) {
+        if(temp==1) { //참여신청 화면
             ib_study_go.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, StudyShowApplyActivity.class);
                     int room_id = study_list_parent.get(groupPosition).getRoom_id();
                     intent.putExtra("room_id", room_id);
+                    intent.putExtra("temp", 1);
                     context.startActivity(intent);
                 }
             });
-        } else if(temp==2){
+        } else if(temp==2){ // 관전하기 화면
             ib_study_go.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(context, ScrapInRoomActivity.class);
-                    int room_id = study_list_parent.get(groupPosition).getRoom_id();
-                    intent.putExtra("room_id", room_id);
-                    context.startActivity(intent);
+                    try {
+                        checkCouponFromServer(groupPosition);
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
                 }
             });
         }
@@ -150,5 +173,111 @@ public class StudyListExpandableAdapter extends BaseExpandableListAdapter {
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return true;
+    }
+
+    private void checkCouponFromServer(final int groupPosition){
+        final String URL = "http://52.78.157.250:3000/check_coupon";
+
+        Map<String, String> param = new HashMap<String, String>();
+        param.put("email", Member.getInstance().getEmail());
+
+        JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, URL,
+                new JSONObject(param), new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try{
+                    if(response.toString().contains("result")){
+                        if(response.getString("result").equals("fail")){
+                            Toast.makeText(context, "알 수 없는 에러가 발생합니다.", Toast.LENGTH_SHORT).show();
+                        } else if(response.getString("result").equals("success")){
+                            Toast.makeText(context, "관전 입장합니다.", Toast.LENGTH_SHORT).show();
+
+                            int room_id = study_list_parent.get(groupPosition).getRoom_id();
+                            try {
+                                checkForKeywordFromServer(room_id);
+                            }catch (Exception e){
+                                e.printStackTrace();
+                            }
+                        } else if(response.getString("result").equals("couponless")){
+                            Toast.makeText(context, "관전쿠폰이 부족합니다.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                VolleyLog.d("development", "Error: " + volleyError.getMessage());
+            }
+        });
+        volley.getInstance().addToRequestQueue(req);
+    }
+
+    private void checkForKeywordFromServer(final int room_id){
+        final String URL = "http://52.78.157.250:3000/get_keyword?room_id="+room_id;
+
+        JsonArrayRequest req = new JsonArrayRequest(URL, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                try{
+                    for(int i=0; i<response.length(); i++){
+                        keyword_list.add(response.optJSONObject(i));
+                    }
+                    getKeyword(room_id);
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                VolleyLog.d("development", "Error: " + volleyError.getMessage());
+            }
+        });
+        volley.getInstance().addToRequestQueue(req);
+    }
+
+    private void getKeyword(final int room_id){
+        long min = 999999999;
+            for (int i = 0; i < keyword_list.size(); i++) {
+                String keyword_from_server = keyword_list.get(i).optString("keyword");
+                String date_from_server = keyword_list.get(i).optString("date");
+
+                //오늘 날짜
+                TimeZone time_zone = TimeZone.getTimeZone("Asia/Seoul");
+                Calendar today_calendar = Calendar.getInstance(time_zone);
+                today_calendar.set(today_calendar.get(Calendar.YEAR), today_calendar.get(Calendar.MONTH) + 1, today_calendar.get(Calendar.DAY_OF_MONTH));
+                long today_in_millis = today_calendar.getTimeInMillis() / (24 * 60 * 60 * 1000);
+
+                //키워드 날짜
+                Calendar keyword_calendar = Calendar.getInstance(time_zone);
+                String[] keyword_date_split = date_from_server.split("-");
+                int keyword_date_year = Integer.parseInt(keyword_date_split[0]);
+                int keyword_date_month = Integer.parseInt(keyword_date_split[1]);
+                int keyword_date_day = Integer.parseInt(keyword_date_split[2]);
+                keyword_calendar.set(keyword_date_year, keyword_date_month, keyword_date_day);
+                long keyword_date_in_millis = keyword_calendar.getTimeInMillis() / (24 * 60 * 60 * 1000);
+
+                //오늘 날짜 이후의 키워드인지 판별
+                long temp = keyword_date_in_millis - today_in_millis;
+                if (temp <= min) {
+                    min = temp;
+                    keyword_available = keyword_from_server;
+                    date_available = date_from_server;
+                }
+
+                // 관전 mainChat으로 입장
+                Intent intent = new Intent(context, MainChatActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                intent.putExtra("room_id", room_id);
+                intent.putExtra("temp",2);
+                if (!keyword_available.equals("") && !date_available.equals("")) {
+                    intent.putExtra("keyword", keyword_available);
+                    intent.putExtra("date", date_available);
+                }
+                context.startActivity(intent);
+            }
     }
 }
