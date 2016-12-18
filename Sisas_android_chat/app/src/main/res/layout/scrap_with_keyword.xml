@@ -13,11 +13,11 @@
         android:elevation="0dp"
         android:background="@color/colorPrimaryDark">
 
-        <!--<ImageButton
+        <ImageButton
             android:id= "@+id/icBackIcon"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:background="@drawable/ic_back" />-->
+            android:background="@drawable/ic_back" />
 
         <TextView
             android:layout_width="wrap_content"
