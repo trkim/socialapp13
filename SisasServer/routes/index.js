@@ -126,7 +126,22 @@ router.post('/insert_profile', function(req, res){
   });
 
 });
+/*
+router.post('/get_profile', function(req, res){
+  console.log('set_profile_pic');
+  var email = req.body.email;
 
+  Member({'email':email}, function(err, member){
+    if(err){
+      console.error(err);
+      res.json({'result':'fail'});
+    }else{
+      console.log('프로필 사진 설정 성공');
+      res.json(member.profile_pic);
+    }
+
+  });
+});*/
 
 router.post('/get_member',function(req,res){
   var select_email = req.body.email;
@@ -139,7 +154,7 @@ router.post('/get_member',function(req,res){
     if(member){
       console.log('회원정보 조회 완료');
       console.log(member);
-      return res.json(member);
+      res.json(member);
     }
   });
 });
