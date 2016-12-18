@@ -152,7 +152,6 @@ public class LoginActivity extends AppCompatActivity {
                         Member.getInstance().setMajor(response.getString("major"));
                         Member.getInstance().setCategory(response.getString("category"));
                         Member.getInstance().setCoupon(response.getInt("coupon"));
-                        Member.getInstance().setRating(response.getString("rating"));
 
                         getMyStudyListFromServer();
                     }
@@ -204,7 +203,6 @@ public class LoginActivity extends AppCompatActivity {
                         Member.getInstance().setMajor(response.getString("major"));
                         Member.getInstance().setCategory(response.getString("category"));
                         Member.getInstance().setCoupon(response.getInt("coupon"));
-                        Member.getInstance().setRating(response.getString("rating"));
 
                         getMyStudyListFromServer();
                     }

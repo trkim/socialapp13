@@ -78,10 +78,10 @@ public class StudyShowActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 button_state=0;
-                btn_study_apply.setBackgroundResource(R.drawable.tabimage);
-                btn_study_apply.setTextColor(Color.parseColor("#1F9E8E"));
+                btn_study_apply.setTextColor(Color.WHITE);
+                btn_study_apply.setBackgroundColor(Color.parseColor("#141A25"));
+                btn_study_watch.setTextColor(Color.parseColor("#141A25"));
                 btn_study_watch.setBackgroundColor(Color.WHITE);
-                btn_study_watch.setTextColor(Color.parseColor("#c8d2d1"));
                 mCurrentFragmentIndex = FRAGMENT_APPLY;
                 changeFragment(mCurrentFragmentIndex);
             }
@@ -90,10 +90,10 @@ public class StudyShowActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 button_state=1;
-                btn_study_watch.setBackgroundResource(R.drawable.tabimage);
-                btn_study_watch.setTextColor(Color.parseColor("#1F9E8E"));
+                btn_study_watch.setTextColor(Color.WHITE);
+                btn_study_watch.setBackgroundColor(Color.parseColor("#141A25"));
+                btn_study_apply.setTextColor(Color.parseColor("#141A25"));
                 btn_study_apply.setBackgroundColor(Color.WHITE);
-                btn_study_apply.setTextColor(Color.parseColor("#c8d2d1"));
                 mCurrentFragmentIndex = FRAGMENT_WATCH;
                 changeFragment(mCurrentFragmentIndex);
             }
