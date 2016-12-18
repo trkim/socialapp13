@@ -4,6 +4,7 @@ var router = express.Router();
 var mongoose = require('mongoose');
 var PythonShell = require('python-shell');
 var encoding = require('encoding');
+var gcm = require('node-gcm');
 
 
 
@@ -34,11 +35,12 @@ router.post('/insert_member',function(req,res){
   var category = req.body.category;
   var coupon = req.body.coupon;
   var rating = req.body.rating;
+  var profile_pic = req.body.profile_pic;
 
   Member.findOne({'email':email}, function(err, member){
     if( member == "" || member == null || member == undefined || ( member != null && typeof member == "object" && !Object.keys(member).length )){
       console.log('email 사용가능')
-      var member = new Member({'name':name,'email':email,'password':password,'major':major,'category':category,'coupon':coupon, 'rating':rating});
+      var member = new Member({'name':name,'email':email,'password':password,'major':major,'category':category,'coupon':coupon, 'rating':rating, 'profile_pic':profile_pic});
       member.save(function(err){
         if(err){
           console.log(err);
@@ -95,6 +97,33 @@ router.post('/update_member',function(req,res){
       res.status(200).send('Updated');
     });
   });
+});
+
+router.post('/insert_profile', function(req, res){
+  console.log('insert_profile');
+  var email = req.body.email;
+  var profile_pic = req.body.profile_pic;
+
+  Member.findOne({'email':email}, function(err, member){
+    if(err){
+      console.error(err);
+      res.json({'result':'fail'});
+    }
+    else{
+      member.profile_pic = profile_pic;
+      member.save(function(err){
+        if(err){
+          console.error(err);
+          res.json({'result':'fail'});
+        }
+        else{
+          console.log('프로필 사진 수정 성공');
+          res.json({'result':'success'});
+        }
+      });
+    }
+  });
+
 });
 
 
@@ -235,6 +264,10 @@ router.post('/delete_room_req', function(req,res){
       });
     }
   })
+});
+
+router.post('/sendMessage', function(req, res){
+  var message = new gcm.Message();
 });
 
 router.post('/delete_room', function(req,res){
@@ -392,14 +425,16 @@ router.get('/get_ctgroomlist', function(req,res){
     });
   }
 });
-
+///////%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+//capacity 수정 필요
 router.post('/join_room', function(req,res){
   var room_id = req.body.room_id;
   var email = req.body.email;
 
   Room.findOne({'room_id':room_id}).count(function(err,num){
       Room.findOne({'room_id':room_id}, function(err,room){
-        if(room.capacity - num >= 1) {
+        if(room.capacity - get >= 1) {
+          room.capacity = room.capacity -1;
           room.capacity = room.capacity -1;
           var myroom = new Room();
           myroom.email = email;
@@ -435,6 +470,13 @@ router.post('/check_coupon', function(req, res){
     }
     if((member.coupon*1) > 1){
       console.log('관전 가능. 잔여 쿠폰 : '+member.coupon);
+      member.coupon = ((member.coupon*1) - 1)+'';
+      member.saver(function(err){
+        if(err){
+          console.error(err);
+          res.json({'result':'fail'});
+        }
+      });
       res.json({'result':'success'});
 
     }else{
