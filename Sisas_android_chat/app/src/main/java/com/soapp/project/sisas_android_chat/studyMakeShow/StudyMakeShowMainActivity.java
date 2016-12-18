@@ -23,6 +23,7 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.Socket;
+import com.soapp.project.sisas_android_chat.BackPressCloseHandler;
 import com.soapp.project.sisas_android_chat.Member;
 import com.soapp.project.sisas_android_chat.R;
 import com.soapp.project.sisas_android_chat.memberInfo.MemberInfoActivity;
@@ -46,6 +47,8 @@ public class StudyMakeShowMainActivity extends AppCompatActivity{
     Toolbar toolbar;
     ImageButton icMyPage;
     FragmentGetMyStudy fragmentGetMyStudy;
+
+    BackPressCloseHandler backPressCloseHandler;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -97,6 +100,8 @@ public class StudyMakeShowMainActivity extends AppCompatActivity{
             @Override
             public void onTabReselected(TabLayout.Tab tab) { }
         });
+
+        backPressCloseHandler = new BackPressCloseHandler(this);
     }
 
     @Override
@@ -122,5 +127,10 @@ public class StudyMakeShowMainActivity extends AppCompatActivity{
     protected void onResume() {
         super.onResume();
         getSupportFragmentManager().beginTransaction().replace(R.id.container, fragmentGetMyStudy).commit();
+    }
+
+    @Override
+    public void onBackPressed() {
+        backPressCloseHandler.onBackPressed();
     }
 }

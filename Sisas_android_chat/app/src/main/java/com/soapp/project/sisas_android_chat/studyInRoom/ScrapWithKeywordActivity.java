@@ -1,5 +1,6 @@
 package com.soapp.project.sisas_android_chat.studyInRoom;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
@@ -8,8 +9,11 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Response;
@@ -18,7 +22,6 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.soapp.project.sisas_android_chat.Member;
 import com.soapp.project.sisas_android_chat.R;
-import com.soapp.project.sisas_android_chat.studyMakeShow.ProgressDlg;
 import com.soapp.project.sisas_android_chat.volley;
 
 import org.json.JSONArray;
@@ -34,8 +37,7 @@ import java.util.ArrayList;
 public class ScrapWithKeywordActivity extends AppCompatActivity {
 
     Toolbar toolbar;
-    //ImageButton icBackIcon;
-    private AsyncTask<Integer, String, Integer> mProgressDlg;
+    ImageButton icBackIcon;
 
     TextView tv_scrap_keyword;
     String email = Member.getInstance().getEmail();
@@ -62,7 +64,7 @@ public class ScrapWithKeywordActivity extends AppCompatActivity {
         TextView textView = (TextView) findViewById(R.id.title);
         textView.setTypeface(typeface);
 
-/*        icBackIcon = (ImageButton)findViewById(R.id.icBackIcon);
+        icBackIcon = (ImageButton)findViewById(R.id.icBackIcon);
         icBackIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,7 +73,7 @@ public class ScrapWithKeywordActivity extends AppCompatActivity {
                 overridePendingTransition(R.anim.rightin, R.anim.leftout);
                 finish();
             }
-        });*/
+        });
 
         scarp_listview = (ListView)findViewById(R.id.scrap_list);
         scrap_keyword_adapter = new ScrapWithKeywordListAdapter();
@@ -84,8 +86,6 @@ public class ScrapWithKeywordActivity extends AppCompatActivity {
         tv_scrap_keyword = (TextView)findViewById(R.id.tv_scrap_keyword);
         tv_scrap_keyword.setText(keyword);
 
-        mProgressDlg = new ProgressDlg(ScrapWithKeywordActivity.this).execute(100);
-
         try {
             getScrapWithKeywordListFromServer(keyword);
         }catch(Exception e){
@@ -94,6 +94,7 @@ public class ScrapWithKeywordActivity extends AppCompatActivity {
     }
 
     private void getScrapWithKeywordListFromServer(final String keyword) throws Exception {
+        final ProgressDialog loading = ProgressDialog.show(this,"기사를 가져오는 중입니다...","Please wait...",false,false);
         final String URL = "http://52.78.157.250:3000/scrap_with_keyword?keyword="+ URLEncoder.encode(keyword, "utf-8");
 
         JsonArrayRequest req = new JsonArrayRequest(URL, new Response.Listener<JSONArray>() {
@@ -101,7 +102,9 @@ public class ScrapWithKeywordActivity extends AppCompatActivity {
             public void onResponse(JSONArray response) {
                 try {
                     if(response.length()==0){
+                        Toast.makeText(ScrapWithKeywordActivity.this, "스크랩 할 기사가 없습니다.", Toast.LENGTH_SHORT).show();
                     } else {
+                        loading.dismiss();
                         for(int i=0; i<response.length(); i++) {
                             array_list.add(response.getString(i));
                             JSONObject obj = new JSONObject(array_list.get(i));

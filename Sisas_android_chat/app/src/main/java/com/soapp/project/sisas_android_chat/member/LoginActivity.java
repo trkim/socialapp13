@@ -30,6 +30,7 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.soapp.project.sisas_android_chat.BackPressCloseHandler;
 import com.soapp.project.sisas_android_chat.Member;
 import com.soapp.project.sisas_android_chat.R;
 import com.soapp.project.sisas_android_chat.studyMakeShow.StudyMakeShowMainActivity;
@@ -53,6 +54,7 @@ public class LoginActivity extends AppCompatActivity {
     Button btn_join;
 
     SharedPreferences memberSession;
+    BackPressCloseHandler backPressCloseHandler;
 
     ImageButton btn_member_info;
 
@@ -94,8 +96,9 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        memberSession = getSharedPreferences("MemberSession", Context.MODE_PRIVATE);
+        backPressCloseHandler = new BackPressCloseHandler(this);
 
+        memberSession = getSharedPreferences("MemberSession", Context.MODE_PRIVATE);
         if(memberSession.contains("email")){
             try {
                 autoLoginToServer(memberSession.getString("email",""));
@@ -228,5 +231,10 @@ public class LoginActivity extends AppCompatActivity {
         Intent study_make_show_intent = new Intent(LoginActivity.this, StudyMakeShowMainActivity.class);
         startActivity(study_make_show_intent);
         finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        backPressCloseHandler.onBackPressed();
     }
 }
