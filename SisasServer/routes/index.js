@@ -199,18 +199,6 @@ router.post('/insert_room', function(req,res){
       room.end_date = req.body.end_date;
       room.comment = req.body.comment;
 
-
-      result.save(function(err){
-        if(err){
-          console.error(err);
-          res.json({'result':'fail'});
-        }
-        else{
-          console.log('방 수정 성공');
-          res.json({'result': 'success'});
-        }
-      });
-
       room.save(function(err){
         if(err){
           console.error(err);
