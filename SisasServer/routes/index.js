@@ -435,6 +435,7 @@ router.post('/join_room', function(req,res){
   });
 });
 ////////////////////////////////////////////
+//관전하기 전 쿠폰 확인하기
 router.post('/check_coupon', function(req, res){
   console.log('check_coupon');
   var email = req.body.email;
@@ -446,10 +447,29 @@ router.post('/check_coupon', function(req, res){
     }
     if((member.coupon*1) > 1){
       console.log('관전 가능. 잔여 쿠폰 : '+member.coupon);
+      res.json({'result':'success'});
 
+    }else{
+      console.log('관전 포인트 부족');
+      res.json({'result':'couponless'});
     }
   });
+});
+//쿠폰이 남아있으면 관전모드로 고고
+router.post('/watch_study', function(req, res){
+  console.log('watch_study');
+  var room_id = req.body.room_id;
 
+  Room.findOne({'room_id':room_id}, function(err, room){
+    if(err){
+      console.error(err);
+      res.json({'result':'fail'});
+    }
+    else{
+      console.log('관전하자앙');
+      res.json({'result':'success'});
+    }
+  });
 });
 
 router.post('/get_room_and_member', function(req, res){
@@ -584,6 +604,7 @@ router.post('/insert_scrap', function(req,res){
       console.error(err);
       res.json({'result':'fail'});
     }
+    console.log(scrap);
     if( scrap == "" || scrap == null || scrap == undefined || ( scrap != null && typeof scrap == "object" && !Object.keys(scrap).length )){
       scrap_box.save(function(err){
         if(err){
@@ -594,13 +615,42 @@ router.post('/insert_scrap', function(req,res){
           res.json({'result':'success'});
         }
       });
-
-
     }else{
       console.log('스크랩 중복');
       res.json({'result':'fail'});
     }
   });
+});
+
+router.post('/save_opinion', function(req, res){
+  var scrap_id = req.body.scrap_id;
+  var opinion = req.body.opinion;
+
+  console.log(scrap_id);
+  console.log(opinion);
+
+  Scrap_box.findOne({'scrap_id':scrap_id}, function(err, scrap_box){
+    if(err){
+      console.error(err);
+      res.json({'result':'fail'});
+    }
+    console.log(scrap_box);
+    scrap_box.opinion = opinion;
+    scrap_box.save(function(err){
+      if(err){
+        console.error(err);
+        res.json({'result':'fail'});
+      }else{
+        console.log('scrap_box에 opinion 추가 성공');
+        console.log(scrap_box);
+        res.json({'result':'insert_success'});
+      }
+    });
+  });
+
+
+
+
 });
 
 //scraplist와 roomlist 의 정보를 합쳐서 보내야함.
