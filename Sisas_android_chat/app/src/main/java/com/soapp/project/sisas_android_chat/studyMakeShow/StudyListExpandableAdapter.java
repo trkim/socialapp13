@@ -19,10 +19,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.soapp.project.sisas_android_chat.Member;
 import com.soapp.project.sisas_android_chat.R;
-import com.soapp.project.sisas_android_chat.memberInfo.ScrapInRoomActivity;
 import com.soapp.project.sisas_android_chat.studyInRoom.MainChatActivity;
-import com.soapp.project.sisas_android_chat.studyInRoom.MainChatFragment;
-import com.soapp.project.sisas_android_chat.studyInRoom.OtChatActivity;
 import com.soapp.project.sisas_android_chat.volley;
 
 import org.json.JSONArray;
@@ -193,6 +190,7 @@ public class StudyListExpandableAdapter extends BaseExpandableListAdapter {
                             Toast.makeText(context, "관전 입장합니다.", Toast.LENGTH_SHORT).show();
 
                             int room_id = study_list_parent.get(groupPosition).getRoom_id();
+
                             try {
                                 checkForKeywordFromServer(room_id);
                             }catch (Exception e){
