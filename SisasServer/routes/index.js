@@ -484,7 +484,7 @@ router.post('/check_coupon', function(req, res){
       console.error(err);
       res.json({'result':'fail'});
     }
-    if((member.coupon*1) > 1){
+    if((member.coupon*1) >= 1){
       console.log('관전 가능. 잔여 쿠폰 : '+member.coupon);
       console.log('타입 : '+typeof(member.coupon));
       member.coupon = ((member.coupon*1) - 1)+'';
