@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -34,10 +35,13 @@ public class MainChatActivity extends AppCompatActivity {
     String imgDecodableString;
 
     int room_id;
+    int temp;
     String keyword;
     String date;
 
     TextView tv_study_keyword;
+
+    EditText message_input;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,7 +60,7 @@ public class MainChatActivity extends AppCompatActivity {
         icBackIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainChatActivity.this, OtChatActivity.class);
+                Intent intent = new Intent(MainChatActivity.this, StudyMakeShowMainActivity.class);
                 startActivity(intent);
                 overridePendingTransition(R.anim.rightin, R.anim.leftout);
                 finish();
@@ -66,6 +70,7 @@ public class MainChatActivity extends AppCompatActivity {
         //ot chat에서 보내준 room_id, keyword, date
         Intent intent = getIntent();
         room_id = intent.getExtras().getInt("room_id");
+        temp = intent.getExtras().getInt("temp");
         keyword = intent.getExtras().getString("keyword");
         date = intent.getExtras().getString("date");
 
@@ -74,6 +79,7 @@ public class MainChatActivity extends AppCompatActivity {
 
         Bundle bundle = new Bundle();
         bundle.putString("room_id",String.valueOf(room_id));
+        bundle.putString("temp", String.valueOf(temp));
         bundle.putString("keyword", keyword);
         bundle.putString("date", date);
         Fragment fragment = new MainChatFragment();
@@ -81,7 +87,7 @@ public class MainChatActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.replace( R.id.container, fragment );
+        fragmentTransaction.add( R.id.container, fragment );
         fragmentTransaction.commit();
     }
 
@@ -119,8 +125,7 @@ public class MainChatActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode,int resultCode,Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1 && resultCode == RESULT_OK
-                && null != data) {
+        if (requestCode == 1 && resultCode == RESULT_OK && null != data) {
             Uri selectedImage = data.getData();
             String[] filePathColumn = {MediaStore.Images.Media.DATA};
 
@@ -132,8 +137,8 @@ public class MainChatActivity extends AppCompatActivity {
             imgDecodableString = cursor.getString(columnIndex);
             cursor.close();
             //Log.d("onActivityResult",imgDecodableString);
-            MainChatFragment fragment = (MainChatFragment)getSupportFragmentManager().findFragmentById(R.id.chatArea);
-            fragment.sendImage(imgDecodableString);
+            //MainChatFragment fragment = (MainChatFragment)getSupportFragmentManager().findFragmentById(R.id.chatArea);
+            //fragment.sendImage(imgDecodableString);
         }
     }
 

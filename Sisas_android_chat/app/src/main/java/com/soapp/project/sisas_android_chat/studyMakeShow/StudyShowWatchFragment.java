@@ -45,7 +45,7 @@ public class StudyShowWatchFragment extends Fragment {
 
     ArrayList<JSONObject> study_list;
 
-    final int temp=1;
+    final int temp=2;
 
     public StudyShowWatchFragment(){}
 
