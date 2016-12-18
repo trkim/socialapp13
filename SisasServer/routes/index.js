@@ -4,7 +4,7 @@ var router = express.Router();
 var mongoose = require('mongoose');
 var PythonShell = require('python-shell');
 var encoding = require('encoding');
-var gcm = require('node-gcm');
+//var gcm = require('node-gcm');
 
 
 
