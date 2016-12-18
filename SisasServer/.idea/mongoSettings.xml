@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="MongoConfiguration">
+    <option name="serverConfigurations">
+      <list>
+        <ServerConfiguration>
+          <option name="label" value="MongoServer" />
+          <option name="serverUrls">
+            <list>
+              <option value="52.78.157.250:27017" />
+            </list>
+          </option>
+          <option name="shellArgumentsLine" value="--dbpath /C:\mongodb" />
+          <option name="shellWorkingDir" value="C:\Users\samsung\sisas_workspace" />
+          <option name="userDatabase" value="SisasDB" />
+        </ServerConfiguration>
+      </list>
+    </option>
+  </component>
+</project>
