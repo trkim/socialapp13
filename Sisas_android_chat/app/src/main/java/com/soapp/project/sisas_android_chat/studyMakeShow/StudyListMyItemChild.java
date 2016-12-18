@@ -8,13 +8,11 @@ public class StudyListMyItemChild {
     private String study_name;
     private String study_date;
     private String study_comment;
-    private String study_keyword;
 
-    public StudyListMyItemChild(String study_name, String study_date, String study_comment, String study_keyword){
+    public StudyListMyItemChild(String study_name, String study_date, String study_comment){
         this.study_name = study_name;
         this.study_date = study_date;
         this.study_comment = study_comment;
-        this.study_keyword = study_keyword;
     }
 
     public String getStudy_name() {
@@ -39,13 +37,5 @@ public class StudyListMyItemChild {
 
     public void setStudy_comment(String study_comment) {
         this.study_comment = study_comment;
-    }
-
-    public String getStudy_keyword() {
-        return study_keyword;
-    }
-
-    public void setStudy_keyword(String study_keyword) {
-        this.study_keyword = study_keyword;
     }
 }

@@ -30,7 +30,7 @@
 
         <activity android:name=".studyMakeShow.StudyMakeCreateActivity"/>
         <activity android:name=".studyMakeShow.StudyMakeShowMainActivity"/>
-        <activity android:name=".studyMakeShow.StudyMakeUpdateDeleteActivity"/>
+        <activity android:name=".studyMakeShow.StudyMakeUpdateDeleteActivity" android:windowSoftInputMode="stateAlwaysHidden"/>
         <activity android:name=".studyMakeShow.StudyShowActivity"/>
         <activity android:name=".studyMakeShow.StudyShowApplyActivity"/>
     </application>

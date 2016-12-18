@@ -133,7 +133,9 @@ public class StudyListMyExpandableAdapter extends BaseExpandableListAdapter {
         tv_my_room_name.setTextColor(Color.BLACK);
         tv_my_room_name.setSingleLine(true); //한줄로 나오게 하기.
         tv_my_room_name.setEllipsize(TextUtils.TruncateAt.MARQUEE);//Ellipsize의 MARQUEE 속성 주기
+        tv_my_room_name.setFocusable(true);
         tv_my_room_name.setSelected(true); //해당 텍스트뷰에 포커스가 없어도 문자 흐르게 하기
+
         tv_my_room_capacity.setTextColor(Color.BLACK);
         tv_my_room_dday.setTextColor(Color.BLACK);
 
@@ -169,28 +171,19 @@ public class StudyListMyExpandableAdapter extends BaseExpandableListAdapter {
             my_study_list_child_holder.study_name_holder = (TextView)convertView.findViewById(R.id.tv_slide_room_name);
             my_study_list_child_holder.study_date_holder = (TextView)convertView.findViewById(R.id.tv_slide_room_date);
             my_study_list_child_holder.study_comment_holder = (TextView)convertView.findViewById(R.id.tv_slide_room_comment);
-            my_study_list_child_holder.study_keyword_holder = (TextView)convertView.findViewById(R.id.tv_slide_room_keyword);
 
             convertView.setTag(my_study_list_child_holder);
         } else {
             my_study_list_child_holder = (StudyListMyItemChildHolder)convertView.getTag();
         }
 
-        /*try{
-            checkForKeywordFromServer(room_id);
-        }catch(Exception e){
-            e.printStackTrace();
-        }*/
-
         my_study_list_child_holder.study_name_holder.setText(item_child.getStudy_name());
         my_study_list_child_holder.study_date_holder.setText(item_child.getStudy_date());
         my_study_list_child_holder.study_comment_holder.setText(item_child.getStudy_comment());
-        my_study_list_child_holder.study_keyword_holder.setText(keyword_available);
 
         my_study_list_child_holder.study_name_holder.setTextColor(Color.BLACK);
         my_study_list_child_holder.study_date_holder.setTextColor(Color.BLACK);
         my_study_list_child_holder.study_comment_holder.setTextColor(Color.BLACK);
-        my_study_list_child_holder.study_keyword_holder.setTextColor(Color.BLACK);
 
         return convertView;
     }

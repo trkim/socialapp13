@@ -53,7 +53,6 @@ public class StudyShowWatchFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.study_show_watch_frag, container, false);
-
         expandable_list_view = (ExpandableListView)view.findViewById(R.id.study_list);
 
         try{

@@ -2,6 +2,7 @@ package com.soapp.project.sisas_android_chat.studyMakeShow;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -88,10 +89,12 @@ public class StudyListExpandableAdapter extends BaseExpandableListAdapter {
         TextView tv_room_capacity = (TextView) convertView.findViewById(R.id.tv_room_capacity);
         TextView tv_room_dday = (TextView) convertView.findViewById(R.id.tv_room_dday);
 
-        tv_room_name.setSelected(true);
-
         tv_room_category.setText(getGroup(groupPosition).getStudy_category());
         tv_room_name.setText(getGroup(groupPosition).getStudy_name());
+        tv_room_name.setSingleLine(true); //한줄로 나오게 하기.
+        tv_room_name.setEllipsize(TextUtils.TruncateAt.MARQUEE);//Ellipsize의 MARQUEE 속성 주기
+        tv_room_name.setFocusable(true);
+        tv_room_name.setSelected(true); //해당 텍스트뷰에 포커스가 없어도 문자 흐르게 하기
         tv_room_capacity.setText(String.valueOf(getGroup(groupPosition).getStudy_capacity()));
         tv_room_dday.setText(getGroup(groupPosition).getStudy_dday());
 
