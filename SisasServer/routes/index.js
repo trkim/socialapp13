@@ -110,6 +110,7 @@ router.post('/insert_profile', function(req, res){
       res.json({'result':'fail'});
     }
     else{
+      console.log('profile_pic : '+profile_pic)
       member.profile_pic = profile_pic;
       member.save(function(err){
         if(err){
