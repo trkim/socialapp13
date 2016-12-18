@@ -14,35 +14,39 @@
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/tv_room_category"
                 android:hint="카테고리"
                 android:layout_weight="1"
-                android:scrollHorizontally="true"
-                android:singleLine="true"
+                android:scrollHorizontally="false"
+                android:singleLine="false"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:gravity="center" />
 
             <TextView
                 android:id="@+id/tv_room_name"
                 android:hint="방이름"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:singleLine="true"
 
-                android:layout_weight="1"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:ellipsize="marquee"
-                android:maxLines="1"
+                android:ellipsize="none"
                 android:isScrollContainer="false"
                 android:marqueeRepeatLimit="marquee_forever"
                 android:nestedScrollingEnabled="false"
-                android:scrollHorizontally="false" />
+                android:clickable="true"
+                android:contextClickable="true"
+                android:textIsSelectable="true"
+                android:layout_width="20dp"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:scrollHorizontally="true"
+                android:layout_weight="6" />
 
             <TextView
                 android:id="@+id/tv_room_capacity"
@@ -51,7 +55,7 @@
                 android:hint="인원"
                 android:layout_gravity="center"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:enabled="false" />
 
             <TextView
@@ -61,7 +65,7 @@
                 android:hint="Dday"
                 android:layout_gravity="center"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="match_parent" />
 
             <ImageButton
                 android:layout_width="wrap_content"
@@ -69,8 +73,7 @@
                 android:src="@mipmap/ic_go_in_study"
                 android:id="@+id/ib_study_go"
                 app:srcCompat="@mipmap/ic_go_in_study"
-                android:background="@color/colorwhite"
-                android:layout_weight="1" />
+                android:background="@color/colorwhite" />
         </TableRow>
 
     </TableLayout>

@@ -44,6 +44,7 @@ public class FragmentGetMyStudy extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_get_my_study, container, false);
+        expandable_list_view = (ExpandableListView)view.findViewById(R.id.my_study_list);
 
         try {
             getMyStudyFromServer();
@@ -135,16 +136,15 @@ public class FragmentGetMyStudy extends Fragment{
 
             String date = start_date + " ~ " + end_date;
             String comment = study_list.get(i).optString("comment");
-            String keyword = "아직";
             if(!dday_result.startsWith("D+")) {
-                add(count, room_id, head_icon, category, room_name, capacity, dday_result, date, comment, keyword);
+                add(count, room_id, head_icon, category, room_name, capacity, dday_result, date, comment);
                 count++;
             }
         }
 
         // 앞서 정의해 놓은 ExpandableListView와 그 CustomAdapter를 선언 및 연결한 후
         // ExpandableListView에 대한 OnClickListener 등을 선언
-        expandable_list_view = (ExpandableListView)getActivity().findViewById(R.id.my_study_list);
+
         my_adapter = new StudyListMyExpandableAdapter(getActivity(), my_study_list_parent_item, my_list_child_map, keyword_list);
         expandable_list_view.setAdapter(my_adapter);
 
@@ -161,9 +161,9 @@ public class FragmentGetMyStudy extends Fragment{
         });
     }
 
-    private void add(int i, int room_id, int icon, String category, String room_name, int capacity, String dday_result, String date, String comment, String keyword){
+    private void add(int i, int room_id, int icon, String category, String room_name, int capacity, String dday_result, String date, String comment){
         addMyStudy(room_id, icon, category, room_name, capacity, dday_result);
-        addMyStudyChild(room_name, date, comment, keyword);
+        addMyStudyChild(room_name, date, comment);
         my_list_child_map.put(my_study_list_parent_item.get(i), my_study_list_child_item.get(i));
     }
 
@@ -172,8 +172,8 @@ public class FragmentGetMyStudy extends Fragment{
         my_study_list_parent_item.add(my_study);
     }
 
-    public void addMyStudyChild(String room_name, String date, String comment, String keyword){
-        StudyListMyItemChild my_study_child = new StudyListMyItemChild(room_name, date, comment, keyword);
+    public void addMyStudyChild(String room_name, String date, String comment){
+        StudyListMyItemChild my_study_child = new StudyListMyItemChild(room_name, date, comment);
         my_study_list_child_item.add(my_study_child);
     }
 }

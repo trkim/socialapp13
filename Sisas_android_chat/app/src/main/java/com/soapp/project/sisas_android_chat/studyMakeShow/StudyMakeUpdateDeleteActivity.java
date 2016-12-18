@@ -48,7 +48,7 @@ public class StudyMakeUpdateDeleteActivity extends AppCompatActivity implements 
     int room_id;
     EditText et_study_name;
     EditText et_study_capacity;
-    RadioGroup rg_study_category;
+    RadioGroup rg_category_group;
     RadioButton rb_study_politics;
     RadioButton rb_study_economics;
     RadioButton rb_study_social;
@@ -89,7 +89,8 @@ public class StudyMakeUpdateDeleteActivity extends AppCompatActivity implements 
 
         et_study_name = (EditText)findViewById(R.id.et_study_name);
         et_study_capacity = (EditText)findViewById(R.id.et_study_capacity);
-        rg_study_category = (RadioGroup)findViewById(R.id.rg_study_category);
+        rg_category_group = (RadioGroup)findViewById(R.id.rg_category_group);
+
         rb_study_politics = (RadioButton)findViewById(R.id.rb_study_politics);
         rb_study_economics = (RadioButton)findViewById(R.id.rb_study_economics);
         rb_study_social = (RadioButton)findViewById(R.id.rb_study_social);
@@ -120,14 +121,26 @@ public class StudyMakeUpdateDeleteActivity extends AppCompatActivity implements 
         btn_study_update_go = (Button)findViewById(R.id.btn_study_update_go);
         btn_study_delete_go = (Button)findViewById(R.id.btn_study_delete_go);
 
-        selected_radio_button = rg_study_category.getCheckedRadioButtonId();
-        rb_selected_radio_button = (RadioButton)findViewById(selected_radio_button);
+
+
+        btn_study_delete_go.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDeleteDialog();
+            }
+        });
+
+        try {
+            getStudyDetailFromServer(room_id, Member.getInstance().getEmail());
+        }catch(Exception e){
+            e.printStackTrace();
+        }
 
         btn_study_update_go.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try{
-                    Log.e("btn_study_update_go","btn_study_update_go");
+                    RadioButton rb_selected_radio_button = (RadioButton)findViewById(rg_category_group.getCheckedRadioButtonId());
 
                     updateStudyDetailToServer(room_id,
                             Member.getInstance().getEmail(),
@@ -143,19 +156,6 @@ public class StudyMakeUpdateDeleteActivity extends AppCompatActivity implements 
                 }
             }
         });
-
-        btn_study_delete_go.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDeleteDialog();
-            }
-        });
-
-        try {
-            getStudyDetailFromServer(room_id, Member.getInstance().getEmail());
-        }catch(Exception e){
-            e.printStackTrace();
-        }
     }
 
     private void getStudyDetailFromServer(final int room_id, final String email) throws Exception{
@@ -182,14 +182,19 @@ public class StudyMakeUpdateDeleteActivity extends AppCompatActivity implements 
 
                     if(category.equals(rb_study_politics.getText())){
                         rb_study_politics.setChecked(true);
+                        rb_study_politics.setSelected(true);
                     } else if(category.equals(rb_study_economics.getText())){
                         rb_study_economics.setChecked(true);
+                        rb_study_economics.setSelected(true);
                     } else if(category.equals(rb_study_social.getText())){
                         rb_study_social.setChecked(true);
+                        rb_study_social.setSelected(true);
                     } else if(category.equals(rb_study_it.getText())){
                         rb_study_it.setChecked(true);
+                        rb_study_it.setSelected(true);
                     } else if(category.equals(rb_study_world.getText())){
                         rb_study_world.setChecked(true);
+                        rb_study_world.setSelected(true);
                     }
 
                     tv_study_start_date_picked.setText(start_date);
@@ -208,9 +213,9 @@ public class StudyMakeUpdateDeleteActivity extends AppCompatActivity implements 
         volley.getInstance().addToRequestQueue(req);
     }
 
-    private void updateStudyDetailToServer(final int room_id, final String email, final String king_name, final String room_name,
+    public void updateStudyDetailToServer(final int room_id, final String email, final String king_name, final String room_name,
                                            final String capacity, final String category, final String start_date,
-                                           final String end_date, final String comment) throws Exception{
+                                           final String end_date, final String comment){
         final String URL = "http://52.78.157.250:3000/update_room";
 
         Map<String, Object> update_room_param = new HashMap<String, Object>();
@@ -229,9 +234,8 @@ public class StudyMakeUpdateDeleteActivity extends AppCompatActivity implements 
                     @Override
                     public void onResponse(JSONObject response) {
                         try{
-                            Log.e("update ", "response");
                             if(response.toString().contains("result")){
-                                if(response.getString("result").equals("success")){
+                                if(response.getString("result").equals("room_update_success")){
                                     Toast.makeText(getApplicationContext(), "수정되었습니다", Toast.LENGTH_SHORT).show();
 
                                     Intent intent = new Intent(getApplicationContext(), StudyMakeShowMainActivity.class);
