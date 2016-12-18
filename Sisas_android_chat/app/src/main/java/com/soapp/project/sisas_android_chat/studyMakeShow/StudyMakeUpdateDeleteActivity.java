@@ -120,13 +120,14 @@ public class StudyMakeUpdateDeleteActivity extends AppCompatActivity implements 
         btn_study_update_go = (Button)findViewById(R.id.btn_study_update_go);
         btn_study_delete_go = (Button)findViewById(R.id.btn_study_delete_go);
 
+        selected_radio_button = rg_study_category.getCheckedRadioButtonId();
+        rb_selected_radio_button = (RadioButton)findViewById(selected_radio_button);
+
         btn_study_update_go.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try{
                     Log.e("btn_study_update_go","btn_study_update_go");
-                    selected_radio_button = rg_study_category.getCheckedRadioButtonId();
-                    rb_selected_radio_button = (RadioButton)findViewById(selected_radio_button);
 
                     updateStudyDetailToServer(room_id,
                             Member.getInstance().getEmail(),
@@ -228,6 +229,7 @@ public class StudyMakeUpdateDeleteActivity extends AppCompatActivity implements 
                     @Override
                     public void onResponse(JSONObject response) {
                         try{
+                            Log.e("update ", "response");
                             if(response.toString().contains("result")){
                                 if(response.getString("result").equals("success")){
                                     Toast.makeText(getApplicationContext(), "수정되었습니다", Toast.LENGTH_SHORT).show();

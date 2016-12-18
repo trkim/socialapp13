@@ -36,7 +36,7 @@ import java.util.Map;
 
 public class ScrapWithKeywordListAdapter extends BaseAdapter {
 
-    ScrapWithKeywordItem scrap_item;
+    //ScrapWithKeywordItem scrap_item;
     public ArrayList<ScrapWithKeywordItem> scrap_keyword_item_list = new ArrayList<ScrapWithKeywordItem>();
 
     public ScrapWithKeywordListAdapter(){}
@@ -64,12 +64,13 @@ public class ScrapWithKeywordListAdapter extends BaseAdapter {
         if(convertView == null){
             LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.scrap_with_keyword_item, parent, false);
+            convertView.setTag(position);
         }
 
         TextView tv_scrap_title = (TextView)convertView.findViewById(R.id.tv_scrap_title);
         TextView tv_scrap_content = (TextView)convertView.findViewById(R.id.tv_scrap_content);
 
-        scrap_item = scrap_keyword_item_list.get(position);
+        final ScrapWithKeywordItem scrap_item = scrap_keyword_item_list.get(position);
         tv_scrap_title.setText(scrap_item.getTv_scrap_title());
         final String url = scrap_item.getScrap_url();
         tv_scrap_content.setText(scrap_item.getTv_scrap_content());
@@ -89,14 +90,13 @@ public class ScrapWithKeywordListAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 saveScrapToServer(v, scrap_item.getTv_scrap_title(),
-                                scrap_item.getScrap_url(),
-                                scrap_item.getTv_scrap_content(),
-                                scrap_item.getOpinion(),
-                                scrap_item.getKeyword(),
-                                scrap_item.getDate(),
-                                scrap_item.getEmail(),
-                                scrap_item.getRoom_id()
-                                );
+                        scrap_item.getScrap_url(),
+                        scrap_item.getTv_scrap_content(),
+                        scrap_item.getOpinion(),
+                        scrap_item.getKeyword(),
+                        scrap_item.getDate(),
+                        scrap_item.getEmail(),
+                        scrap_item.getRoom_id() );
             }
         });
 
@@ -137,11 +137,13 @@ public class ScrapWithKeywordListAdapter extends BaseAdapter {
                 try {
                     if(response.toString().contains("result")){
                         if(response.getString("result").equals("fail")){
-                            Toast toast = Toast.makeText(view.getContext(), "알수없는 오류가 발생합니다.", Toast.LENGTH_SHORT);
-                            toast.setGravity(Gravity.CENTER, 0,0);
-                            toast.show();
+                            Toast toast1 = Toast.makeText(view.getContext(), "이미 스크랩한 기사 입니다.", Toast.LENGTH_SHORT);
+                            toast1.setGravity(Gravity.CENTER, 0,0);
+                            toast1.show();
                         }else if(response.getString("result").equals("success")) {
-                            Toast.makeText(view.getContext(), "스크랩 박스에 저장되었습니다.", Toast.LENGTH_SHORT).show();
+                            Toast toast2 = Toast.makeText(view.getContext(), "스크랩 박스에 저장되었습니다.", Toast.LENGTH_SHORT);
+                            toast2.setGravity(Gravity.CENTER, 0,0);
+                            toast2.show();
                         }
                     }
                 }catch(Exception e){

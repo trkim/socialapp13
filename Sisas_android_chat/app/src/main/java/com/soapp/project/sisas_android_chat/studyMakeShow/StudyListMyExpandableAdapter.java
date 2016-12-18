@@ -40,6 +40,7 @@ public class StudyListMyExpandableAdapter extends BaseExpandableListAdapter {
     private HashMap<StudyListMyItem, StudyListMyItemChild> my_list_child_map;
     private ArrayList<JSONObject> keyword_list = new ArrayList<JSONObject>();
 
+    int room_id;
     ImageButton ib_head_icon;
     ImageButton ib_study_go;
 
@@ -85,7 +86,7 @@ public class StudyListMyExpandableAdapter extends BaseExpandableListAdapter {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, StudyMakeUpdateDeleteActivity.class);
-                    int room_id = my_study_list_parent.get(groupPosition).getRoom_id();
+                    room_id = my_study_list_parent.get(groupPosition).getRoom_id();
                     intent.putExtra("room_id", room_id);
                     context.startActivity(intent);
                 }
@@ -174,10 +175,17 @@ public class StudyListMyExpandableAdapter extends BaseExpandableListAdapter {
         } else {
             my_study_list_child_holder = (StudyListMyItemChildHolder)convertView.getTag();
         }
+
+        /*try{
+            checkForKeywordFromServer(room_id);
+        }catch(Exception e){
+            e.printStackTrace();
+        }*/
+
         my_study_list_child_holder.study_name_holder.setText(item_child.getStudy_name());
         my_study_list_child_holder.study_date_holder.setText(item_child.getStudy_date());
         my_study_list_child_holder.study_comment_holder.setText(item_child.getStudy_comment());
-        my_study_list_child_holder.study_keyword_holder.setText(item_child.getStudy_keyword());
+        my_study_list_child_holder.study_keyword_holder.setText(keyword_available);
 
         my_study_list_child_holder.study_name_holder.setTextColor(Color.BLACK);
         my_study_list_child_holder.study_date_holder.setTextColor(Color.BLACK);
