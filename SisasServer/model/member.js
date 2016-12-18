@@ -11,7 +11,8 @@ var memberSchema = new Schema({
         major:String,
         category:String,
         coupon:String,
-        rating:String
+        rating:String,
+        profile_pic:String
 });
 
 mongoose.model('member',memberSchema);
