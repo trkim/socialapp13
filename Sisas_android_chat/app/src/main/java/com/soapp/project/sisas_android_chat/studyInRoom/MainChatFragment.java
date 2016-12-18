@@ -18,7 +18,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 
 import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
@@ -114,7 +113,7 @@ public class MainChatFragment extends Fragment {
         socket.emit("setting_roomid", room_id);*/
         JSONObject json = new JSONObject();
         try{
-            json.put("type", "join");
+            json.put("type", "watch");
             json.put("room_id", room_id);
             json.put("username", username);
         }catch (Exception e){
