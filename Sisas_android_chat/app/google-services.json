@@ -1,12 +1,12 @@
 {
   "project_info": {
-    "project_number": "667567941302",
-    "project_id": "firebase-sisas"
+    "project_number": "296567908342",
+    "project_id": "socialapp13"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:667567941302:android:a53f93189d0ded44",
+        "mobilesdk_app_id": "1:296567908342:android:a53f93189d0ded44",
         "android_client_info": {
           "package_name": "com.soapp.project.sisas_android_chat"
         }
@@ -14,7 +14,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDTGlkG4nLkNMUEB7FGqFB6tZTbw4C0uq0"
+          "current_key": "AIzaSyDUJIOUZRA3_puG1rrbQ2Z09DdX4L7YFQQ"
         }
       ],
       "services": {
