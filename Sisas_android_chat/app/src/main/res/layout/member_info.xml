@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:id="@+id/toolbar"
             android:elevation="0dp"
-            android:background="@color/colorPrimaryDark">
+            android:background="@color/colorOrange">
 
             <ImageButton
                 android:id= "@+id/icBackIcon"
@@ -45,8 +45,8 @@
             android:elevation="4dp"
             app:tabMode="fixed"
             android:background="@color/colorwhite"
-            app:tabSelectedTextColor="@color/colorAccent"
-            app:tabIndicatorColor="@color/colorAccent">
+            app:tabSelectedTextColor="@color/colorOrange"
+            app:tabIndicatorColor="@color/colorOrange">
 
             <android.support.design.widget.TabItem
                 android:layout_height="wrap_content"

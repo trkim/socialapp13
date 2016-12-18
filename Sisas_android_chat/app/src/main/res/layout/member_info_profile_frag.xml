@@ -6,7 +6,8 @@
     android:paddingLeft="20dp"
     android:paddingRight="20dp"
     android:paddingTop="20dp"
-    android:gravity="center_horizontal">
+    android:gravity="center_horizontal"
+    android:layout_marginTop="30dp">
 
 
     <LinearLayout
@@ -14,21 +15,23 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:layout_weight="1">
+        android:layout_weight="1.2"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/profile_pic"
-            android:src="@android:drawable/sym_def_app_icon"
-            android:layout_weight="4" />
+            android:src="@mipmap/ic_profile"
+            android:layout_width="130dp"
+            android:layout_height="130dp" />
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-            android:layout_weight="3">
+            android:layout_weight="1"
+            android:paddingLeft="30dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -39,26 +42,20 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/profile_email" />
+                android:id="@+id/profile_email"
+                android:layout_marginTop="5dp" />
         </LinearLayout>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:id="@+id/profile_grade"
-            android:layout_weight="4"
-            android:gravity="center" />
     </LinearLayout>
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="0.3"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="20dp">
+        android:layout_weight="1"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="20dp"
+        android:paddingTop="30dp">
 
         <LinearLayout
             android:orientation="horizontal"
@@ -72,8 +69,9 @@
                 android:layout_height="match_parent"
                 android:text="@string/tv_profile_major"
                 android:id="@+id/tv_profile_major"
-                android:layout_weight="1.5"
-                android:textStyle="bold" />
+                android:layout_weight="2"
+                android:textStyle="bold"
+                android:textColor="@color/colorOrange" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -94,8 +92,9 @@
                 android:layout_height="match_parent"
                 android:text="@string/tv_profile_interest"
                 android:id="@+id/str_profile_interest"
-                android:layout_weight="1.5"
-                android:textStyle="bold" />
+                android:layout_weight="2"
+                android:textStyle="bold"
+                android:textColor="@color/colorOrange" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -117,7 +116,8 @@
                 android:text="@string/tv_profile_coupon"
                 android:id="@+id/str_profile_coupon"
                 android:layout_marginRight="30dp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textColor="@color/colorOrange" />
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -152,7 +152,8 @@
                 android:text="@string/tv_study_alert"
                 android:id="@+id/str_study_alert"
                 android:layout_marginRight="20dp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textColor="@color/colorOrange" />
 
             <Switch
                 android:layout_width="wrap_content"
@@ -177,7 +178,7 @@
             android:id="@+id/btn_profile_update"
             android:layout_weight="1"
             android:textColor="@color/colorwhite"
-            android:background="@color/colorAccent"
+            android:background="@color/colorOrange"
             android:layout_marginRight="2.5dp" />
 
         <Button
@@ -186,7 +187,7 @@
             android:text="@string/btn_logout"
             android:id="@+id/btn_logout"
             android:layout_weight="1"
-            android:background="@color/colorAccent"
+            android:background="@color/colorOrange"
             android:textColor="@color/colorwhite"
             android:layout_marginLeft="2.5dp"
             android:layout_marginRight="2.5dp" />
@@ -197,7 +198,7 @@
             android:text="@string/btn_leave"
             android:id="@+id/btn_leave"
             android:layout_weight="1"
-            android:background="@color/colorAccent"
+            android:background="@color/colorOrange"
             android:textColor="@color/colorwhite"
             android:layout_marginLeft="2.5dp" />
     </LinearLayout>

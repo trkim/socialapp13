@@ -6,17 +6,16 @@ import android.graphics.drawable.Drawable;
  * Created by eelhea on 2016-10-31.
  */
 public class StudyShowApplyMemberListItem {
-    private Drawable profile_pic;
+    private String profile_pic;
     private String member_name;
     private String member_major;
     private String member_interest;
-    private String member_score;
 
-    public Drawable getProfile_pic() {
+    public String getProfile_pic() {
         return profile_pic;
     }
 
-    public void setProfile_pic(Drawable profile_pic) {
+    public void setProfile_pic(String profile_pic) {
         this.profile_pic = profile_pic;
     }
 
@@ -34,14 +33,6 @@ public class StudyShowApplyMemberListItem {
 
     public void setMember_major(String member_major) {
         this.member_major = member_major;
-    }
-
-    public String getMember_score() {
-        return member_score;
-    }
-
-    public void setMember_score(String member_score) {
-        this.member_score = member_score;
     }
 
     public String getMember_interest() {
