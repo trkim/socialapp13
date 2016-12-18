@@ -487,6 +487,7 @@ router.post('/check_coupon', function(req, res){
     if((member.coupon*1) > 1){
       console.log('관전 가능. 잔여 쿠폰 : '+member.coupon);
       member.coupon = ((member.coupon*1) - 1)+'';
+      console.log('잔여 쿠폰 : '+member.coupon);
       member.save(function(err){
         if(err){
           console.error(err);
