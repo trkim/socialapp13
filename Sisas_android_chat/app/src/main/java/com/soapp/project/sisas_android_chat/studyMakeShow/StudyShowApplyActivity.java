@@ -182,16 +182,16 @@ public class StudyShowApplyActivity extends AppCompatActivity {
 
     public void getStudyMembers(){
         for(int i=0; i<member_list.size(); i++){
+            String profile_pic = member_list.get(i).optString("profile_pic");
             String member_name = member_list.get(i).optString("name");
             String member_major = member_list.get(i).optString("major");
             String member_category = member_list.get(i).optString("category");
-            String member_rating = member_list.get(i).optString("rating");
 
             if(member_name.equals(Member.getInstance().getName())){
                 btn_apply_go.setVisibility(View.INVISIBLE);
             }
 
-            apply_member_list_adapter.addApplyMember(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_launcher), member_name, member_major,member_category,member_rating);
+            apply_member_list_adapter.addApplyMember(profile_pic, member_name, member_major,member_category);
         }
 
         list_view.setAdapter(apply_member_list_adapter);

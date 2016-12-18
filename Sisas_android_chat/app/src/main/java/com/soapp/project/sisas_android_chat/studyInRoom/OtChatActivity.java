@@ -334,8 +334,7 @@ public class OtChatActivity extends AppCompatActivity implements DatePickerDialo
     protected void onActivityResult(int requestCode,int resultCode,Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Log.e("activity ActivityResult", "activity onActivityResult");
-        if (requestCode == 1 && resultCode == RESULT_OK
-                && null != data) {
+        if (requestCode == 1 && resultCode == RESULT_OK && null != data) {
             Uri selectedImage = data.getData();
             String[] filePathColumn = {MediaStore.Images.Media.DATA};
 
@@ -347,8 +346,8 @@ public class OtChatActivity extends AppCompatActivity implements DatePickerDialo
             imgDecodableString = cursor.getString(columnIndex);
             cursor.close();
             //Log.d("onActivityResult",imgDecodableString);
-            OtChatFragment fragment = (OtChatFragment)getSupportFragmentManager().findFragmentById(R.id.chatArea);
-            fragment.sendImage(imgDecodableString);
+            //OtChatFragment fragment = (OtChatFragment)getSupportFragmentManager().findFragmentById(R.id.chatArea);
+            //fragment.sendImage(imgDecodableString);
         }
         try{
             getStudyInfoFromServer(room_id);

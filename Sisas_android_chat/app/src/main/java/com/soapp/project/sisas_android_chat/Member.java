@@ -11,7 +11,6 @@ public class Member {
     private String major = null;
     private String category = null;
     private int coupon = 0;
-    private String rating = null;
 
     private Member(){}
 
@@ -64,11 +63,4 @@ public class Member {
         this.coupon = coupon;
     }
 
-    public String getRating() {
-        return rating;
-    }
-
-    public void setRating(String rating) {
-        this.rating = rating;
-    }
 }

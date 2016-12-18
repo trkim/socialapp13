@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:id="@+id/toolbar"
         android:elevation="0dp"
-        android:background="@color/colorPrimaryDark">
+        android:background="@color/colorAccent">
 
         <ImageButton
             android:id= "@+id/icBackIcon"
@@ -49,7 +49,7 @@
             android:paddingRight="20dp">
 
             <TextView
-                android:text="스터디 만들기"
+                android:text="스터디 수정/삭제"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView3"

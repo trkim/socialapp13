@@ -29,27 +29,30 @@
                 android:id="@+id/tv_my_room_category"
                 android:hint="카테고리"
                 android:layout_weight="1"
-                android:marqueeRepeatLimit="marquee_forever"
-                android:scrollHorizontally="true"
-                android:singleLine="true"
+                android:scrollHorizontally="false"
+                android:singleLine="false"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:maxLines="1"
-                android:ellipsize="end"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:gravity="center" />
 
             <TextView
                 android:id="@+id/tv_my_room_name"
                 android:hint="방이름"
-                android:layout_height="wrap_content"
-                android:ellipsize="marquee"
+                android:layout_height="match_parent"
+                android:ellipsize="none"
                 android:focusable="true"
                 android:marqueeRepeatLimit="marquee_forever"
                 android:singleLine="true"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:layout_width="130dp" />
+                android:contextClickable="true"
+                android:clickable="true"
+                android:textIsSelectable="true"
+                android:scrollHorizontally="true"
+                android:focusableInTouchMode="true"
+                android:layout_weight="6"
+                android:layout_width="20dp" />
 
             <TextView
                 android:id="@+id/tv_my_room_capacity"
@@ -58,7 +61,7 @@
                 android:hint="인원"
                 android:layout_gravity="center"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:enabled="false"
                 android:ellipsize="none" />
 
@@ -69,8 +72,7 @@
                 android:hint="Dday"
                 android:layout_gravity="center"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ellipsize="none" />
+                android:layout_height="match_parent" />
 
             <ImageButton
                 android:layout_width="wrap_content"

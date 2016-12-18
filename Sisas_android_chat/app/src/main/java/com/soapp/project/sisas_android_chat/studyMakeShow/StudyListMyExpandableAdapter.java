@@ -17,6 +17,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.soapp.project.sisas_android_chat.R;
+import com.soapp.project.sisas_android_chat.studyInRoom.MainChatActivity;
 import com.soapp.project.sisas_android_chat.studyInRoom.OtChatActivity;
 import com.soapp.project.sisas_android_chat.volley;
 
@@ -33,12 +34,14 @@ import java.util.TimeZone;
  */
 public class StudyListMyExpandableAdapter extends BaseExpandableListAdapter {
 
+    final int temp =1;
     private Context context;
     private ArrayList<StudyListMyItem> my_study_list_parent;
     private StudyListMyItemChildHolder my_study_list_child_holder = new StudyListMyItemChildHolder();
     private HashMap<StudyListMyItem, StudyListMyItemChild> my_list_child_map;
     private ArrayList<JSONObject> keyword_list = new ArrayList<JSONObject>();
 
+    int room_id;
     ImageButton ib_head_icon;
     ImageButton ib_study_go;
 
@@ -84,7 +87,7 @@ public class StudyListMyExpandableAdapter extends BaseExpandableListAdapter {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, StudyMakeUpdateDeleteActivity.class);
-                    int room_id = my_study_list_parent.get(groupPosition).getRoom_id();
+                    room_id = my_study_list_parent.get(groupPosition).getRoom_id();
                     intent.putExtra("room_id", room_id);
                     context.startActivity(intent);
                 }
@@ -110,7 +113,7 @@ public class StudyListMyExpandableAdapter extends BaseExpandableListAdapter {
                 } else{ //ot 채팅방으로 들어감
                     //등록된 키워드가 있는지 체크
                     try {
-                        checkForKeywordFromServer(room_id);
+                        checkForKeywordFromServer(room_id, dday);
                     }catch(Exception e){
                         e.printStackTrace();
                     }
@@ -131,7 +134,9 @@ public class StudyListMyExpandableAdapter extends BaseExpandableListAdapter {
         tv_my_room_name.setTextColor(Color.BLACK);
         tv_my_room_name.setSingleLine(true); //한줄로 나오게 하기.
         tv_my_room_name.setEllipsize(TextUtils.TruncateAt.MARQUEE);//Ellipsize의 MARQUEE 속성 주기
+        tv_my_room_name.setFocusable(true);
         tv_my_room_name.setSelected(true); //해당 텍스트뷰에 포커스가 없어도 문자 흐르게 하기
+
         tv_my_room_capacity.setTextColor(Color.BLACK);
         tv_my_room_dday.setTextColor(Color.BLACK);
 
@@ -167,21 +172,19 @@ public class StudyListMyExpandableAdapter extends BaseExpandableListAdapter {
             my_study_list_child_holder.study_name_holder = (TextView)convertView.findViewById(R.id.tv_slide_room_name);
             my_study_list_child_holder.study_date_holder = (TextView)convertView.findViewById(R.id.tv_slide_room_date);
             my_study_list_child_holder.study_comment_holder = (TextView)convertView.findViewById(R.id.tv_slide_room_comment);
-            my_study_list_child_holder.study_keyword_holder = (TextView)convertView.findViewById(R.id.tv_slide_room_keyword);
 
             convertView.setTag(my_study_list_child_holder);
         } else {
             my_study_list_child_holder = (StudyListMyItemChildHolder)convertView.getTag();
         }
+
         my_study_list_child_holder.study_name_holder.setText(item_child.getStudy_name());
         my_study_list_child_holder.study_date_holder.setText(item_child.getStudy_date());
         my_study_list_child_holder.study_comment_holder.setText(item_child.getStudy_comment());
-        my_study_list_child_holder.study_keyword_holder.setText(item_child.getStudy_keyword());
 
         my_study_list_child_holder.study_name_holder.setTextColor(Color.BLACK);
         my_study_list_child_holder.study_date_holder.setTextColor(Color.BLACK);
         my_study_list_child_holder.study_comment_holder.setTextColor(Color.BLACK);
-        my_study_list_child_holder.study_keyword_holder.setTextColor(Color.BLACK);
 
         return convertView;
     }
@@ -196,7 +199,7 @@ public class StudyListMyExpandableAdapter extends BaseExpandableListAdapter {
         return true;
     }
 
-    private void checkForKeywordFromServer(final int room_id){
+    private void checkForKeywordFromServer(final int room_id, final String dday){
         final String URL = "http://52.78.157.250:3000/get_keyword?room_id="+room_id;
 
         JsonArrayRequest req = new JsonArrayRequest(URL, new Response.Listener<JSONArray>() {
@@ -206,7 +209,7 @@ public class StudyListMyExpandableAdapter extends BaseExpandableListAdapter {
                     for(int i=0; i<response.length(); i++){
                         keyword_list.add(response.optJSONObject(i));
                     }
-                    getKeyword(room_id);
+                    getKeyword(room_id, dday);
                 }catch(Exception e){
                     e.printStackTrace();
                 }
@@ -220,7 +223,7 @@ public class StudyListMyExpandableAdapter extends BaseExpandableListAdapter {
         volley.getInstance().addToRequestQueue(req);
     }
 
-    private void getKeyword(final int room_id){
+    private void getKeyword(final int room_id, final String dday){
         long min = 999999999;
         if(keyword_list.size()==0){
             Intent intent = new Intent(context, OtChatActivity.class);
@@ -248,22 +251,36 @@ public class StudyListMyExpandableAdapter extends BaseExpandableListAdapter {
 
                 //오늘 날짜 이후의 키워드인지 판별
                 long temp = keyword_date_in_millis - today_in_millis;
-                if (temp < min) {
+                if (temp <= min) {
                     min = temp;
                     keyword_available = keyword_from_server;
                     date_available = date_from_server;
                 }
-                Intent intent = new Intent(context, OtChatActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                intent.putExtra("room_id", room_id);
-                if (!keyword_available.equals("") && !date_available.equals("")) {
-                    intent.putExtra("keyword", keyword_available);
-                    intent.putExtra("date", date_available);
+
+                // dday가 ~ing면 mainChat으로 넘어가기 < --아니면--> otChat으로 넘어가기
+                if(dday.equals("~ing")){
+                    Toast.makeText(context, "참가 입장합니다.", Toast.LENGTH_SHORT).show();
+
+                    Intent intent = new Intent(context, MainChatActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    intent.putExtra("room_id", room_id);
+                    intent.putExtra("temp", 1); //참가하기 입장
+                    if (!keyword_available.equals("") && !date_available.equals("")) {
+                        intent.putExtra("keyword", keyword_available);
+                        intent.putExtra("date", date_available);
+                    }
+                    context.startActivity(intent);
+                } else {
+                    Intent intent = new Intent(context, OtChatActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    intent.putExtra("room_id", room_id);
+                    if (!keyword_available.equals("") && !date_available.equals("")) {
+                        intent.putExtra("keyword", keyword_available);
+                        intent.putExtra("date", date_available);
+                    }
+                    context.startActivity(intent);
                 }
-                context.startActivity(intent);
             }
         }
-
-
     }
 }

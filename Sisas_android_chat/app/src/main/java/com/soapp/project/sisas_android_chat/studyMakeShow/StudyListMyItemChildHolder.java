@@ -9,7 +9,6 @@ public class StudyListMyItemChildHolder {
     public TextView study_name_holder;
     public TextView study_date_holder;
     public TextView study_comment_holder;
-    public TextView study_keyword_holder;
 
     public TextView getStudy_name_holder() {
         return study_name_holder;
@@ -35,11 +34,4 @@ public class StudyListMyItemChildHolder {
         this.study_comment_holder = study_comment_holder;
     }
 
-    public TextView getStudy_keyword_holder() {
-        return study_keyword_holder;
-    }
-
-    public void setStudy_keyword_holder(TextView study_keyword_holder) {
-        this.study_keyword_holder = study_keyword_holder;
-    }
 }

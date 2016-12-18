@@ -34,12 +34,13 @@
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
             android:hint="날짜"
-            android:gravity="right" />
+            android:gravity="right"
+            android:paddingRight="20dp" />
     </LinearLayout>
 
     <TableLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:paddingBottom="20dp">
@@ -80,7 +81,8 @@
                     android:maxLines="3"
                     android:text="testtestvtesttest"
                     android:textSize="14sp"
-                    android:layout_marginBottom="10dp" />
+                    android:layout_marginBottom="10dp"
+                    android:minLines="3" />
             </LinearLayout>
 
         </TableRow>

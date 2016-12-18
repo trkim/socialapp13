@@ -141,8 +141,8 @@
                 android:id="@+id/btn_study_apply"
                 android:onClick="changeFragment"
                 android:layout_weight="1"
-                android:textColor="@color/colorAccent"
-                android:background="@drawable/tabimage" />
+                android:textColor="@color/colorwhite"
+                android:background="@color/colorPrimary" />
 
             <Button
                 android:layout_width="match_parent"
@@ -173,8 +173,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:textColor="@color/colorwhite"
-                android:background="@color/colorGray"
+                android:textColor="@color/colorGray"
                 android:layout_marginLeft="0.5dp"
                 android:layout_marginRight="0.5dp"
                 android:textStyle="bold"
@@ -185,12 +184,11 @@
                 android:text="방이름"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="6"
                 android:gravity="center"
                 android:layout_marginLeft="0.5dp"
                 android:layout_marginRight="0.5dp"
-                android:background="@color/colorGray"
-                android:textColor="@color/colorwhite"
+                android:textColor="@color/colorGray"
                 android:textStyle="bold"
                 android:paddingBottom="5dp"
                 android:paddingTop="5dp" />
@@ -203,8 +201,7 @@
                 android:gravity="center"
                 android:layout_marginLeft="0.5dp"
                 android:layout_marginRight="0.5dp"
-                android:background="@color/colorGray"
-                android:textColor="@color/colorwhite"
+                android:textColor="@color/colorGray"
                 android:textStyle="bold"
                 android:paddingBottom="5dp"
                 android:paddingTop="5dp" />
@@ -217,8 +214,7 @@
                 android:gravity="center"
                 android:layout_marginLeft="0.5dp"
                 android:layout_marginRight="0.5dp"
-                android:background="@color/colorGray"
-                android:textColor="@color/colorwhite"
+                android:textColor="@color/colorGray"
                 android:textStyle="bold"
                 android:paddingBottom="5dp"
                 android:paddingTop="5dp" />
@@ -230,8 +226,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:layout_marginLeft="0.5dp"
-                android:background="@color/colorGray"
-                android:textColor="@color/colorwhite"
+                android:textColor="@color/colorGray"
                 android:textStyle="bold"
                 android:paddingBottom="5dp"
                 android:paddingTop="5dp" />

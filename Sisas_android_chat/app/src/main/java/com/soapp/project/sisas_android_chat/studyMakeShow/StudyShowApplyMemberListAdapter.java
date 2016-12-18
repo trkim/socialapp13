@@ -13,6 +13,10 @@ import com.soapp.project.sisas_android_chat.R;
 
 import java.util.ArrayList;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
+import static com.soapp.project.sisas_android_chat.memberInfo.MyProfileFragment.StringToBitmap;
+
 /**
  * Created by eelhea on 2016-10-31.
  */
@@ -46,30 +50,31 @@ public class StudyShowApplyMemberListAdapter extends BaseAdapter{
             convertView = inflater.inflate(R.layout.study_show_apply_member_list_item, parent, false);
         }
 
-        ImageView iv_member_profile = (ImageView)convertView.findViewById(R.id.iv_member_profile);
+        CircleImageView profile_pic = (CircleImageView)convertView.findViewById(R.id.profile_pic);
         TextView tv_member_name = (TextView) convertView.findViewById(R.id.tv_member_name);
         TextView tv_member_major = (TextView) convertView.findViewById(R.id.tv_member_major);
         TextView tv_member_interest = (TextView) convertView.findViewById(R.id.tv_member_interest);
-        TextView tv_member_score = (TextView) convertView.findViewById(R.id.tv_member_score);
 
         StudyShowApplyMemberListItem list_view_item = apply_member_item_list.get(position);
 
-        iv_member_profile.setImageDrawable(list_view_item.getProfile_pic());
+        if(list_view_item.getProfile_pic().equals("")){
+            profile_pic.setImageResource(R.mipmap.ic_profile);
+        } else {
+            profile_pic.setImageBitmap(StringToBitmap(list_view_item.getProfile_pic()));
+        }
         tv_member_name.setText(list_view_item.getMember_name());
         tv_member_major.setText(list_view_item.getMember_major());
         tv_member_interest.setText(list_view_item.getMember_interest().substring(1));
-        tv_member_score.setText(list_view_item.getMember_score());
 
         return convertView;
     }
 
-    public void addApplyMember(Drawable pic, String name, String major, String interest, String score){
+    public void addApplyMember(String profile_pic, String name, String major, String interest){
         StudyShowApplyMemberListItem new_member = new StudyShowApplyMemberListItem();
-        new_member.setProfile_pic(pic);
+        new_member.setProfile_pic(profile_pic);
         new_member.setMember_name(name);
         new_member.setMember_major(major);
         new_member.setMember_interest(interest);
-        new_member.setMember_score(score);
 
         apply_member_item_list.add(new_member);
     }

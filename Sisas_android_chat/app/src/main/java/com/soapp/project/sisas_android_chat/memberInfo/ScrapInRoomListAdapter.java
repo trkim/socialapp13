@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,7 +38,7 @@ import java.util.Map;
 public class ScrapInRoomListAdapter extends BaseAdapter {
 
     private Context context;
-    ScrapInRoomListItem scrap_in_room_item;
+    //ScrapInRoomListItem scrap_in_room_item;
     public ArrayList<ScrapInRoomListItem> scrap_in_room_item_list = new ArrayList<ScrapInRoomListItem>();
 
     public ScrapInRoomListAdapter(Context context){
@@ -75,9 +76,9 @@ public class ScrapInRoomListAdapter extends BaseAdapter {
         final TextView tv_scrap_article_title = (TextView)convertView.findViewById(R.id.tv_scrap_article_title);
         TextView tv_scrap_content = (TextView)convertView.findViewById(R.id.tv_scrap_content);
 
-        scrap_in_room_item = scrap_in_room_item_list.get(position);
+        final ScrapInRoomListItem scrap_in_room_item = scrap_in_room_item_list.get(position);
 
-        tv_single_keyword.setText("< " + scrap_in_room_item.getSingle_keyword() + " >");
+        tv_single_keyword.setText("키워드 : " + scrap_in_room_item.getSingle_keyword());
         tv_single_keyword_date.setText(scrap_in_room_item.getSingle_keyword_date());
         tv_scrap_article_title.setText(scrap_in_room_item.getScrap_article_title());
         tv_scrap_content.setText(scrap_in_room_item.getScrap_content());
@@ -104,13 +105,14 @@ public class ScrapInRoomListAdapter extends BaseAdapter {
         btn_save_opinion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int position = (Integer) v.getTag();
-                ScrapInRoomListItem item = getItem(position);
-
-                String article_title = item.getScrap_article_title();
+                String scrap_id = scrap_in_room_item.getScrap_article_title()+scrap_in_room_item.getSingle_keyword_date()+scrap_in_room_item.getSingle_keyword();
                 String opinion = et_opinion.getText().toString();
-
-                saveOpinionToServer(article_title, opinion);
+                Log.e("opinion", opinion);
+                try {
+                    saveOpinionToServer(scrap_id, opinion);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -132,11 +134,11 @@ public class ScrapInRoomListAdapter extends BaseAdapter {
         scrap_in_room_item_list.add(item);
     }
 
-    private void saveOpinionToServer(String article_title, String opinion){
+    private void saveOpinionToServer(final String scrap_id, final String opinion){
         final String URL = "http://52.78.157.250:3000/save_opinion";
 
         Map<String, Object> scrap_opinion_param = new HashMap<String, Object>();
-        scrap_opinion_param.put("article_title", article_title);
+        scrap_opinion_param.put("scrap_id", scrap_id);
         scrap_opinion_param.put("opinion", opinion);
 
         JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, URL, new JSONObject(scrap_opinion_param), new Response.Listener<JSONObject>() {
