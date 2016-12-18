@@ -118,6 +118,7 @@ io.on('connection', function(socket){
     type : 'connected'
   });
 
+  //otchat start
   socket.on('joinroom', function(data){
     console.log(data.type);
     if(data.type == 'join'){
@@ -128,13 +129,6 @@ io.on('connection', function(socket){
     }
   });
 
-/*  socket.emit('system', {
-    message : '채팅방에 오신 것을 환영합니다.'
-  });
-
-  socket.broadcast.to(data.room_id).emit('system', {
-    message : data.username + '님이 접속하셨습니다.'
-  });*/
 
   socket.on('send message', function(data){
     console.log('send message room_id : '+data.room_id);
@@ -142,50 +136,26 @@ io.on('connection', function(socket){
     console.log('send message username : '+data.username);
     socket.broadcast.to(data.room_id).emit('get message', data);
   });
+//ot chat end
 
-  // when the client emits 'new message', this listens and executes
-/*  socket.on('send message', function (data) {
-    // we tell the client to execute 'new message'
-    console.log('data.room_id : '+data.room_id);
-      console.log(data);
-      socket.broadcast.emit('get message', {
-        username: data.username,
-        message: data.message
-      });
-    //socket.broadcast.emit('new message', data);
-  });*/
+  //main chat start
+  socket.on('watchroom', function(data){
+    console.log('main 채팅방 입장');
+    console.log(data.type);
+      if(data.type == 'watch'){
+        socket.join(data.room_id);
+        console.log('현재 room_id : '+data.room_id);
 
-  // when the client emits 'add user', this listens and executes
-  socket.on('add user', function (username) {
-    if (addedUser) return;
+        socket.room_id = data.room_id;
+        socket.keyword = data.keyword;
+        socket.date = data.date;
 
-    // we store the username in the socket session for this client
-    socket.username = username;
-    ++numUsers;
-    addedUser = true;
-    socket.emit('login', {
-      numUsers: numUsers
-    });
-    // echo globally (all clients) that a person has connected
-    socket.broadcast.emit('user joined', {
-      username: socket.username,
-      numUsers: numUsers
-    });
+      }
   });
 
-  // when the client emits 'typing', we broadcast it to others
-  socket.on('typing', function () {
-    socket.broadcast.emit('typing', {
-      username: socket.username
-    });
-  });
 
-  // when the client emits 'stop typing', we broadcast it to others
-  socket.on('stop typing', function () {
-    socket.broadcast.emit('stop typing', {
-      username: socket.username
-    });
-  });
+
+  //main chat end
 
   // when the user disconnects.. perform this
   socket.on('disconnect', function () {
