@@ -185,6 +185,7 @@ public class OtChatFragment extends Fragment {
         String message = mInputMessageView.getText().toString().trim();
         String username = Member.getInstance().getName();
         if(TextUtils.isEmpty((message))){
+            mInputMessageView.requestFocus();
             return;
         }
         mInputMessageView.setText("");
@@ -220,7 +221,7 @@ public class OtChatFragment extends Fragment {
                 .username(username).message(message).build());
         // mAdapter = new MessageAdapter(mMessages);
         //mAdapter = new OtChatMsgsAdapter( mMessages);
-        mAdapter.notifyItemInserted(0);
+        mAdapter.notifyItemInserted(mMessages.size() - 1);
         scrollToBottom();
     }
 
@@ -228,7 +229,7 @@ public class OtChatFragment extends Fragment {
         mMessages.add(new OtChatMsgs.Builder(OtChatMsgs.TYPE_MESSAGE)
                 .image(bmp).build());
         //mAdapter = new OtChatMsgsAdapter( mMessages);
-        mAdapter.notifyItemInserted(0);
+        mAdapter.notifyItemInserted(mMessages.size() - 1);
         scrollToBottom();
     }
     private void scrollToBottom() {
