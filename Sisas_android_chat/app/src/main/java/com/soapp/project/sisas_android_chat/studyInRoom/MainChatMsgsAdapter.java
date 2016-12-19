@@ -1,5 +1,6 @@
 package com.soapp.project.sisas_android_chat.studyInRoom;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -20,25 +21,14 @@ public class MainChatMsgsAdapter extends RecyclerView.Adapter<MainChatMsgsAdapte
     private List<MainChatMsgs> mMessages;
     private int[] mUsernameColors;
 
-    public MainChatMsgsAdapter(List<MainChatMsgs> messages) {
+    public MainChatMsgsAdapter(Context context, List<MainChatMsgs> messages) {
         mMessages = messages;
-        //  mUsernameColors = context.getResources().getIntArray(R.array.username_colors);
+        mUsernameColors = context.getResources().getIntArray(R.array.username_colors);
     }
 
     @Override
     public MainChatMsgsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         int layout = -1;
-        /*switch (viewType) {
-            case Message.TYPE_MESSAGE:
-                layout = R.layout.item_message;
-                break;
-            case Message.TYPE_LOG:
-                layout = R.layout.item_log;
-                break;
-            case Message.TYPE_ACTION:
-                layout = R.layout.item_action;
-                break;
-        }*/
         View v = LayoutInflater
                 .from(parent.getContext())
                 .inflate(R.layout.study_in_room_main_chat_msg, parent, false);
@@ -49,6 +39,7 @@ public class MainChatMsgsAdapter extends RecyclerView.Adapter<MainChatMsgsAdapte
     public void onBindViewHolder(MainChatMsgsAdapter.ViewHolder viewHolder, int position) {
         MainChatMsgs message = mMessages.get(position);
         viewHolder.setMessage(message.getMessage());
+        viewHolder.setUsername(message.getUsername());
         viewHolder.setImage(message.getImage());
     }
 
@@ -65,8 +56,10 @@ public class MainChatMsgsAdapter extends RecyclerView.Adapter<MainChatMsgsAdapte
     public class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView mImageView;
         private TextView mMessageView;
+        private TextView mUsernameView;
         public ViewHolder(View itemView) {
             super(itemView);
+            mUsernameView = (TextView) itemView.findViewById(R.id.username);
             mImageView = (ImageView) itemView.findViewById(R.id.imageView);
             mMessageView = (TextView) itemView.findViewById(R.id.message);
         }
@@ -75,6 +68,12 @@ public class MainChatMsgsAdapter extends RecyclerView.Adapter<MainChatMsgsAdapte
             if (null == mMessageView) return;
             if(null == message) return;
             mMessageView.setText(message);
+        }
+
+        public void setUsername(String username) {
+            if (null == mUsernameView) return;
+            mUsernameView.setText(username);
+            mUsernameView.setTextColor(getUsernameColor(username));
         }
 
         public void setImage(Bitmap bmp){

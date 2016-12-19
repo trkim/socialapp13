@@ -449,7 +449,7 @@ router.post('/join_room', function(req,res){
 
   Room.findOne({'room_id':room_id}).count(function(err,num){
       Room.findOne({'room_id':room_id}, function(err,room){
-        if(room.capacity - get >= 1) {
+        if(room.capacity - num >= 1) {
           room.capacity = room.capacity -1;
           room.capacity = room.capacity -1;
           var myroom = new Room();
