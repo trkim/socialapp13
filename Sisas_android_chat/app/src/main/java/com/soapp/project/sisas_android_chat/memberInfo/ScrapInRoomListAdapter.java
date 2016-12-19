@@ -131,6 +131,7 @@ public class ScrapInRoomListAdapter extends BaseAdapter {
                 intent.putExtra("room_id", room_id);
                 intent.putExtra("keyword", scrap_in_room_item.getSingle_keyword());
                 intent.putExtra("date", scrap_in_room_item.getSingle_keyword_date());
+                intent.putExtra("url", scrap_in_room_item.getScrap_url());
                 intent.putExtra("temp", 1);
             }
         });

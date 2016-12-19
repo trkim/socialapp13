@@ -127,7 +127,7 @@ io.on('connection', function(socket){
 
       socket.room_id = data.room_id;
     }
-  });
+  });  
 
 
   socket.on('new message', function(data){
