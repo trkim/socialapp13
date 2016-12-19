@@ -226,7 +226,7 @@ router.post('/insert_room', function(req,res){
   req.accepts('application/json');
 
   var room = new Room();
-  var cur_seq = new Seq();
+
   Seq.findOne({'_id':'seq_post'}, function(err, result){
     if(err){
       console.error(err);
@@ -245,15 +245,7 @@ router.post('/insert_room', function(req,res){
       room.end_date = req.body.end_date;
       room.comment = req.body.comment;
 
-      cur_seq.seq = result.seq;
-      cur_seq.save(function(err){
-        if(err){
-          console.error(err);
-          res.json({'result':'fail'});
-        }else{
-          console.log('seq 증가 완료');
-        }
-      });
+      result.save();
 
       room.save(function(err){
         if(err){
