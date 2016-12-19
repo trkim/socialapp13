@@ -1,7 +1,5 @@
 package com.soapp.project.sisas_android_chat.studyInRoom;
 
-import android.graphics.Bitmap;
-
 /**
  * Created by samsung on 2016-12-19.
  */
@@ -50,22 +48,22 @@ public class MainChatMsgsArticles {
         }
 
 
-        public MainChatMsgsArticles.Builder username(String username) {
+        public Builder username(String username) {
             mUsername = username;
             return this;
         }
 
-        public MainChatMsgsArticles.Builder title(String title) {
+        public Builder title(String title) {
             mTitle = title;
             return this;
         }
 
-        public MainChatMsgsArticles.Builder url(String url) {
+        public Builder url(String url) {
             mUrl = url;
             return this;
         }
 
-        public MainChatMsgsArticles.Builder opinion(String opinion) {
+        public Builder opinion(String opinion) {
             mOpinion = opinion;
             return this;
         }

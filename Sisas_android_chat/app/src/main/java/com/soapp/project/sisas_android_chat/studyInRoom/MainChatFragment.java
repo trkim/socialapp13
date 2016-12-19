@@ -215,7 +215,6 @@ public class MainChatFragment extends Fragment {
                 getActivity().startActivity(intent);
 
                 //title, url, opinion 정보 받아와서 sendArticle로 서버에 보내줘야함
-                sendArticle();
             }
         });
     }
@@ -301,6 +300,8 @@ public class MainChatFragment extends Fragment {
 
     private void addArticle(String username, String title, String url, String opinion){
         mArticles.add(new MainChatMsgsArticles.Builder(MainChatMsgsArticles.TYPE_MESSAGE).username(username).title(title).url(url).opinion(opinion).build());
+        Log.e("*******",String.valueOf(mArticles.get(0)));
+        Log.e("*******",String.valueOf(mArticles.size()));
         mArticleAdapter.notifyItemInserted(mArticles.size()-1);
         scrollToBottom();
     }
@@ -309,6 +310,7 @@ public class MainChatFragment extends Fragment {
         mMessages.add(new MainChatMsgs.Builder(MainChatMsgs.TYPE_MESSAGE)
                 .image(bmp).build());
         //mAdapter = new MainChatMsgsAdapter( mMessages);
+        Log.e("#####",String.valueOf(mMessages.size()));
         mAdapter.notifyItemInserted(mMessages.size() - 1);
         scrollToBottom();
     }
