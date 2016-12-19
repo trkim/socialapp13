@@ -238,11 +238,15 @@ public class StudyListMyExpandableAdapter extends BaseExpandableListAdapter {
                 String keyword_from_server = keyword_list.get(i).optString("keyword");
                 String date_from_server = keyword_list.get(i).optString("date");
 
+                Log.e("keyword : ",keyword_from_server);
+                Log.e("date : ",date_from_server);
+
                 //오늘 날짜
                 TimeZone time_zone = TimeZone.getTimeZone("Asia/Seoul");
                 Calendar today_calendar = Calendar.getInstance(time_zone);
                 today_calendar.set(today_calendar.get(Calendar.YEAR), today_calendar.get(Calendar.MONTH) + 1, today_calendar.get(Calendar.DAY_OF_MONTH));
                 long today_in_millis = today_calendar.getTimeInMillis() / (24 * 60 * 60 * 1000);
+                Log.e("오늘날짜 완료 ",String.valueOf(today_in_millis));
 
                 //키워드 날짜
                 Calendar keyword_calendar = Calendar.getInstance(time_zone);
@@ -250,16 +254,20 @@ public class StudyListMyExpandableAdapter extends BaseExpandableListAdapter {
                 int keyword_date_year = Integer.parseInt(keyword_date_split[0]);
                 int keyword_date_month = Integer.parseInt(keyword_date_split[1]);
                 int keyword_date_day = Integer.parseInt(keyword_date_split[2]);
+                Log.e("####",String.valueOf(keyword_date_year));
+                Log.e("####",String.valueOf(keyword_date_month));
+                Log.e("####",String.valueOf(keyword_date_day));
                 keyword_calendar.set(keyword_date_year, keyword_date_month, keyword_date_day);
                 long keyword_date_in_millis = keyword_calendar.getTimeInMillis() / (24 * 60 * 60 * 1000);
+                Log.e("키워드 날짜 완료",String.valueOf(keyword_date_in_millis));
 
                 //오늘 날짜 이후의 키워드인지 판별
                 long temp = keyword_date_in_millis - today_in_millis;
-                if (temp <= min) {
-                    min = temp;
+                //if (temp <= min) {
+                //    min = temp;
                     keyword_available = keyword_from_server;
                     date_available = date_from_server;
-                }
+                //}
                 Log.e("오늘의 날짜 : ",dday);
 
                 // dday가 ~ing면 mainChat으로 넘어가기 < --아니면--> otChat으로 넘어가기

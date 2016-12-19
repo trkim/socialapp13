@@ -75,7 +75,6 @@ public class MainChatFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-
      * @return A new instance of fragment ChatFragment.
      */
     // TODO: Rename and change types and number of parameters
