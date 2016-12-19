@@ -194,6 +194,7 @@ public class StudyListExpandableAdapter extends BaseExpandableListAdapter {
 
                             int room_id = study_list_parent.get(groupPosition).getRoom_id();
                             try {
+                                Member.getInstance().setCoupon(Member.getInstance().getCoupon()-1);
                                 checkForKeywordFromServer(room_id);
                             }catch (Exception e){
                                 e.printStackTrace();
