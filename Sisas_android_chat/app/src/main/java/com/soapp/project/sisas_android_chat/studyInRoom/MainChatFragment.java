@@ -120,12 +120,10 @@ public class MainChatFragment extends Fragment {
             e.printStackTrace();
         }
 
-        socket.emit("joinroom", json);
+        socket.emit("watchroom", json);
         //socket.on("system", handleIncomingMessages);
         socket.on("get message", handleIncomingMessages);
         socket.connect();
-
-
     }
 
 
@@ -153,7 +151,7 @@ public class MainChatFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        mAdapter = new MainChatMsgsAdapter(mMessages);
+        mAdapter = new MainChatMsgsAdapter(activity, mMessages);
         /*try {
             mListener = (OnFragmentInteractionListener) activity;
         } catch (ClassCastException e) {
@@ -211,13 +209,14 @@ public class MainChatFragment extends Fragment {
 
     private void sendMessage(){
         String message = mInputMessageView.getText().toString().trim();
+        String username = Member.getInstance().getName();
         if(TextUtils.isEmpty((message))){
+            mInputMessageView.requestFocus();
             return;
         }
         mInputMessageView.setText("");
-        addMessage(message);
+        addMessage(username, message);
         JSONObject json = new JSONObject();
-        String username = Member.getInstance().getName();
         try {
             json.put("message", message);
             json.put("room_id", String.valueOf(room_id));
@@ -242,21 +241,21 @@ public class MainChatFragment extends Fragment {
         }
     }
 
-    private void addMessage(String message) {
+    private void addMessage(String username, String message) {
 
         mMessages.add(new MainChatMsgs.Builder(MainChatMsgs.TYPE_MESSAGE)
-                .message(message).build());
+                .username(username).message(message).build());
         // mAdapter = new MessageAdapter(mMessages);
-        mAdapter = new MainChatMsgsAdapter( mMessages);
-        mAdapter.notifyItemInserted(0);
+        //mAdapter = new MainChatMsgsAdapter( mMessages);
+        mAdapter.notifyItemInserted(mMessages.size() - 1);
         scrollToBottom();
     }
 
     private void addImage(Bitmap bmp){
         mMessages.add(new MainChatMsgs.Builder(MainChatMsgs.TYPE_MESSAGE)
                 .image(bmp).build());
-        mAdapter = new MainChatMsgsAdapter( mMessages);
-        mAdapter.notifyItemInserted(0);
+        //mAdapter = new MainChatMsgsAdapter( mMessages);
+        mAdapter.notifyItemInserted(mMessages.size() - 1);
         scrollToBottom();
     }
     private void scrollToBottom() {
@@ -307,8 +306,7 @@ public class MainChatFragment extends Fragment {
                     }
 
                     // add the message to view
-                    addMessage(username);
-                    addMessage(message);
+                    addMessage(username,message);
 
                 }
             });

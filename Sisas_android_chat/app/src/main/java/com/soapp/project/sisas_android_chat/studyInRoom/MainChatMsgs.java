@@ -13,6 +13,7 @@ public class MainChatMsgs {
 
     private int mType;
     private String mMessage;
+    private String mUsername;
     private Bitmap mImage;
 
     private MainChatMsgs() {}
@@ -25,6 +26,8 @@ public class MainChatMsgs {
         return mMessage;
     };
 
+    public String getUsername() { return mUsername; };
+
     public Bitmap getImage() {
         return mImage;
     };
@@ -34,17 +37,23 @@ public class MainChatMsgs {
         private final int mType;
         private Bitmap mImage;
         private String mMessage;
+        private String mUsername;
 
         public Builder(int type) {
             mType = type;
         }
 
-        public MainChatMsgs.Builder image(Bitmap image) {
+        public Builder image(Bitmap image) {
             mImage = image;
             return this;
         }
 
-        public MainChatMsgs.Builder message(String message) {
+        public Builder username(String username) {
+            mUsername = username;
+            return this;
+        }
+
+        public Builder message(String message) {
             mMessage = message;
             return this;
         }
@@ -53,6 +62,7 @@ public class MainChatMsgs {
             MainChatMsgs message = new MainChatMsgs();
             message.mType = mType;
             message.mImage = mImage;
+            message.mUsername = mUsername;
             message.mMessage = mMessage;
             return message;
         }

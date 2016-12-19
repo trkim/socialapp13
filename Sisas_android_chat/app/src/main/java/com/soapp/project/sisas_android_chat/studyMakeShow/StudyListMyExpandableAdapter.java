@@ -45,19 +45,16 @@ public class StudyListMyExpandableAdapter extends BaseExpandableListAdapter {
     ImageButton ib_head_icon;
     ImageButton ib_study_go;
 
-    int room_id;
-
-
     String keyword_available = "";
     String date_available = "";
 
     //private Socket mSocket;
 
-    public StudyListMyExpandableAdapter(Context context, ArrayList<StudyListMyItem> my_study_list_parent, HashMap<StudyListMyItem, StudyListMyItemChild> my_list_child_map){
+    public StudyListMyExpandableAdapter(Context context, ArrayList<StudyListMyItem> my_study_list_parent, HashMap<StudyListMyItem, StudyListMyItemChild> my_list_child_map, ArrayList<JSONObject> keyword_list){
         this.context = context;
         this.my_study_list_parent = my_study_list_parent;
         this.my_list_child_map = my_list_child_map;
-        //this.keyword_list = keyword_list;
+        this.keyword_list = keyword_list;
     }
 
     @Override
@@ -103,11 +100,12 @@ public class StudyListMyExpandableAdapter extends BaseExpandableListAdapter {
         }
 
         ib_study_go = (ImageButton)convertView.findViewById(R.id.ib_study_go);
-        ib_study_go.setOnClickListener(new View.OnClickListener() {
+        ib_study_go.setOnClickListener(
+                new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //status == pre -> ot 채팅방 입장
-                room_id = my_study_list_parent.get(groupPosition).getRoom_id();
+                int room_id = my_study_list_parent.get(groupPosition).getRoom_id();
                 String dday = my_study_list_parent.get(groupPosition).getStudy_dday();
 
                 if(dday.contains("D+")){ //D-day가 D+ 이면 ot 채팅방으로 못 들어가게 함.
@@ -226,8 +224,11 @@ public class StudyListMyExpandableAdapter extends BaseExpandableListAdapter {
         volley.getInstance().addToRequestQueue(req);
     }
 
+    //mainChat 혹은 otChat으로 넘겨주는 함수
     private void getKeyword(final int room_id, final String dday){
         long min = 999999999;
+        Log.e("keyword_list크기",String.valueOf(keyword_list.size()));
+        Log.e("dday",dday);
         if(keyword_list.size()==0){
             Intent intent = new Intent(context, OtChatActivity.class);
             intent.putExtra("room_id", room_id);
@@ -254,27 +255,29 @@ public class StudyListMyExpandableAdapter extends BaseExpandableListAdapter {
 
                 //오늘 날짜 이후의 키워드인지 판별
                 long temp = keyword_date_in_millis - today_in_millis;
-                //if (temp <= min) {
+                if (temp <= min) {
                     min = temp;
                     keyword_available = keyword_from_server;
                     date_available = date_from_server;
-               //}
+                }
                 Log.e("오늘의 날짜 : ",dday);
 
                 // dday가 ~ing면 mainChat으로 넘어가기 < --아니면--> otChat으로 넘어가기
                 if(dday.equals("~ing")){
-                    Toast.makeText(context, "참가 입장합니다.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "토론방에 입장합니다.", Toast.LENGTH_SHORT).show();
 
                     Intent intent = new Intent(context, MainChatActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     intent.putExtra("room_id", room_id);
                     intent.putExtra("temp", 1); //참가하기 입장
-                    if (!keyword_available.equals("") && !date_available.equals("")) {
+                    if (!keyword_available.equals("") && !date_available.equals("")) { //진행중인 스터디방에 키워드와 날짜 있으면
                         intent.putExtra("keyword", keyword_available);
                         intent.putExtra("date", date_available);
                     }
                     context.startActivity(intent);
                 } else {
+                    Toast.makeText(context, "키워드 선정방에 입장합니다.", Toast.LENGTH_SHORT).show();
+
                     Intent intent = new Intent(context, OtChatActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     intent.putExtra("room_id", room_id);
@@ -283,8 +286,8 @@ public class StudyListMyExpandableAdapter extends BaseExpandableListAdapter {
                         intent.putExtra("date", date_available);
                     }
                     context.startActivity(intent);
-                }
-            }
-        }
-    }
+                } //end if
+            } // end for
+        }// end if
+    }//end getKeyword function
 }

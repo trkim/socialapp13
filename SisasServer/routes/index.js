@@ -455,6 +455,7 @@ router.post('/join_room', function(req,res){
         if(room.capacity - get >= 1) {
           room.capacity = room.capacity -1;
           room.capacity = room.capacity -1;
+          room.capacity = room.capacity -1;
           var myroom = new Room();
           myroom.email = email;
           myroom.room_id = room.room_id;
