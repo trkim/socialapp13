@@ -3,6 +3,7 @@ package com.soapp.project.sisas_android_chat.memberInfo;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,15 +19,19 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.soapp.project.sisas_android_chat.Member;
 import com.soapp.project.sisas_android_chat.R;
 import com.soapp.project.sisas_android_chat.studyInRoom.MainChatActivity;
 import com.soapp.project.sisas_android_chat.studyInRoom.MainChatFragment;
+import com.soapp.project.sisas_android_chat.studyInRoom.MainChatMsgs;
+import com.soapp.project.sisas_android_chat.studyInRoom.MainChatMsgsAdapter;
 import com.soapp.project.sisas_android_chat.volley;
 
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -37,16 +42,22 @@ public class ScrapInRoomListAdapter extends BaseAdapter {
 
     private int room_id;
     private Context context;
+    MainChatFragment mainChatFragment;
     //ScrapInRoomListItem scrap_in_room_item;
     public ArrayList<ScrapInRoomListItem> scrap_in_room_item_list = new ArrayList<ScrapInRoomListItem>();
     String opinion = "";
 
-    MainChatFragment mainFrag = new MainChatFragment();
 
-    public ScrapInRoomListAdapter(Context context, int room_id, MainChatFragment mainFrag){
+
+    public ScrapInRoomListAdapter(Context context, int room_id){
         this.context = context;
         this.room_id = room_id;
-        this.mainFrag = mainFrag;
+    }
+
+    public ScrapInRoomListAdapter(Context context, int room_id, MainChatFragment mainChatFragment){
+        this.context = context;
+        this.room_id = room_id;
+        this.mainChatFragment = mainChatFragment;
     }
 
     @Override
@@ -126,8 +137,10 @@ public class ScrapInRoomListAdapter extends BaseAdapter {
         btn_bring_to_chat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*MainChatFragment mainFrag = new MainChatFragment();*/
-                mainFrag.sendArticle(scrap_in_room_item.getScrap_article_title(), scrap_in_room_item.getScrap_url(), opinion);
+                /*MainChatFragment mainFrag = MainChatFragment.newInstance(room_id, 1, scrap_in_room_item.getSingle_keyword(), scrap_in_room_item.getSingle_keyword_date());
+                mainFrag*/
+                mainChatFragment.addArticle(Member.getInstance().getName(), scrap_in_room_item.getScrap_article_title(), scrap_in_room_item.getScrap_url(), opinion);
+
                 //채팅방으로 돌아가야함
 
                 Intent intent = new Intent(context, MainChatActivity.class);
@@ -136,11 +149,14 @@ public class ScrapInRoomListAdapter extends BaseAdapter {
                 intent.putExtra("date", scrap_in_room_item.getSingle_keyword_date());
                 intent.putExtra("temp", 1);
                 context.startActivity(intent);
+
             }
         });
 
         return convertView;
     }
+
+
 
     public void addKeywordScrap(String keyword, String date, String article_title, String url, String content, String opinion){
         ScrapInRoomListItem item = new ScrapInRoomListItem(keyword, date, article_title, url, content, opinion);

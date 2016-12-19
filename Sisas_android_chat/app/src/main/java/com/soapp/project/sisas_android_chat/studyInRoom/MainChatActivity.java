@@ -92,37 +92,6 @@ public class MainChatActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.socket_activity_actions, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        switch (item.getItemId()) {
-            case R.id.action_attach:
-                openGallery();
-                return true;
-            case R.id.action_capture:
-                // openSettings();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-    private void openGallery()
-    {
-        Intent galleryintent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(galleryintent, 1);
-    }
-
-    @Override
     protected void onActivityResult(int requestCode,int resultCode,Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && resultCode == RESULT_OK && null != data) {
