@@ -19,6 +19,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.soapp.project.sisas_android_chat.R;
+import com.soapp.project.sisas_android_chat.studyInRoom.MainChatActivity;
 import com.soapp.project.sisas_android_chat.studyInRoom.MainChatFragment;
 import com.soapp.project.sisas_android_chat.volley;
 
@@ -34,13 +35,15 @@ import java.util.Map;
 
 public class ScrapInRoomListAdapter extends BaseAdapter {
 
+    private int room_id;
     private Context context;
     //ScrapInRoomListItem scrap_in_room_item;
     public ArrayList<ScrapInRoomListItem> scrap_in_room_item_list = new ArrayList<ScrapInRoomListItem>();
     String opinion = "";
 
-    public ScrapInRoomListAdapter(Context context){
+    public ScrapInRoomListAdapter(Context context, int room_id){
         this.context = context;
+        this.room_id = room_id;
     }
 
     @Override
@@ -123,6 +126,12 @@ public class ScrapInRoomListAdapter extends BaseAdapter {
                 MainChatFragment mainFrag = new MainChatFragment();
                 mainFrag.sendArticle(scrap_in_room_item.getScrap_article_title(), scrap_in_room_item.getScrap_url(), opinion);
                 //채팅방으로 돌아가야함
+
+                Intent intent = new Intent(context, MainChatActivity.class);
+                intent.putExtra("room_id", room_id);
+                intent.putExtra("keyword", scrap_in_room_item.getSingle_keyword());
+                intent.putExtra("date", scrap_in_room_item.getSingle_keyword_date());
+                intent.putExtra("temp", 1);
             }
         });
 
