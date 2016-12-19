@@ -130,12 +130,13 @@ io.on('connection', function(socket){
   });
 
 
-  socket.on('send message', function(data){
+  socket.on('new message', function(data){
     console.log('send message room_id : '+data.room_id);
     console.log('send message : '+data.message);
     console.log('send message username : '+data.username);
-    socket.broadcast.to(data.room_id).emit('get message', data);
+    socket.broadcast.to(data.room_id).emit('new message', data);
   });
+
 //ot chat end
 
   //main chat start
@@ -154,13 +155,13 @@ io.on('connection', function(socket){
       }
   });
 
-  socket.on('get_article', function(data){
+  socket.on('new article', function(data){
     console.log('socket 기사 가져오기');
     console.log('username : '+data.username);
     console.log('기사 제목 : '+data.title);
     console.log('url : '+data.url);
     console.log('opinion : '+data.opinion);
-    socket.broadcast.to(data.room_id).emit('get article', data);
+    socket.broadcast.to(data.room_id).emit('new article', data);
 
   });
 
