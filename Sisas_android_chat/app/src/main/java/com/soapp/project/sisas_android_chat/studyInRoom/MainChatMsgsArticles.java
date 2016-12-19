@@ -5,7 +5,7 @@ import android.graphics.Bitmap;
 /**
  * Created by samsung on 2016-12-19.
  */
-public class MainChatArticles {
+public class MainChatMsgsArticles {
     public static final int TYPE_MESSAGE = 0;
     public static final int TYPE_LOG = 1;
     public static final int TYPE_ACTION = 2;
@@ -15,9 +15,8 @@ public class MainChatArticles {
     private String mTitle;
     private String mUrl;
     private String mOpinion;
-    private Bitmap mImage;
 
-    private MainChatArticles() {}
+    private MainChatMsgsArticles() {}
 
     public int getType() {
         return mType;
@@ -37,14 +36,10 @@ public class MainChatArticles {
 
     public String getUsername() { return mUsername; };
 
-    public Bitmap getImage() {
-        return mImage;
-    };
 
 
     public static class Builder {
         private final int mType;
-        private Bitmap mImage;
         private String mTitle;
         private String mUsername;
         private String mUrl;
@@ -54,35 +49,30 @@ public class MainChatArticles {
             mType = type;
         }
 
-        public MainChatArticles.Builder image(Bitmap image) {
-            mImage = image;
-            return this;
-        }
 
-        public MainChatArticles.Builder username(String username) {
+        public MainChatMsgsArticles.Builder username(String username) {
             mUsername = username;
             return this;
         }
 
-        public MainChatArticles.Builder title(String title) {
+        public MainChatMsgsArticles.Builder title(String title) {
             mTitle = title;
             return this;
         }
 
-        public MainChatArticles.Builder url(String url) {
+        public MainChatMsgsArticles.Builder url(String url) {
             mUrl = url;
             return this;
         }
 
-        public MainChatArticles.Builder opinion(String opinion) {
+        public MainChatMsgsArticles.Builder opinion(String opinion) {
             mOpinion = opinion;
             return this;
         }
 
-        public MainChatArticles build() {
-            MainChatArticles article = new MainChatArticles();
+        public MainChatMsgsArticles build() {
+            MainChatMsgsArticles article = new MainChatMsgsArticles();
             article.mType = mType;
-            article.mImage = mImage;
             article.mUsername = mUsername;
             article.mTitle = mTitle;
             article.mUrl = mUrl;
