@@ -244,6 +244,15 @@ router.post('/insert_room', function(req,res){
       room.end_date = req.body.end_date;
       room.comment = req.body.comment;
 
+      result.save(function(err){
+        if(err){
+          console.error(err);
+          res.json({'result':'fail'});
+        }else{
+          console.log('seq 증가 완료');
+        }
+      });
+
       room.save(function(err){
         if(err){
           console.error(err);
