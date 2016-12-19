@@ -149,7 +149,6 @@ public class ScrapInRoomListAdapter extends BaseAdapter {
                 intent.putExtra("date", scrap_in_room_item.getSingle_keyword_date());
                 intent.putExtra("temp", 1);
                 context.startActivity(intent);
-
             }
         });
 

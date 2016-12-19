@@ -250,7 +250,7 @@ public class MainChatFragment extends Fragment {
         scrollToBottom();
     }
 
-    public void addArticle(String username, String title, String url, String opinion){
+    /*public void addArticle(String username, String title, String url, String opinion){
         Log.e("username", username);
         Log.e("title", title);
         Log.e("url", url);
@@ -295,7 +295,7 @@ public class MainChatFragment extends Fragment {
 
         mAdapter.notifyItemInserted(mMessages.size() - 1);
         scrollToBottom();
-    }
+    }*/
 
     private void addArticle(String username, String title, String url, String opinion){
         mMessages.add(new MainChatMsgs.Builder(MainChatMsgs.TYPE_ARTICLE).username(username).title(title).url(url).opinion(opinion).build());
