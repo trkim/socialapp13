@@ -69,6 +69,9 @@ public class ScrapWithKeywordActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ScrapWithKeywordActivity.this, OtChatActivity.class);
+                intent.putExtra("room_id", room_id);
+                intent.putExtra("date", date);
+                intent.putExtra("keyword", keyword);
                 startActivity(intent);
                 overridePendingTransition(R.anim.rightin, R.anim.leftout);
                 finish();

@@ -23,6 +23,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.soapp.project.sisas_android_chat.R;
 import com.soapp.project.sisas_android_chat.member.JoinActivity;
 import com.soapp.project.sisas_android_chat.member.LoginActivity;
+import com.soapp.project.sisas_android_chat.studyInRoom.MainChatFragment;
 import com.soapp.project.sisas_android_chat.volley;
 
 import org.json.JSONObject;
@@ -40,6 +41,7 @@ public class ScrapInRoomListAdapter extends BaseAdapter {
     private Context context;
     //ScrapInRoomListItem scrap_in_room_item;
     public ArrayList<ScrapInRoomListItem> scrap_in_room_item_list = new ArrayList<ScrapInRoomListItem>();
+    String opinion = "";
 
     public ScrapInRoomListAdapter(Context context){
         this.context = context;
@@ -97,7 +99,8 @@ public class ScrapInRoomListAdapter extends BaseAdapter {
         final EditText et_opinion = (EditText)convertView.findViewById(R.id.et_opinion);
         //의견이 있는 기사는 의견 가지고 오기
         if(!scrap_in_room_item.getScrap_opinion().equals("")){
-            et_opinion.setText(scrap_in_room_item.getScrap_opinion());
+            opinion = scrap_in_room_item.getScrap_opinion();
+            et_opinion.setText(opinion);
         }
 
         //의견 저장 버튼 클릭 시
@@ -118,6 +121,13 @@ public class ScrapInRoomListAdapter extends BaseAdapter {
 
         //채팅창으로 가져가기 버튼 클릭 시
         Button btn_bring_to_chat = (Button)convertView.findViewById(R.id.btn_bring_to_chat);
+        btn_bring_to_chat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainChatFragment mainFrag = new MainChatFragment();
+                mainFrag.sendArticle(scrap_in_room_item.getScrap_article_title(), scrap_in_room_item.getScrap_url(), opinion);
+            }
+        });
 
         return convertView;
     }
