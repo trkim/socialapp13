@@ -20,6 +20,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.soapp.project.sisas_android_chat.Member;
 import com.soapp.project.sisas_android_chat.R;
+import com.soapp.project.sisas_android_chat.studyInRoom.MainChatFragment;
 import com.soapp.project.sisas_android_chat.volley;
 
 import org.json.JSONArray;
@@ -93,7 +94,8 @@ public class ScrapInRoomActivity extends AppCompatActivity {
         }
 
         lv_scrapbox_keyword = (ListView)findViewById(R.id.lv_scrapbox_keyword);
-        scrap_in_room_list_adapter = new ScrapInRoomListAdapter(getApplicationContext(), room_id);
+        MainChatFragment mainFrag = new MainChatFragment();
+        scrap_in_room_list_adapter = new ScrapInRoomListAdapter(getApplicationContext(), room_id, mainFrag);
 
         try {
             //스터디 정보 가져오기

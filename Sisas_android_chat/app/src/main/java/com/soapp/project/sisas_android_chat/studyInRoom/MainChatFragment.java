@@ -295,7 +295,10 @@ public class MainChatFragment extends Fragment {
 
     private void addArticle(String username, String title, String url, String opinion){
         mMessages.add(new MainChatMsgs.Builder(MainChatMsgs.TYPE_ARTICLE).username(username).title(title).url(url).opinion(opinion).build());
-
+        Log.e("&&&&&&", username);
+        Log.e("&&&&&&", title);
+        Log.e("&&&&&&", url);
+        Log.e("&&&&&&", opinion);
         mAdapter.notifyItemInserted(mMessages.size()-1);
         scrollToBottom();
     }
@@ -389,8 +392,8 @@ public class MainChatFragment extends Fragment {
                         return;
                     }
 
-                    // add the message to view
-                    //addArticle(username,title, url, opinion);
+                    // add the article to view
+                    addArticle(username,title, url, opinion);
 
                 }
             });

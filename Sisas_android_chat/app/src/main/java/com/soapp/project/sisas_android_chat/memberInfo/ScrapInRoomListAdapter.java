@@ -41,9 +41,12 @@ public class ScrapInRoomListAdapter extends BaseAdapter {
     public ArrayList<ScrapInRoomListItem> scrap_in_room_item_list = new ArrayList<ScrapInRoomListItem>();
     String opinion = "";
 
-    public ScrapInRoomListAdapter(Context context, int room_id){
+    MainChatFragment mainFrag = new MainChatFragment();
+
+    public ScrapInRoomListAdapter(Context context, int room_id, MainChatFragment mainFrag){
         this.context = context;
         this.room_id = room_id;
+        this.mainFrag = mainFrag;
     }
 
     @Override
@@ -123,7 +126,7 @@ public class ScrapInRoomListAdapter extends BaseAdapter {
         btn_bring_to_chat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainChatFragment mainFrag = new MainChatFragment();
+                /*MainChatFragment mainFrag = new MainChatFragment();*/
                 mainFrag.sendArticle(scrap_in_room_item.getScrap_article_title(), scrap_in_room_item.getScrap_url(), opinion);
                 //채팅방으로 돌아가야함
 
@@ -132,6 +135,7 @@ public class ScrapInRoomListAdapter extends BaseAdapter {
                 intent.putExtra("keyword", scrap_in_room_item.getSingle_keyword());
                 intent.putExtra("date", scrap_in_room_item.getSingle_keyword_date());
                 intent.putExtra("temp", 1);
+                context.startActivity(intent);
             }
         });
 
