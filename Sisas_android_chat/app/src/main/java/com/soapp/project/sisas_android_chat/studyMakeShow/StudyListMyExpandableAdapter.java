@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -101,7 +102,8 @@ public class StudyListMyExpandableAdapter extends BaseExpandableListAdapter {
         }
 
         ib_study_go = (ImageButton)convertView.findViewById(R.id.ib_study_go);
-        ib_study_go.setOnClickListener(new View.OnClickListener() {
+        ib_study_go.setOnClickListener(
+                new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //status == pre -> ot 채팅방 입장
@@ -225,6 +227,8 @@ public class StudyListMyExpandableAdapter extends BaseExpandableListAdapter {
 
     private void getKeyword(final int room_id, final String dday){
         long min = 999999999;
+        Log.e("keyword_list크기",String.valueOf(keyword_list.size()));
+        Log.e("dday",dday);
         if(keyword_list.size()==0){
             Intent intent = new Intent(context, OtChatActivity.class);
             intent.putExtra("room_id", room_id);
