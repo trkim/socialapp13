@@ -41,6 +41,9 @@ public class MainChatMsgsAdapter extends RecyclerView.Adapter<MainChatMsgsAdapte
         viewHolder.setMessage(message.getMessage());
         viewHolder.setUsername(message.getUsername());
         viewHolder.setImage(message.getImage());
+        viewHolder.setTitle(message.getTitle());
+        viewHolder.setUrl(message.getUrl());
+        viewHolder.setOpinion(message.getOpinion());
     }
 
     @Override
@@ -57,11 +60,17 @@ public class MainChatMsgsAdapter extends RecyclerView.Adapter<MainChatMsgsAdapte
         private ImageView mImageView;
         private TextView mMessageView;
         private TextView mUsernameView;
+        private TextView title;
+        private TextView url;
+        private TextView opinion;
         public ViewHolder(View itemView) {
             super(itemView);
             mUsernameView = (TextView) itemView.findViewById(R.id.username);
             mImageView = (ImageView) itemView.findViewById(R.id.imageView);
             mMessageView = (TextView) itemView.findViewById(R.id.message);
+            title = (TextView) itemView.findViewById(R.id.title);
+            url = (TextView) itemView.findViewById(R.id.url);
+            opinion = (TextView) itemView.findViewById(R.id.opinion);
         }
 
         public void setMessage(String message) {
@@ -81,6 +90,23 @@ public class MainChatMsgsAdapter extends RecyclerView.Adapter<MainChatMsgsAdapte
             if(null == bmp) return;
             mImageView.setImageBitmap(bmp);
         }
+
+        public void setTitle(String set_title) {
+            if (null == title) return;
+            if(null == set_title) return;
+            title.setText(set_title);
+        }
+        public void setUrl(String set_url) {
+            if (null == url) return;
+            if(null == set_url) return;
+            url.setText(set_url);
+        }
+        public void setOpinion(String set_opinion) {
+            if (null == opinion) return;
+            if(null == set_opinion) return;
+            opinion.setText(set_opinion);
+        }
+
         private int getUsernameColor(String username) {
             int hash = 7;
             for (int i = 0, len = username.length(); i < len; i++) {

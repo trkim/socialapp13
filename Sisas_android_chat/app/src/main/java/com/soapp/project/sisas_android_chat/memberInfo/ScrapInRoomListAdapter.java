@@ -3,9 +3,7 @@ package com.soapp.project.sisas_android_chat.memberInfo;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,8 +19,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.soapp.project.sisas_android_chat.R;
-import com.soapp.project.sisas_android_chat.member.JoinActivity;
-import com.soapp.project.sisas_android_chat.member.LoginActivity;
 import com.soapp.project.sisas_android_chat.studyInRoom.MainChatFragment;
 import com.soapp.project.sisas_android_chat.volley;
 
@@ -126,6 +122,7 @@ public class ScrapInRoomListAdapter extends BaseAdapter {
             public void onClick(View v) {
                 MainChatFragment mainFrag = new MainChatFragment();
                 mainFrag.sendArticle(scrap_in_room_item.getScrap_article_title(), scrap_in_room_item.getScrap_url(), opinion);
+                //채팅방으로 돌아가야함
             }
         });
 

@@ -8,13 +8,16 @@ import android.graphics.Bitmap;
 
 public class MainChatMsgs {
     public static final int TYPE_MESSAGE = 0;
-    public static final int TYPE_LOG = 1;
+    public static final int TYPE_ARTICLE = 1;
     public static final int TYPE_ACTION = 2;
 
     private int mType;
     private String mMessage;
     private String mUsername;
     private Bitmap mImage;
+    private String mTitle;
+    private String mUrl;
+    private String mOpinion;
 
     private MainChatMsgs() {}
 
@@ -32,12 +35,27 @@ public class MainChatMsgs {
         return mImage;
     };
 
+    public String getTitle() {
+        return mTitle;
+    };
+
+    public String getUrl() {
+        return mUrl;
+    };
+
+    public String getOpinion() {
+        return mOpinion;
+    };
+
 
     public static class Builder {
         private final int mType;
         private Bitmap mImage;
         private String mMessage;
+        private String mTitle;
         private String mUsername;
+        private String mUrl;
+        private String mOpinion;
 
         public Builder(int type) {
             mType = type;
@@ -58,12 +76,30 @@ public class MainChatMsgs {
             return this;
         }
 
+        public Builder title(String title) {
+            mTitle = title;
+            return this;
+        }
+
+        public Builder url(String url) {
+            mUrl = url;
+            return this;
+        }
+
+        public Builder opinion(String opinion) {
+            mOpinion = opinion;
+            return this;
+        }
+
         public MainChatMsgs build() {
             MainChatMsgs message = new MainChatMsgs();
             message.mType = mType;
             message.mImage = mImage;
             message.mUsername = mUsername;
             message.mMessage = mMessage;
+            message.mTitle = mTitle;
+            message.mUrl = mUrl;
+            message.mOpinion = mOpinion;
             return message;
         }
     }

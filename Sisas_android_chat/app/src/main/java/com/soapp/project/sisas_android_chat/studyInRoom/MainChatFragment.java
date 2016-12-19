@@ -57,10 +57,8 @@ public class MainChatFragment extends Fragment {
     private RecyclerView mArticleView;
     private MainChatFragment.OnFragmentInteractionListener mListener;
     private List<MainChatMsgs> mMessages = new ArrayList<MainChatMsgs>();
-    private List<MainChatMsgsArticles> mArticles = new ArrayList<MainChatMsgsArticles>();
 
     private RecyclerView.Adapter mAdapter;
-    private RecyclerView.Adapter mArticleAdapter;
 
 
     int room_id;
@@ -159,7 +157,7 @@ public class MainChatFragment extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         mAdapter = new MainChatMsgsAdapter(activity, mMessages);
-        mArticleAdapter = new MainChatMsgsArticleAdapter(activity, mArticles);
+        //mArticleAdapter = new MainChatMsgsArticleAdapter(activity, mArticles);
         /*try {
             mListener = (OnFragmentInteractionListener) activity;
         } catch (ClassCastException e) {
@@ -176,7 +174,7 @@ public class MainChatFragment extends Fragment {
         mMessagesView = (RecyclerView) view.findViewById(R.id.messages);
         mMessagesView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mMessagesView.setAdapter(mAdapter);
-        mMessagesView.setAdapter(mArticleAdapter);
+        //mMessagesView.setAdapter(mArticleAdapter);
 
 
         Button sendButton = (Button) view.findViewById(R.id.send_button);
@@ -260,7 +258,7 @@ public class MainChatFragment extends Fragment {
             return;
         }
         mInputMessageView.setText("");*/
-        addArticle(username, title, url, opinion);
+        //addArticle(username, title, url, opinion);
         JSONObject json = new JSONObject();
 
         try {
@@ -292,17 +290,15 @@ public class MainChatFragment extends Fragment {
     private void addMessage(String username, String message) {
 
         mMessages.add(new MainChatMsgs.Builder(MainChatMsgs.TYPE_MESSAGE).username(username).message(message).build());
-        // mAdapter = new MessageAdapter(mMessages);
-        //mAdapter = new MainChatMsgsAdapter( mMessages);
+
         mAdapter.notifyItemInserted(mMessages.size() - 1);
         scrollToBottom();
     }
 
     private void addArticle(String username, String title, String url, String opinion){
-        mArticles.add(new MainChatMsgsArticles.Builder(MainChatMsgsArticles.TYPE_MESSAGE).username(username).title(title).url(url).opinion(opinion).build());
-        Log.e("*******",String.valueOf(mArticles.get(0)));
-        Log.e("*******",String.valueOf(mArticles.size()));
-        mArticleAdapter.notifyItemInserted(mArticles.size()-1);
+        mMessages.add(new MainChatMsgs.Builder(MainChatMsgs.TYPE_ARTICLE).username(username).title(title).url(url).opinion(opinion).build());
+
+        mAdapter.notifyItemInserted(mMessages.size()-1);
         scrollToBottom();
     }
 
@@ -373,7 +369,7 @@ public class MainChatFragment extends Fragment {
 
         @Override
         public void call(final Object... args) {
-            getActivity().runOnUiThread(new Runnable() {
+            getActivity().runOnUiThread( new Runnable() {
                 @Override
                 public void run() {
                     JSONObject data = (JSONObject) args[0];
@@ -396,7 +392,7 @@ public class MainChatFragment extends Fragment {
                     }
 
                     // add the message to view
-                    addArticle(username,title, url, opinion);
+                    //addArticle(username,title, url, opinion);
 
                 }
             });
