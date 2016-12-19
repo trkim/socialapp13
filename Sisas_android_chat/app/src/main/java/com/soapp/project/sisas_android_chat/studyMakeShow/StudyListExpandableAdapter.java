@@ -19,6 +19,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.soapp.project.sisas_android_chat.Member;
 import com.soapp.project.sisas_android_chat.R;
+import com.soapp.project.sisas_android_chat.memberInfo.ScrapInRoomActivity;
 import com.soapp.project.sisas_android_chat.studyInRoom.MainChatActivity;
 import com.soapp.project.sisas_android_chat.volley;
 
@@ -88,6 +89,15 @@ public class StudyListExpandableAdapter extends BaseExpandableListAdapter {
                     int room_id = study_list_parent.get(groupPosition).getRoom_id();
                     intent.putExtra("room_id", room_id);
                     intent.putExtra("temp", 1);
+                    context.startActivity(intent);
+                }
+            });
+        }  else if(temp==3){
+            ib_study_go.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, ScrapInRoomActivity.class);
+                    intent.putExtra("room_id", study_list_parent.get(groupPosition).getRoom_id());
                     context.startActivity(intent);
                 }
             });

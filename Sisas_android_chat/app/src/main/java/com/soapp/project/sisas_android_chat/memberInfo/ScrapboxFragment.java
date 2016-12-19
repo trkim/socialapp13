@@ -18,9 +18,6 @@ import com.soapp.project.sisas_android_chat.R;
 import com.soapp.project.sisas_android_chat.studyMakeShow.StudyListExpandableAdapter;
 import com.soapp.project.sisas_android_chat.studyMakeShow.StudyListItem;
 import com.soapp.project.sisas_android_chat.studyMakeShow.StudyListItemChild;
-import com.soapp.project.sisas_android_chat.studyMakeShow.StudyListMyExpandableAdapter;
-import com.soapp.project.sisas_android_chat.studyMakeShow.StudyListMyItem;
-import com.soapp.project.sisas_android_chat.studyMakeShow.StudyListMyItemChild;
 import com.soapp.project.sisas_android_chat.volley;
 
 import org.json.JSONArray;
@@ -56,7 +53,7 @@ public class ScrapboxFragment extends Fragment {
 
     String dday_result = "";
 
-    final int temp =2;
+    final int temp =3;
 
     @Nullable
     @Override
@@ -170,6 +167,8 @@ public class ScrapboxFragment extends Fragment {
                 countAfter++;
             }
         } //end for
+
+        Log.e("temp", String.valueOf(temp));
 
         //ing_study_list = (ExpandableListView)getActivity().findViewById(R.id.ing_study_list);
         adapter = new StudyListExpandableAdapter(getActivity(), study_list_parent_ing_item, list_ing_map, temp);
