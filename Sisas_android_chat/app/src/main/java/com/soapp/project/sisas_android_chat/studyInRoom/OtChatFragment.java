@@ -11,12 +11,17 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
-import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+
+import com.github.nkzawa.emitter.Emitter;
+import com.github.nkzawa.socketio.client.IO;
+import com.github.nkzawa.socketio.client.Socket;
+import com.soapp.project.sisas_android_chat.Member;
+import com.soapp.project.sisas_android_chat.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,12 +33,6 @@ import java.io.FileNotFoundException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.github.nkzawa.emitter.Emitter;
-import com.github.nkzawa.socketio.client.IO;
-import com.github.nkzawa.socketio.client.Socket;
-import com.soapp.project.sisas_android_chat.Member;
-import com.soapp.project.sisas_android_chat.R;
 
 /**
  * Created by eelhea on 2016-11-28.

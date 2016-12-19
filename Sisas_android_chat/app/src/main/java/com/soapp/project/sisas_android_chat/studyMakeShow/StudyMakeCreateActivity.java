@@ -215,10 +215,10 @@ public class StudyMakeCreateActivity extends AppCompatActivity implements DatePi
         }
 
         int flag = 0;
-        if(start == today){
+        /*if(start == today){
             Toast.makeText(getApplicationContext(), "오늘 이후의 날짜를 선택해주세요." , Toast.LENGTH_SHORT).show();
             flag  = 1;
-        }
+        }*/
         if(start < today){
             Toast.makeText(getApplicationContext(), "지난 날짜를 선택하셨습니다." , Toast.LENGTH_SHORT).show();
             flag  = 1;
@@ -262,6 +262,7 @@ public class StudyMakeCreateActivity extends AppCompatActivity implements DatePi
 
                             Intent intent = new Intent(getApplicationContext(), StudyMakeShowMainActivity.class);
                             startActivity(intent);
+                            finish();
                         }
                     }
                 }catch (Exception e){

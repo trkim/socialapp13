@@ -145,12 +145,23 @@ io.on('connection', function(socket){
       if(data.type == 'watch'){
         socket.join(data.room_id);
         console.log('현재 room_id : '+data.room_id);
+        console.log('현재 keyword : '+data.keyword);
 
         socket.room_id = data.room_id;
         socket.keyword = data.keyword;
         socket.date = data.date;
 
       }
+  });
+
+  socket.on('get_article', function(data){
+    console.log('socket 기사 가져오기');
+    console.log('username : '+data.username);
+    console.log('기사 제목 : '+data.title);
+    console.log('url : '+data.url);
+    console.log('opinion : '+data.opinion);
+    socket.broadcast.to(data.room_id).emit('get article', data);
+
   });
 
 

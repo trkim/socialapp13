@@ -226,6 +226,7 @@ router.post('/insert_room', function(req,res){
   req.accepts('application/json');
 
   var room = new Room();
+
   Seq.findOne({'_id':'seq_post'}, function(err, result){
     if(err){
       console.error(err);
@@ -243,6 +244,8 @@ router.post('/insert_room', function(req,res){
       room.start_date = req.body.start_date;
       room.end_date = req.body.end_date;
       room.comment = req.body.comment;
+
+      result.save();
 
       room.save(function(err){
         if(err){
@@ -449,8 +452,7 @@ router.post('/join_room', function(req,res){
 
   Room.findOne({'room_id':room_id}).count(function(err,num){
       Room.findOne({'room_id':room_id}, function(err,room){
-        if(room.capacity - get >= 1) {
-          room.capacity = room.capacity -1;
+        if(room.capacity - num >= 1) {
           room.capacity = room.capacity -1;
           var myroom = new Room();
           myroom.email = email;
@@ -484,10 +486,12 @@ router.post('/check_coupon', function(req, res){
       console.error(err);
       res.json({'result':'fail'});
     }
-    if((member.coupon*1) > 1){
+    if((member.coupon*1) >= 1){
       console.log('관전 가능. 잔여 쿠폰 : '+member.coupon);
+      console.log('타입 : '+typeof(member.coupon));
       member.coupon = ((member.coupon*1) - 1)+'';
-      member.saver(function(err){
+      console.log('잔여 쿠폰 : '+member.coupon);
+      member.save(function(err){
         if(err){
           console.error(err);
           res.json({'result':'fail'});

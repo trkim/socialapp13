@@ -18,7 +18,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 
 import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
@@ -53,9 +52,12 @@ public class MainChatFragment extends Fragment {
     private String mParam2;
     private Button btn_get_article;
     private EditText mInputMessageView;
+    private EditText mInputArticleView;
     private RecyclerView mMessagesView;
+    private RecyclerView mArticleView;
     private MainChatFragment.OnFragmentInteractionListener mListener;
     private List<MainChatMsgs> mMessages = new ArrayList<MainChatMsgs>();
+    private List<MainChatArticles> mArticles = new ArrayList<MainChatArticles>();
     private RecyclerView.Adapter mAdapter;
 
 
@@ -76,7 +78,6 @@ public class MainChatFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-
      * @return A new instance of fragment ChatFragment.
      */
     // TODO: Rename and change types and number of parameters
@@ -114,19 +115,18 @@ public class MainChatFragment extends Fragment {
         socket.emit("setting_roomid", room_id);*/
         JSONObject json = new JSONObject();
         try{
-            json.put("type", "join");
+            json.put("type", "watch");
             json.put("room_id", room_id);
             json.put("username", username);
+            json.put("keyword", keyword);
         }catch (Exception e){
             e.printStackTrace();
         }
 
-        socket.emit("joinroom", json);
-        //socket.on("system", handleIncomingMessages);
+        socket.emit("watchroom", json);
         socket.on("get message", handleIncomingMessages);
+        socket.on("get_article", handleIncomingArticle);
         socket.connect();
-
-
     }
 
 
@@ -154,7 +154,7 @@ public class MainChatFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        mAdapter = new MainChatMsgsAdapter(mMessages);
+        mAdapter = new MainChatMsgsAdapter(activity, mMessages);
         /*try {
             mListener = (OnFragmentInteractionListener) activity;
         } catch (ClassCastException e) {
@@ -206,19 +206,23 @@ public class MainChatFragment extends Fragment {
                 intent.putExtra("keyword", keyword);
                 intent.putExtra("date", date);
                 getActivity().startActivity(intent);
+
+                //title, url, opinion 정보 받아와서 sendArticle로 서버에 보내줘야함
             }
         });
     }
 
     private void sendMessage(){
         String message = mInputMessageView.getText().toString().trim();
+        String username = Member.getInstance().getName();
         if(TextUtils.isEmpty((message))){
+            mInputMessageView.requestFocus();
             return;
         }
         mInputMessageView.setText("");
-        addMessage(message);
+        addMessage(username, message);
         JSONObject json = new JSONObject();
-        String username = Member.getInstance().getName();
+
         try {
             json.put("message", message);
             json.put("room_id", String.valueOf(room_id));
@@ -228,6 +232,36 @@ public class MainChatFragment extends Fragment {
             e.printStackTrace();
         }
         socket.emit("send message", json);
+    }
+
+    private void sendArticle(){
+        String username = Member.getInstance().getName();
+        String title = mInputArticleView.getText().toString().trim();
+        String url = mInputArticleView.getText().toString().trim();
+        String opinion = mInputArticleView.getText().toString().trim();
+        if(TextUtils.isEmpty((title))){
+            mInputArticleView.requestFocus();
+            return;
+        }
+        if(TextUtils.isEmpty((url))){
+            mInputArticleView.requestFocus();
+            return;
+        }
+        mInputMessageView.setText("");
+        addArticle(username, title, url, opinion);
+        JSONObject json = new JSONObject();
+
+        try {
+            json.put("title", title);
+            json.put("url", url);
+            json.put("opinion", opinion);
+            json.put("room_id", String.valueOf(room_id));
+            json.put("username",username);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        socket.emit("send article", json);
     }
 
     public void sendImage(String path)
@@ -243,21 +277,25 @@ public class MainChatFragment extends Fragment {
         }
     }
 
-    private void addMessage(String message) {
+    private void addMessage(String username, String message) {
 
         mMessages.add(new MainChatMsgs.Builder(MainChatMsgs.TYPE_MESSAGE)
-                .message(message).build());
+                .username(username).message(message).build());
         // mAdapter = new MessageAdapter(mMessages);
-        mAdapter = new MainChatMsgsAdapter( mMessages);
-        mAdapter.notifyItemInserted(0);
+        //mAdapter = new MainChatMsgsAdapter( mMessages);
+        mAdapter.notifyItemInserted(mMessages.size() - 1);
         scrollToBottom();
+    }
+
+    private void addArticle(String username, String title, String url, String opinion){
+
     }
 
     private void addImage(Bitmap bmp){
         mMessages.add(new MainChatMsgs.Builder(MainChatMsgs.TYPE_MESSAGE)
                 .image(bmp).build());
-        mAdapter = new MainChatMsgsAdapter( mMessages);
-        mAdapter.notifyItemInserted(0);
+        //mAdapter = new MainChatMsgsAdapter( mMessages);
+        mAdapter.notifyItemInserted(mMessages.size() - 1);
         scrollToBottom();
     }
     private void scrollToBottom() {
@@ -308,8 +346,41 @@ public class MainChatFragment extends Fragment {
                     }
 
                     // add the message to view
-                    addMessage(username);
-                    addMessage(message);
+                    addMessage(username,message);
+
+                }
+            });
+        }
+    };
+
+    private Emitter.Listener handleIncomingArticle = new Emitter.Listener(){
+
+        @Override
+        public void call(final Object... args) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    JSONObject data = (JSONObject) args[0];
+                    String username;
+                    String title;
+                    String url;
+                    String opinion;
+                    try {
+                        username = data.getString("username");
+                        title = data.getString("title");
+                        url = data.getString("url");
+                        opinion = data.getString("opinion");
+
+                        Log.e("emitter username :",username);
+                        Log.e("emitter title : ",title);
+                        Log.e("emitter url : ",url);
+                        Log.e("emitter opinion : ",opinion);
+                    } catch (JSONException e) {
+                        return;
+                    }
+
+                    // add the message to view
+                    addArticle(username,title, url, opinion);
 
                 }
             });

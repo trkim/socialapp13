@@ -42,7 +42,6 @@ public class StudyListMyExpandableAdapter extends BaseExpandableListAdapter {
     private HashMap<StudyListMyItem, StudyListMyItemChild> my_list_child_map;
     private ArrayList<JSONObject> keyword_list = new ArrayList<JSONObject>();
 
-    int room_id;
     ImageButton ib_head_icon;
     ImageButton ib_study_go;
 
@@ -87,7 +86,7 @@ public class StudyListMyExpandableAdapter extends BaseExpandableListAdapter {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, StudyMakeUpdateDeleteActivity.class);
-                    room_id = my_study_list_parent.get(groupPosition).getRoom_id();
+                    int room_id = my_study_list_parent.get(groupPosition).getRoom_id();
                     intent.putExtra("room_id", room_id);
                     context.startActivity(intent);
                 }
@@ -101,13 +100,14 @@ public class StudyListMyExpandableAdapter extends BaseExpandableListAdapter {
         }
 
         ib_study_go = (ImageButton)convertView.findViewById(R.id.ib_study_go);
-        ib_study_go.setOnClickListener(new View.OnClickListener() {
+        ib_study_go.setOnClickListener(
+                new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //status == pre -> ot 채팅방 입장
                 int room_id = my_study_list_parent.get(groupPosition).getRoom_id();
                 String dday = my_study_list_parent.get(groupPosition).getStudy_dday();
 
-                //status == pre -> ot 채팅방 입장
                 if(dday.contains("D+")){ //D-day가 D+ 이면 ot 채팅방으로 못 들어가게 함.
                     Toast.makeText(context, "이미 끝난 스터디입니다." , Toast.LENGTH_LONG).show();
                 } else{ //ot 채팅방으로 들어감
@@ -130,8 +130,6 @@ public class StudyListMyExpandableAdapter extends BaseExpandableListAdapter {
         tv_my_room_name.setText(getGroup(groupPosition).getStudy_name());
         tv_my_room_capacity.setText(String.valueOf(getGroup(groupPosition).getStudy_capacity()));
         tv_my_room_dday.setText(getGroup(groupPosition).getStudy_dday());
-
-
         tv_my_room_category.setTextColor(Color.BLACK);
         tv_my_room_name.setTextColor(Color.BLACK);
         tv_my_room_name.setSingleLine(true); //한줄로 나오게 하기.
@@ -203,6 +201,7 @@ public class StudyListMyExpandableAdapter extends BaseExpandableListAdapter {
 
     private void checkForKeywordFromServer(final int room_id, final String dday){
         final String URL = "http://52.78.157.250:3000/get_keyword?room_id="+room_id;
+        Log.e("#########",String.valueOf(room_id));
 
         JsonArrayRequest req = new JsonArrayRequest(URL, new Response.Listener<JSONArray>() {
             @Override
@@ -225,8 +224,11 @@ public class StudyListMyExpandableAdapter extends BaseExpandableListAdapter {
         volley.getInstance().addToRequestQueue(req);
     }
 
+    //mainChat 혹은 otChat으로 넘겨주는 함수
     private void getKeyword(final int room_id, final String dday){
         long min = 999999999;
+        Log.e("keyword_list크기",String.valueOf(keyword_list.size()));
+        Log.e("dday",dday);
         if(keyword_list.size()==0){
             Intent intent = new Intent(context, OtChatActivity.class);
             intent.putExtra("room_id", room_id);
@@ -236,11 +238,15 @@ public class StudyListMyExpandableAdapter extends BaseExpandableListAdapter {
                 String keyword_from_server = keyword_list.get(i).optString("keyword");
                 String date_from_server = keyword_list.get(i).optString("date");
 
+                Log.e("keyword : ",keyword_from_server);
+                Log.e("date : ",date_from_server);
+
                 //오늘 날짜
                 TimeZone time_zone = TimeZone.getTimeZone("Asia/Seoul");
                 Calendar today_calendar = Calendar.getInstance(time_zone);
                 today_calendar.set(today_calendar.get(Calendar.YEAR), today_calendar.get(Calendar.MONTH) + 1, today_calendar.get(Calendar.DAY_OF_MONTH));
                 long today_in_millis = today_calendar.getTimeInMillis() / (24 * 60 * 60 * 1000);
+                Log.e("오늘날짜 완료 ",String.valueOf(today_in_millis));
 
                 //키워드 날짜
                 Calendar keyword_calendar = Calendar.getInstance(time_zone);
@@ -248,41 +254,48 @@ public class StudyListMyExpandableAdapter extends BaseExpandableListAdapter {
                 int keyword_date_year = Integer.parseInt(keyword_date_split[0]);
                 int keyword_date_month = Integer.parseInt(keyword_date_split[1]);
                 int keyword_date_day = Integer.parseInt(keyword_date_split[2]);
+                Log.e("####",String.valueOf(keyword_date_year));
+                Log.e("####",String.valueOf(keyword_date_month));
+                Log.e("####",String.valueOf(keyword_date_day));
                 keyword_calendar.set(keyword_date_year, keyword_date_month, keyword_date_day);
                 long keyword_date_in_millis = keyword_calendar.getTimeInMillis() / (24 * 60 * 60 * 1000);
+                Log.e("키워드 날짜 완료",String.valueOf(keyword_date_in_millis));
 
                 //오늘 날짜 이후의 키워드인지 판별
                 long temp = keyword_date_in_millis - today_in_millis;
-                if (temp <= min) {
-                    min = temp;
+                //if (temp <= min) {
+                //    min = temp;
                     keyword_available = keyword_from_server;
                     date_available = date_from_server;
-                }
+                //}
+                Log.e("오늘의 날짜 : ",dday);
 
-                    // dday가 ~ing면 mainChat으로 넘어가기 < --아니면--> otChat으로 넘어가기
-                    if (dday.equals("~ing")) {
-                        Toast.makeText(context, "참가 입장합니다.", Toast.LENGTH_SHORT).show();
+                // dday가 ~ing면 mainChat으로 넘어가기 < --아니면--> otChat으로 넘어가기
+                if(dday.equals("~ing")){
+                    Toast.makeText(context, "토론방에 입장합니다.", Toast.LENGTH_SHORT).show();
 
-                        Intent intent = new Intent(context, MainChatActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                        intent.putExtra("room_id", room_id);
-                        intent.putExtra("temp", 1); //참가하기 입장
-                        if (!keyword_available.equals("") && !date_available.equals("")) {
-                            intent.putExtra("keyword", keyword_available);
-                            intent.putExtra("date", date_available);
-                        }
-                        context.startActivity(intent);
-                    } else {
-                        Intent intent = new Intent(context, OtChatActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                        intent.putExtra("room_id", room_id);
-                        if (!keyword_available.equals("") && !date_available.equals("")) {
-                            intent.putExtra("keyword", keyword_available);
-                            intent.putExtra("date", date_available);
-                        }
-                        context.startActivity(intent);
+                    Intent intent = new Intent(context, MainChatActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    intent.putExtra("room_id", room_id);
+                    intent.putExtra("temp", 1); //참가하기 입장
+                    if (!keyword_available.equals("") && !date_available.equals("")) { //진행중인 스터디방에 키워드와 날짜 있으면
+                        intent.putExtra("keyword", keyword_available);
+                        intent.putExtra("date", date_available);
                     }
-            }//end for
-        }//end if
-    }//end function
+                    context.startActivity(intent);
+                } else {
+                    Toast.makeText(context, "키워드 선정방에 입장합니다.", Toast.LENGTH_SHORT).show();
+
+                    Intent intent = new Intent(context, OtChatActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    intent.putExtra("room_id", room_id);
+                    if (!keyword_available.equals("") && !date_available.equals("")) {
+                        intent.putExtra("keyword", keyword_available);
+                        intent.putExtra("date", date_available);
+                    }
+                    context.startActivity(intent);
+                } //end if
+            } // end for
+        }// end if
+    }//end getKeyword function
 }
