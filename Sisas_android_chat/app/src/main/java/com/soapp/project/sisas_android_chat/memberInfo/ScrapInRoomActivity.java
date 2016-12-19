@@ -5,6 +5,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -20,6 +21,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.soapp.project.sisas_android_chat.Member;
 import com.soapp.project.sisas_android_chat.R;
+import com.soapp.project.sisas_android_chat.studyInRoom.MainChatFragment;
 import com.soapp.project.sisas_android_chat.volley;
 
 import org.json.JSONArray;
@@ -28,6 +30,7 @@ import org.json.JSONObject;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -52,6 +55,8 @@ public class ScrapInRoomActivity extends AppCompatActivity {
     ArrayList<JSONObject> keyword_scrap_list = new ArrayList<JSONObject>();
 
     ArrayList<ScrapInRoomListItem> scrap_in_room_list_item = new ArrayList<ScrapInRoomListItem>();
+
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -93,7 +98,9 @@ public class ScrapInRoomActivity extends AppCompatActivity {
         }
 
         lv_scrapbox_keyword = (ListView)findViewById(R.id.lv_scrapbox_keyword);
-        scrap_in_room_list_adapter = new ScrapInRoomListAdapter(getApplicationContext(), room_id);
+        MainChatFragment mainFrag = new MainChatFragment();
+        scrap_in_room_list_adapter = new ScrapInRoomListAdapter(getApplicationContext(), room_id, mainFrag);
+
 
         try {
             //스터디 정보 가져오기
@@ -104,6 +111,8 @@ public class ScrapInRoomActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
+
 
     private void getStudyDetailFromServer(final int room_id, final String email) throws Exception{
         final String URL = "http://52.78.157.250:3000/get_room";

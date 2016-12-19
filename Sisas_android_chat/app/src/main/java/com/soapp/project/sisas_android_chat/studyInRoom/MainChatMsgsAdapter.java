@@ -40,7 +40,6 @@ public class MainChatMsgsAdapter extends RecyclerView.Adapter<MainChatMsgsAdapte
         MainChatMsgs message = mMessages.get(position);
         viewHolder.setMessage(message.getMessage());
         viewHolder.setUsername(message.getUsername());
-        viewHolder.setImage(message.getImage());
         viewHolder.setTitle(message.getTitle());
         viewHolder.setUrl(message.getUrl());
         viewHolder.setOpinion(message.getOpinion());
@@ -57,7 +56,6 @@ public class MainChatMsgsAdapter extends RecyclerView.Adapter<MainChatMsgsAdapte
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private ImageView mImageView;
         private TextView mMessageView;
         private TextView mUsernameView;
         private TextView title;
@@ -66,7 +64,6 @@ public class MainChatMsgsAdapter extends RecyclerView.Adapter<MainChatMsgsAdapte
         public ViewHolder(View itemView) {
             super(itemView);
             mUsernameView = (TextView) itemView.findViewById(R.id.username);
-            mImageView = (ImageView) itemView.findViewById(R.id.imageView);
             mMessageView = (TextView) itemView.findViewById(R.id.message);
             title = (TextView) itemView.findViewById(R.id.title);
             url = (TextView) itemView.findViewById(R.id.url);
@@ -83,12 +80,6 @@ public class MainChatMsgsAdapter extends RecyclerView.Adapter<MainChatMsgsAdapte
             if (null == mUsernameView) return;
             mUsernameView.setText(username);
             mUsernameView.setTextColor(getUsernameColor(username));
-        }
-
-        public void setImage(Bitmap bmp){
-            if(null == mImageView) return;
-            if(null == bmp) return;
-            mImageView.setImageBitmap(bmp);
         }
 
         public void setTitle(String set_title) {
