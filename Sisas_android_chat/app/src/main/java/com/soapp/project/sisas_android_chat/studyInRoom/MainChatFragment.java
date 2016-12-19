@@ -208,6 +208,7 @@ public class MainChatFragment extends Fragment {
                 getActivity().startActivity(intent);
 
                 //title, url, opinion 정보 받아와서 sendArticle로 서버에 보내줘야함
+                sendArticle();
             }
         });
     }
