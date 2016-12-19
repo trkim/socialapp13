@@ -211,8 +211,6 @@ public class MainChatFragment extends Fragment {
                 intent.putExtra("keyword", keyword);
                 intent.putExtra("date", date);
                 getActivity().startActivity(intent);
-
-                //title, url, opinion 정보 받아와서 sendArticle로 서버에 보내줘야함
             }
         });
     }

@@ -77,8 +77,7 @@ public class ScrapInRoomActivity extends AppCompatActivity {
             }
         });
 
-        lv_scrapbox_keyword = (ListView)findViewById(R.id.lv_scrapbox_keyword);
-        scrap_in_room_list_adapter = new ScrapInRoomListAdapter(getApplicationContext());
+
 
         tv_study_name = (TextView)findViewById(R.id.tv_study_name);
         tv_study_date = (TextView)findViewById(R.id.tv_study_date);
@@ -92,6 +91,9 @@ public class ScrapInRoomActivity extends AppCompatActivity {
             got_keyword = intent.getExtras().getString("keyword");
             got_date = intent.getExtras().getString("date");
         }
+
+        lv_scrapbox_keyword = (ListView)findViewById(R.id.lv_scrapbox_keyword);
+        scrap_in_room_list_adapter = new ScrapInRoomListAdapter(getApplicationContext(), room_id);
 
         try {
             //스터디 정보 가져오기

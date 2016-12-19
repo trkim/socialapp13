@@ -144,7 +144,7 @@ public class MainChatActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(getApplicationContext(), OtChatActivity.class);
+        Intent intent = new Intent(getApplicationContext(), StudyMakeShowMainActivity.class);
         startActivity(intent);
     }
 }
