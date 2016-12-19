@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,9 +42,10 @@ public class StudyListMyExpandableAdapter extends BaseExpandableListAdapter {
     private HashMap<StudyListMyItem, StudyListMyItemChild> my_list_child_map;
     private ArrayList<JSONObject> keyword_list = new ArrayList<JSONObject>();
 
-    int room_id;
     ImageButton ib_head_icon;
     ImageButton ib_study_go;
+
+    int room_id;
 
 
     String keyword_available = "";
@@ -51,11 +53,11 @@ public class StudyListMyExpandableAdapter extends BaseExpandableListAdapter {
 
     //private Socket mSocket;
 
-    public StudyListMyExpandableAdapter(Context context, ArrayList<StudyListMyItem> my_study_list_parent, HashMap<StudyListMyItem, StudyListMyItemChild> my_list_child_map, ArrayList<JSONObject> keyword_list){
+    public StudyListMyExpandableAdapter(Context context, ArrayList<StudyListMyItem> my_study_list_parent, HashMap<StudyListMyItem, StudyListMyItemChild> my_list_child_map){
         this.context = context;
         this.my_study_list_parent = my_study_list_parent;
         this.my_list_child_map = my_list_child_map;
-        this.keyword_list = keyword_list;
+        //this.keyword_list = keyword_list;
     }
 
     @Override
@@ -87,7 +89,7 @@ public class StudyListMyExpandableAdapter extends BaseExpandableListAdapter {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, StudyMakeUpdateDeleteActivity.class);
-                    room_id = my_study_list_parent.get(groupPosition).getRoom_id();
+                    int room_id = my_study_list_parent.get(groupPosition).getRoom_id();
                     intent.putExtra("room_id", room_id);
                     context.startActivity(intent);
                 }
@@ -105,7 +107,7 @@ public class StudyListMyExpandableAdapter extends BaseExpandableListAdapter {
             @Override
             public void onClick(View v) {
                 //status == pre -> ot 채팅방 입장
-                int room_id = my_study_list_parent.get(groupPosition).getRoom_id();
+                room_id = my_study_list_parent.get(groupPosition).getRoom_id();
                 String dday = my_study_list_parent.get(groupPosition).getStudy_dday();
 
                 if(dday.contains("D+")){ //D-day가 D+ 이면 ot 채팅방으로 못 들어가게 함.
@@ -201,6 +203,7 @@ public class StudyListMyExpandableAdapter extends BaseExpandableListAdapter {
 
     private void checkForKeywordFromServer(final int room_id, final String dday){
         final String URL = "http://52.78.157.250:3000/get_keyword?room_id="+room_id;
+        Log.e("#########",String.valueOf(room_id));
 
         JsonArrayRequest req = new JsonArrayRequest(URL, new Response.Listener<JSONArray>() {
             @Override
@@ -251,11 +254,12 @@ public class StudyListMyExpandableAdapter extends BaseExpandableListAdapter {
 
                 //오늘 날짜 이후의 키워드인지 판별
                 long temp = keyword_date_in_millis - today_in_millis;
-                if (temp <= min) {
+                //if (temp <= min) {
                     min = temp;
                     keyword_available = keyword_from_server;
                     date_available = date_from_server;
-                }
+               //}
+                Log.e("오늘의 날짜 : ",dday);
 
                 // dday가 ~ing면 mainChat으로 넘어가기 < --아니면--> otChat으로 넘어가기
                 if(dday.equals("~ing")){
