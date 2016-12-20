@@ -758,6 +758,25 @@ router.get('/get_myscraplist', function(req, res){
     }
   });*/
 });
+
+//기사 공유방 입장
+router.get('/share_scraplist', function(req, res){
+  console.log('share_scraplist');
+  var room_id = req.query.room_id;
+
+  Scrap_box.find({'room_id': room_id}, function(err, scraplist){
+    if(err){
+      console.error(err);
+      res.json({'result':'fail'});
+    }
+    else{
+      console.log('기사 공유방 입장 성공');
+      res.json(scraplist);
+
+    }
+  });
+});
+
 //스터디 중 기사 가져오기********
 router.get('/get_scraplist', function(req, res){
   console.log('get_scraplist')
