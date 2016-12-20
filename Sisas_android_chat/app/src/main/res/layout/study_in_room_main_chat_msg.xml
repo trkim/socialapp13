@@ -30,7 +30,7 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/username"
+            android:id="@+id/username_article"
             style="?android:textAppearanceMedium"
             android:textColor="?android:textColorPrimary"
             android:layout_width="match_parent"

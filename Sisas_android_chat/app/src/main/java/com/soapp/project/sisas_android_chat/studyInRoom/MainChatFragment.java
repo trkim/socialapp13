@@ -53,9 +53,7 @@ public class MainChatFragment extends Fragment {
     private String mParam2;
     private Button btn_get_article;
     private EditText mInputMessageView;
-    private EditText mInputArticleView;
     private RecyclerView mMessagesView;
-    private RecyclerView mArticleView;
     private MainChatFragment.OnFragmentInteractionListener mListener;
     private List<MainChatMsgs> mMessages = new ArrayList<MainChatMsgs>();
 
@@ -282,8 +280,12 @@ public class MainChatFragment extends Fragment {
     }
 
     private void addArticle(String username, String title, String url, String opinion){
-        mMessages.add(new MainChatMsgs.Builder(MainChatMsgs.TYPE_ARTICLE).username(username).title(title).url(url).opinion(opinion).build());
-
+        Log.e("*****","addArticle 들어옴");
+        mMessages.add(new MainChatMsgs.Builder(MainChatMsgs.TYPE_ARTICLE).usernamearticle(username).title(title).url(url).opinion(opinion).build());
+        Log.e("*****",username);
+        Log.e("*****",title);
+        Log.e("*****",url);
+        Log.e("*****",opinion);
         mAdapter.notifyItemInserted(mMessages.size()-1);
         scrollToBottom();
     }

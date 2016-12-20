@@ -1,12 +1,10 @@
 package com.soapp.project.sisas_android_chat.studyInRoom;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.soapp.project.sisas_android_chat.R;
@@ -58,16 +56,18 @@ public class MainChatMsgsAdapter extends RecyclerView.Adapter<MainChatMsgsAdapte
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView mMessageView;
         private TextView mUsernameView;
-        private TextView title;
-        private TextView url;
-        private TextView opinion;
+        private TextView mUsernameArticleView;
+        private TextView mTitleView;
+        private TextView mUrlView;
+        private TextView mOpinionView;
         public ViewHolder(View itemView) {
             super(itemView);
             mUsernameView = (TextView) itemView.findViewById(R.id.username);
             mMessageView = (TextView) itemView.findViewById(R.id.message);
-            title = (TextView) itemView.findViewById(R.id.title);
-            url = (TextView) itemView.findViewById(R.id.url);
-            opinion = (TextView) itemView.findViewById(R.id.opinion);
+            mUsernameArticleView = (TextView) itemView.findViewById(R.id.username_article);
+            mTitleView = (TextView) itemView.findViewById(R.id.title);
+            mUrlView = (TextView) itemView.findViewById(R.id.url);
+            mOpinionView = (TextView) itemView.findViewById(R.id.opinion);
         }
 
         public void setMessage(String message) {
@@ -82,20 +82,28 @@ public class MainChatMsgsAdapter extends RecyclerView.Adapter<MainChatMsgsAdapte
             mUsernameView.setTextColor(getUsernameColor(username));
         }
 
+        public void setUseArticlername(String username) {
+            if (null == mUsernameArticleView) return;
+            mUsernameArticleView.setText(username);
+            mUsernameArticleView.setTextColor(getUsernameColor(username));
+        }
+
         public void setTitle(String set_title) {
-            if (null == title) return;
+            if (null == mTitleView) return;
             if(null == set_title) return;
-            title.setText(set_title);
+            mTitleView.setText(set_title);
         }
+
         public void setUrl(String set_url) {
-            if (null == url) return;
+            if (null == mUrlView) return;
             if(null == set_url) return;
-            url.setText(set_url);
+            mUrlView.setText(set_url);
         }
+
         public void setOpinion(String set_opinion) {
-            if (null == opinion) return;
+            if (null == mOpinionView) return;
             if(null == set_opinion) return;
-            opinion.setText(set_opinion);
+            mOpinionView.setText(set_opinion);
         }
 
         private int getUsernameColor(String username) {
