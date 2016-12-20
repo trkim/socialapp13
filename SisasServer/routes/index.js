@@ -785,7 +785,7 @@ router.post('/get_scrap', function(req, res){
       console.error(err);
       res.json({'result':'fail'});
     }
-    else{
+    else{xox
       console.log('선택 기사 가져오기 성공');
       res.json(scrap);
     }
@@ -846,5 +846,7 @@ router.get('/get_mytimelinelist', function(req, res){
     }
   });
 });
+
+
 
 module.exports = router;
