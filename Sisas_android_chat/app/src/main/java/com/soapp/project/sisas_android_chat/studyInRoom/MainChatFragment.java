@@ -1,7 +1,9 @@
 package com.soapp.project.sisas_android_chat.studyInRoom;
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,11 +25,14 @@ import com.github.nkzawa.socketio.client.Socket;
 import com.soapp.project.sisas_android_chat.Member;
 import com.soapp.project.sisas_android_chat.R;
 import com.soapp.project.sisas_android_chat.memberInfo.ScrapInRoomActivity;
-import com.soapp.project.sisas_android_chat.memberInfo.ScrapInRoomListAdapter;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,11 +53,14 @@ public class MainChatFragment extends Fragment {
     private String mParam2;
     private Button btn_get_article;
     private EditText mInputMessageView;
+    private EditText mInputArticleView;
     private RecyclerView mMessagesView;
+    private RecyclerView mArticleView;
     private MainChatFragment.OnFragmentInteractionListener mListener;
     private List<MainChatMsgs> mMessages = new ArrayList<MainChatMsgs>();
-    public RecyclerView.Adapter mAdapter;
-    ScrapInRoomListAdapter scrapInRoomListAdapter;
+
+    private RecyclerView.Adapter mAdapter;
+
 
     int room_id;
     int temp;
@@ -95,8 +104,6 @@ public class MainChatFragment extends Fragment {
         setHasOptionsMenu(true);
         String username = Member.getInstance().getName();
 
-        scrapInRoomListAdapter = new ScrapInRoomListAdapter(getContext(), room_id, MainChatFragment.this);
-
         Bundle bundle_arg = getArguments();
         if(bundle_arg != null) {
             room_id = Integer.parseInt(bundle_arg.getString("room_id"));
@@ -118,7 +125,7 @@ public class MainChatFragment extends Fragment {
         }
 
 
-        
+
         socket.emit("watchroom", json);
         socket.on("new message", handleIncomingMessages);
         socket.on("new article", handleIncomingArticle);
@@ -148,9 +155,9 @@ public class MainChatFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        mAdapter = new MainChatMsgsAdapter(context, mMessages);
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mAdapter = new MainChatMsgsAdapter(activity, mMessages);
         //mArticleAdapter = new MainChatMsgsArticleAdapter(activity, mArticles);
         /*try {
             mListener = (OnFragmentInteractionListener) activity;
@@ -165,11 +172,11 @@ public class MainChatFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
-
         mMessagesView = (RecyclerView) view.findViewById(R.id.messages);
         mMessagesView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mMessagesView.setAdapter(mAdapter);
+        //mMessagesView.setAdapter(mArticleAdapter);
+
 
         Button sendButton = (Button) view.findViewById(R.id.send_button);
         btn_get_article = (Button)view.findViewById(R.id.btn_get_article);
@@ -218,11 +225,6 @@ public class MainChatFragment extends Fragment {
         }
         mInputMessageView.setText("");
         addMessage(username, message);
-        /*
-        mMessages.add(new MainChatMsgs.Builder(MainChatMsgs.TYPE_MESSAGE).username(username).message(message).build());
-        mAdapter.notifyItemInserted(mMessages.size() - 1);
-        scrollToBottom();
-        */
         JSONObject json = new JSONObject();
 
         try {
@@ -236,23 +238,26 @@ public class MainChatFragment extends Fragment {
         socket.emit("new message", json);
     }
 
-    private void addMessage(String username, String message) {
-        mMessages.add(new MainChatMsgs.Builder(MainChatMsgs.TYPE_MESSAGE).username(username).message(message).build());
-        mAdapter.notifyItemInserted(mMessages.size() - 1);
-        scrollToBottom();
-    }
-
-    public void addArticle(String username, String title, String url, String opinion){
-        Log.e("username", username);
-        Log.e("title", title);
-        Log.e("url", url);
-        Log.e("opinion", opinion);
-        mInputMessageView.setText(username+"/"+title+"/"+url+"/"+opinion);
-
-        mMessages.add(new MainChatMsgs.Builder(MainChatMsgs.TYPE_ARTICLE).username(username).title(title).url(url).opinion(opinion).build());
-        mAdapter.notifyItemInserted(mMessages.size() - 1);
-        scrollToBottom();
-
+    public void sendArticle(String get_title, String get_url, String get_opinion){
+        Log.e("sendArticle", "sendArticle");
+        String username = Member.getInstance().getName();
+        String title = get_title;
+        String url = get_url;
+        String opinion = get_opinion;
+        Log.e("sendArticle username", username);
+        Log.e("sendArticle title", title);
+        Log.e("sendArticle url", url);
+        Log.e("sendArticle opinion", opinion);
+/*        if(TextUtils.isEmpty((title))){
+            mInputArticleView.requestFocus();
+            return;
+        }
+        if(TextUtils.isEmpty((url))){
+            mInputArticleView.requestFocus();
+            return;
+        }
+        mInputMessageView.setText("");*/
+        //addArticle(username, title, url, opinion);
         JSONObject json = new JSONObject();
 
         try {
@@ -268,22 +273,50 @@ public class MainChatFragment extends Fragment {
         socket.emit("new article", json);
     }
 
+    private void addMessage(String username, String message) {
 
+        mMessages.add(new MainChatMsgs.Builder(MainChatMsgs.TYPE_MESSAGE).username(username).message(message).build());
 
-    /*private void addArticle(String username, String title, String url, String opinion){
+        mAdapter.notifyItemInserted(mMessages.size() - 1);
+        scrollToBottom();
+    }
+
+    private void addArticle(String username, String title, String url, String opinion){
         mMessages.add(new MainChatMsgs.Builder(MainChatMsgs.TYPE_ARTICLE).username(username).title(title).url(url).opinion(opinion).build());
-        Log.e("&&&&&&", username);
-        Log.e("&&&&&&", title);
-        Log.e("&&&&&&", url);
-        Log.e("&&&&&&", opinion);
+
         mAdapter.notifyItemInserted(mMessages.size()-1);
         scrollToBottom();
-    }*/
+    }
+
     private void scrollToBottom() {
         mMessagesView.scrollToPosition(mAdapter.getItemCount() - 1);
     }
 
+    private String encodeImage(String path)
+    {
+        File imagefile = new File(path);
+        FileInputStream fis = null;
+        try{
+            fis = new FileInputStream(imagefile);
+        }catch(FileNotFoundException e){
+            e.printStackTrace();
+        }
+        Bitmap bm = BitmapFactory.decodeStream(fis);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bm.compress(Bitmap.CompressFormat.JPEG,100,baos);
+        byte[] b = baos.toByteArray();
+        String encImage = Base64.encodeToString(b, Base64.DEFAULT);
+        //Base64.de
+        return encImage;
 
+    }
+
+    private Bitmap decodeImage(String data)
+    {
+        byte[] b = Base64.decode(data,Base64.DEFAULT);
+        Bitmap bmp = BitmapFactory.decodeByteArray(b,0,b.length);
+        return bmp;
+    }
     private Emitter.Listener handleIncomingMessages = new Emitter.Listener(){
         @Override
         public void call(final Object... args){
@@ -336,8 +369,8 @@ public class MainChatFragment extends Fragment {
                         return;
                     }
 
-                    // add the article to view
-                    addArticle(username,title, url, opinion);
+                    // add the message to view
+                    //addArticle(username,title, url, opinion);
 
                 }
             });
