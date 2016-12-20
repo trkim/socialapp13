@@ -116,7 +116,7 @@ public class OtChatFragment extends Fragment {
 
         socket.emit("joinroom", json);
         //socket.on("system", handleIncomingMessages);
-        socket.on("get message", handleIncomingMessages);
+        socket.on("new message", handleIncomingMessages);
         socket.connect();
     }
 
@@ -199,7 +199,7 @@ public class OtChatFragment extends Fragment {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        socket.emit("send message", json);
+        socket.emit("new message", json);
     }
 
     public void sendImage(String path)
