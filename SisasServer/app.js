@@ -131,6 +131,7 @@ io.on('connection', function(socket){
 
 
   socket.on('new message', function(data){
+    console.log('현재 socket room_id : '+socket.room_id);
     console.log('send message room_id : '+data.room_id);
     console.log('send message : '+data.message);
     console.log('send message username : '+data.username);
@@ -161,7 +162,7 @@ io.on('connection', function(socket){
     console.log('기사 제목 : '+data.title);
     console.log('url : '+data.url);
     console.log('opinion : '+data.opinion);
-    socket.broadcast.to(data.room_id).emit('new article', data);
+    socket.broadcast.to(data.room_id).emit('new article', data) ;
 
   });
 
