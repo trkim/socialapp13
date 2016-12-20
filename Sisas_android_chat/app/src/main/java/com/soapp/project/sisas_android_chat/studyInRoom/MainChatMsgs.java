@@ -1,7 +1,5 @@
 package com.soapp.project.sisas_android_chat.studyInRoom;
 
-import android.graphics.Bitmap;
-
 /**
  * Created by eelhea on 2016-12-14.
  */
@@ -17,6 +15,7 @@ public class MainChatMsgs {
     private String mTitle;
     private String mUrl;
     private String mOpinion;
+    private String mUsernameArticle;
 
     private MainChatMsgs() {}
 
@@ -50,6 +49,7 @@ public class MainChatMsgs {
         private String mUsername;
         private String mUrl;
         private String mOpinion;
+        private String mUsernameArticle;
 
         public Builder(int type) {
             mType = type;
@@ -63,6 +63,11 @@ public class MainChatMsgs {
 
         public Builder message(String message) {
             mMessage = message;
+            return this;
+        }
+
+        public Builder usernamearticle(String username) {
+            mUsernameArticle = username;
             return this;
         }
 
@@ -86,6 +91,7 @@ public class MainChatMsgs {
             message.mType = mType;
             message.mUsername = mUsername;
             message.mMessage = mMessage;
+            message.mUsernameArticle = mUsernameArticle;
             message.mTitle = mTitle;
             message.mUrl = mUrl;
             message.mOpinion = mOpinion;
