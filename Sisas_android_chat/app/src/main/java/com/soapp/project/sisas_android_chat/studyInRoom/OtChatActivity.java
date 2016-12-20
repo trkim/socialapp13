@@ -51,7 +51,7 @@ import java.util.TimeZone;
  * Created by eelhea on 2016-11-29.
  */
 
-public class OtChatActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
+public class OtChatActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
     Toolbar toolbar;
     ImageButton icBackIcon;
@@ -436,4 +436,9 @@ public class OtChatActivity extends AppCompatActivity implements DatePickerDialo
         Intent intent = new Intent(getApplicationContext(), StudyMakeShowMainActivity.class);
         startActivity(intent);
     }
+
+    /*@Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }*/
 }

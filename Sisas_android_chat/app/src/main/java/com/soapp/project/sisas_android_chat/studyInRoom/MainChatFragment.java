@@ -1,6 +1,7 @@
 package com.soapp.project.sisas_android_chat.studyInRoom;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -121,9 +122,6 @@ public class MainChatFragment extends Fragment {
         }catch (Exception e){
             e.printStackTrace();
         }
-
-
-
         socket.emit("watchroom", json);
         socket.on("new message", handleIncomingMessages);
         socket.on("new article", handleIncomingArticle);
@@ -153,9 +151,9 @@ public class MainChatFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        mAdapter = new MainChatMsgsAdapter(activity, mMessages);
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mAdapter = new MainChatMsgsAdapter(context, mMessages);
         //mArticleAdapter = new MainChatMsgsArticleAdapter(activity, mArticles);
         /*try {
             mListener = (OnFragmentInteractionListener) activity;
@@ -272,18 +270,20 @@ public class MainChatFragment extends Fragment {
 
     private void addMessage(String username, String message) {
         mMessages.add(new MainChatMsgs.Builder(MainChatMsgs.TYPE_MESSAGE).username(username).message(message).build());
+        mAdapter = new MainChatMsgsAdapter(getContext(), mMessages);
         mAdapter.notifyItemInserted(mMessages.size() - 1);
         scrollToBottom();
     }
 
     private void addArticle(String username, String title, String url, String opinion){
         Log.e("*****","addArticle 들어옴");
-        //mMessages.add(new MainChatMsgs.Builder(MainChatMsgs.TYPE_ARTICLE).usernamearticle(username).title(title).url(url).opinion(opinion).build());
         Log.e("*****",username);
         Log.e("*****",title);
         Log.e("*****",url);
         Log.e("*****",opinion);
-        //mAdapter.notifyItemInserted(mMessages.size()-1);
+        mMessages.add(new MainChatMsgs.Builder(MainChatMsgs.TYPE_ARTICLE).usernamearticle(username).title(title).url(url).opinion(opinion).build());
+        mAdapter = new MainChatMsgsAdapter(getContext(), mMessages);
+        mAdapter.notifyItemInserted(mMessages.size()-1);
         scrollToBottom();
     }
 

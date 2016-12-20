@@ -1,6 +1,7 @@
 package com.soapp.project.sisas_android_chat.studyInRoom;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -145,16 +146,14 @@ public class OtChatFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        mAdapter = new OtChatMsgsAdapter(activity, mMessages);
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mAdapter = new OtChatMsgsAdapter(context, mMessages);
         /*try {
-            mListener = (OnFragmentInteractionListener) activity;
+            mListener = (OnFragmentInteractionListener) context;
         } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnFragmentInteractionListener");
+            throw new ClassCastException(context.toString() + " must implement OnFragmentInteractionListener");
         }*/
-
     }
 
     @Override
@@ -203,9 +202,8 @@ public class OtChatFragment extends Fragment {
     }
 
     private void addMessage(String username, String message) {
-        mMessages.add(new OtChatMsgs.Builder(OtChatMsgs.TYPE_MESSAGE)
-                .username(username).message(message).build());
-         mAdapter = new OtChatMsgsAdapter(getContext(), mMessages);
+        mMessages.add(new OtChatMsgs.Builder(OtChatMsgs.TYPE_MESSAGE).username(username).message(message).build());
+        mAdapter = new OtChatMsgsAdapter(getContext(), mMessages);
         mAdapter.notifyItemInserted(mMessages.size() - 1);
         scrollToBottom();
     }
