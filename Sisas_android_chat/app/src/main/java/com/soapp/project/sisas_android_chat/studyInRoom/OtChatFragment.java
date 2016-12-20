@@ -202,64 +202,18 @@ public class OtChatFragment extends Fragment {
         socket.emit("new message", json);
     }
 
-    public void sendImage(String path)
-    {
-        JSONObject sendData = new JSONObject();
-        try{
-            sendData.put("image", encodeImage(path));
-            Bitmap bmp = decodeImage(sendData.getString("image"));
-            addImage(bmp);
-            socket.emit("message",sendData);
-        }catch(JSONException e){
-
-        }
-    }
-
     private void addMessage(String username, String message) {
         mMessages.add(new OtChatMsgs.Builder(OtChatMsgs.TYPE_MESSAGE)
                 .username(username).message(message).build());
-        // mAdapter = new MessageAdapter(mMessages);
-        //mAdapter = new OtChatMsgsAdapter( mMessages);
+         mAdapter = new OtChatMsgsAdapter(getContext(), mMessages);
         mAdapter.notifyItemInserted(mMessages.size() - 1);
         scrollToBottom();
     }
 
-    private void addImage(Bitmap bmp){
-        mMessages.add(new OtChatMsgs.Builder(OtChatMsgs.TYPE_MESSAGE)
-                .image(bmp).build());
-        //mAdapter = new OtChatMsgsAdapter( mMessages);
-        mAdapter.notifyItemInserted(mMessages.size() - 1);
-        scrollToBottom();
-    }
     private void scrollToBottom() {
         mMessagesView.scrollToPosition(mAdapter.getItemCount() - 1);
     }
 
-    private String encodeImage(String path)
-    {
-        File imagefile = new File(path);
-        FileInputStream fis = null;
-        try{
-            fis = new FileInputStream(imagefile);
-        }catch(FileNotFoundException e){
-            e.printStackTrace();
-        }
-        Bitmap bm = BitmapFactory.decodeStream(fis);
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bm.compress(Bitmap.CompressFormat.JPEG,100,baos);
-        byte[] b = baos.toByteArray();
-        String encImage = Base64.encodeToString(b, Base64.DEFAULT);
-        //Base64.de
-        return encImage;
-
-    }
-
-    private Bitmap decodeImage(String data)
-    {
-        byte[] b = Base64.decode(data,Base64.DEFAULT);
-        Bitmap bmp = BitmapFactory.decodeByteArray(b,0,b.length);
-        return bmp;
-    }
     private Emitter.Listener handleIncomingMessages = new Emitter.Listener(){
         @Override
         public void call(final Object... args){

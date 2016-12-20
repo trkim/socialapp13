@@ -253,7 +253,8 @@ public class MainChatFragment extends Fragment {
             return;
         }
         mInputMessageView.setText("");*/
-        //addArticle(username, title, url, opinion);
+
+        addArticle(username, title, url, opinion);
         JSONObject json = new JSONObject();
 
         try {
@@ -270,21 +271,19 @@ public class MainChatFragment extends Fragment {
     }
 
     private void addMessage(String username, String message) {
-
         mMessages.add(new MainChatMsgs.Builder(MainChatMsgs.TYPE_MESSAGE).username(username).message(message).build());
-
         mAdapter.notifyItemInserted(mMessages.size() - 1);
         scrollToBottom();
     }
 
     private void addArticle(String username, String title, String url, String opinion){
         Log.e("*****","addArticle 들어옴");
-        mMessages.add(new MainChatMsgs.Builder(MainChatMsgs.TYPE_ARTICLE).usernamearticle(username).title(title).url(url).opinion(opinion).build());
+        //mMessages.add(new MainChatMsgs.Builder(MainChatMsgs.TYPE_ARTICLE).usernamearticle(username).title(title).url(url).opinion(opinion).build());
         Log.e("*****",username);
         Log.e("*****",title);
         Log.e("*****",url);
         Log.e("*****",opinion);
-        mAdapter.notifyItemInserted(mMessages.size()-1);
+        //mAdapter.notifyItemInserted(mMessages.size()-1);
         scrollToBottom();
     }
 
@@ -346,7 +345,6 @@ public class MainChatFragment extends Fragment {
 
                     // add the message to view
                     addArticle(username,title, url, opinion);
-
                 }
             });
         }
