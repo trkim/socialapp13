@@ -255,7 +255,7 @@ public class MainChatFragment extends Fragment {
             return;
         }
         mInputMessageView.setText("");*/
-        addArticle(username, title, url, opinion);
+        //addArticle(username, title, url, opinion);
         JSONObject json = new JSONObject();
 
         try {
@@ -372,7 +372,7 @@ public class MainChatFragment extends Fragment {
                     }
 
                     // add the message to view
-                    //addArticle(username,title, url, opinion);
+                    addArticle(username,title, url, opinion);
 
                 }
             });
