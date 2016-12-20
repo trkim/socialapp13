@@ -161,7 +161,7 @@ io.on('connection', function(socket){
     console.log('기사 제목 : '+data.title);
     console.log('url : '+data.url);
     console.log('opinion : '+data.opinion);
-    socket.broadcast.to(data.room_id).emit('new article', data);
+    socket.broadcast.to(data.room_id).emit('new article', data) ;
 
   });
 
