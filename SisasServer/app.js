@@ -131,6 +131,7 @@ io.on('connection', function(socket){
 
 
   socket.on('new message', function(data){
+    console.log('현재 socket room_id : '+socket.room_id);
     console.log('send message room_id : '+data.room_id);
     console.log('send message : '+data.message);
     console.log('send message username : '+data.username);
