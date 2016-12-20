@@ -173,8 +173,6 @@ public class MainChatFragment extends Fragment {
         mMessagesView = (RecyclerView) view.findViewById(R.id.messages);
         mMessagesView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mMessagesView.setAdapter(mAdapter);
-        //mMessagesView.setAdapter(mArticleAdapter);
-
 
         Button sendButton = (Button) view.findViewById(R.id.send_button);
         btn_get_article = (Button)view.findViewById(R.id.btn_get_article);
@@ -294,31 +292,6 @@ public class MainChatFragment extends Fragment {
         mMessagesView.scrollToPosition(mAdapter.getItemCount() - 1);
     }
 
-    private String encodeImage(String path)
-    {
-        File imagefile = new File(path);
-        FileInputStream fis = null;
-        try{
-            fis = new FileInputStream(imagefile);
-        }catch(FileNotFoundException e){
-            e.printStackTrace();
-        }
-        Bitmap bm = BitmapFactory.decodeStream(fis);
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bm.compress(Bitmap.CompressFormat.JPEG,100,baos);
-        byte[] b = baos.toByteArray();
-        String encImage = Base64.encodeToString(b, Base64.DEFAULT);
-        //Base64.de
-        return encImage;
-
-    }
-
-    private Bitmap decodeImage(String data)
-    {
-        byte[] b = Base64.decode(data,Base64.DEFAULT);
-        Bitmap bmp = BitmapFactory.decodeByteArray(b,0,b.length);
-        return bmp;
-    }
     private Emitter.Listener handleIncomingMessages = new Emitter.Listener(){
         @Override
         public void call(final Object... args){

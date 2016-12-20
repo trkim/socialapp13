@@ -40,13 +40,17 @@ import java.util.Map;
 
 public class ScrapInRoomListAdapter extends BaseAdapter {
 
+    private int room_id;
     private Context context;
+    MainChatFragment mainChatFragment;
     //ScrapInRoomListItem scrap_in_room_item;
     public ArrayList<ScrapInRoomListItem> scrap_in_room_item_list = new ArrayList<ScrapInRoomListItem>();
     String opinion = "";
 
-    public ScrapInRoomListAdapter(Context context, int room_id, MainChatFragment mainFrag){
+    public ScrapInRoomListAdapter(Context context, int room_id, MainChatFragment mainChatFragment){
         this.context = context;
+        this.room_id = room_id;
+        this.mainChatFragment = mainChatFragment;
     }
 
     @Override
@@ -128,6 +132,13 @@ public class ScrapInRoomListAdapter extends BaseAdapter {
             public void onClick(View v) {
                 MainChatFragment mainFrag = new MainChatFragment();
                 mainFrag.sendArticle(scrap_in_room_item.getScrap_article_title(), scrap_in_room_item.getScrap_url(), opinion);
+
+                Intent intent = new Intent(context, MainChatActivity.class);
+                intent.putExtra("room_id", room_id);
+                intent.putExtra("temp",1);
+                intent.putExtra("keyword", scrap_in_room_item.getSingle_keyword());
+                intent.putExtra("date", scrap_in_room_item.getSingle_keyword_date());
+                context.startActivity(intent);
             }
         });
 
