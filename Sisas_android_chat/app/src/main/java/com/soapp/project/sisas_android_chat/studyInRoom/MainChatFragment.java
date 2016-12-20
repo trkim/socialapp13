@@ -307,13 +307,6 @@ public class MainChatFragment extends Fragment {
         scrollToBottom();
     }
 
-    private void addImage(Bitmap bmp){
-        mMessages.add(new MainChatMsgs.Builder(MainChatMsgs.TYPE_MESSAGE).image(bmp).build());
-        //mAdapter = new MainChatMsgsAdapter( mMessages);
-        Log.e("#####",String.valueOf(mMessages.size()));
-        mAdapter.notifyItemInserted(mMessages.size() - 1);
-        scrollToBottom();
-    }
     private void scrollToBottom() {
         mMessagesView.scrollToPosition(mAdapter.getItemCount() - 1);
     }
