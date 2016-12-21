@@ -34,6 +34,7 @@ require('./model/seq');
 require('./model/keyword_box');
 require('./model/scrap_box');
 require('./model/timeline');
+require('./model/share_scrap_box');
 var member = mongoose.model('member');
 
 var routes = require('./routes/index');

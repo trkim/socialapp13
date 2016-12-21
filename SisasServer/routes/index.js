@@ -14,6 +14,7 @@ var Seq = mongoose.model('seq');
 var Timeline = mongoose.model('timeline');
 var Keyword_box = mongoose.model('keyword_box');
 var Scrap_box = mongoose.model('scrap_box');
+var Share_scrap_box = mongoose.model('share_scrap_box');
 //var ObjectId = require('mongodb').ObjectId;
 
 /* GET home page. */
@@ -82,20 +83,24 @@ router.post('/update_member',function(req,res){
   Member.findOne({'email':email},function(err,member){
     if(err){
       console.log(err);
-      res.status(500).send('update find error');
-      return;
+      res.json({'result':'fail'});
     }
-    member.password = password;
-    member.major = major;
-    member.category = category;
-    member.save(function(err){
-      if(err){
-        console.log(err);
-        res.status(500).send('update save error');
-        return;
-      }
-      res.status(200).send('Updated');
-    });
+    else {
+      member.password = password;
+      member.major = major;
+      member.category = category;
+
+      member.save(function (err) {
+        if (err) {
+          console.log(err);
+          res.json({'result':'fail'});
+        }
+        else{
+          console.log('회원정보 수정 완료');
+          res.json({'result':'success'});
+        }
+      });
+    }
   });
 });
 
@@ -466,6 +471,11 @@ router.post('/join_room', function(req,res){
           myroom.comment = room.comment;
 
           myroom.save();
+          Member.findOne({'email':email}, function(err, member){
+            member.coupon = ((member.coupon*1)+1)+'';
+            console.log('쿠폰을 획득하셨습니다.');
+            member.save();
+          });
           console.log('study 참여 완료');
           res.json({'result': 'success'});
         }else{
@@ -758,7 +768,68 @@ router.get('/get_myscraplist', function(req, res){
     }
   });*/
 });
+
+//기사 공유하기
+router.post('/insert_share_scrap', function(req, res){
+  req.accepts('application/json');
+  console.log('insert_share_scrap');
+  var share_scrap_box = new Share_scrap_box();
+  console.log(req.body);
+  share_scrap_box.title = req.body.title;
+  share_scrap_box.url = req.body.url;
+  share_scrap_box.opinion = req.body.opinion;
+  share_scrap_box.content = req.body.content;
+  share_scrap_box.keyword = req.body.keyword;
+  share_scrap_box.date = req.body.date;
+  share_scrap_box.email = req.body.email;
+  share_scrap_box.share_scrap_id = req.body.title + share_scrap_box.keyword + share_scrap_box.date;
+  console.log(share_scrap_box.share_scrap_id);
+  console.log("asdf");
+  share_scrap_box.room_id = req.body.room_id;
+
+  Share_scrap_box.findOne({'share_scrap_id':share_scrap_box.share_scrap_id}, function(err, scrap){
+    if(err){
+      console.error(err);
+      res.json({'result':'fail'});
+    }
+    console.log(scrap);
+    if( scrap == "" || scrap == null || scrap == undefined || ( scrap != null && typeof scrap == "object" && !Object.keys(scrap).length )){
+
+      share_scrap_box.save(function(err){
+        if(err){
+          console.error(err);
+          res.json({'result':'fail'});
+        }else{
+          console.log('스크랩 공유 성공');
+          res.json({'result':'success'});
+        }
+      });
+    }else{
+      console.log('스크랩 중복');
+      res.json({'result':'fail'});
+    }
+  });
+});
+
+//공유한 기사 리스트 가져오기
+router.get('/get_share_scraplist', function(req, res){
+  console.log('공유 기사 리스트 가져오기');
+  var room_id = req.query.room_id;
+
+  Share_scrap_box.find({'room_id':room_id}, function(err, share_scraplist){
+    if(err){
+      console.error(err);
+      res.json({'result':'fail'});
+    }
+    else{
+      console.log('공유한 기사 리스트 가져오기 성공');
+      res.json(share_scraplist);
+    }
+  });
+});
+
 //스터디 중 기사 가져오기********
+/*
 router.get('/get_scraplist', function(req, res){
   console.log('get_scraplist')
   var email = req.query.email;
@@ -785,12 +856,13 @@ router.post('/get_scrap', function(req, res){
       console.error(err);
       res.json({'result':'fail'});
     }
-    else{
+    else{xox
       console.log('선택 기사 가져오기 성공');
       res.json(scrap);
     }
   });
 });
+*/
 
 
 /////////////////timeline
@@ -807,13 +879,14 @@ router.post('/insert_timeline', function(req, res){
   timeline.opinion = req.body.opinion;
   timeline.email = req.body.email;
 
-  Timeline.findOne({'title':title}, function(err, timeline){
+  Timeline.findOne({'title':timeline.title}, function(err, result){
     if(err){
       console.error(err);
       res.json({'result':'fail'});
     }
     else{
-      if( timeline == "" || timeline == null || timeline == undefined || ( timeline != null && typeof timeline == "object" && !Object.keys(timeline).length )){
+      if( result == "" || result == null || result == undefined || ( result != null && typeof result == "object" && !Object.keys(result).length )){
+        console.log(timeline.title)
         timeline.save(function(err){
           if(err){
             console.error(err);
@@ -846,5 +919,7 @@ router.get('/get_mytimelinelist', function(req, res){
     }
   });
 });
+
+
 
 module.exports = router;
