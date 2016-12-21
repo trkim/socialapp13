@@ -124,7 +124,7 @@ io.on('connection', function(socket){
     console.log(data.type);
     if(data.type == 'join'){
      // socket.join(data.room_id);
-      console.log('현재 room_id : '+data.room_id);
+     // console.log('현재 room_id : '+data.room_id);
 
       //socket.room_id = data.room_id;
     }
@@ -132,8 +132,8 @@ io.on('connection', function(socket){
 
 
   socket.on('new message', function(data){
-    console.log('현재 socket room_id : '+socket.room_id);
-    console.log('send message room_id : '+data.room_id);
+   // console.log('현재 socket room_id : '+socket.room_id);
+    //console.log('send message room_id : '+data.room_id);
     console.log('send message : '+data.message);
     console.log('send message username : '+data.username);
     socket.broadcast.emit('new message', data);
