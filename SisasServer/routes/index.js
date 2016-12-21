@@ -782,7 +782,8 @@ router.post('/insert_share_scrap', function(req, res){
   share_scrap_box.keyword = req.body.keyword;
   share_scrap_box.date = req.body.date;
   share_scrap_box.email = req.body.email;
-  share_scrap_box.share_scrap_id = share_scrap_box.title + share_scrap_box.keyword_box_id + share_scrap_box.date;
+  share_scrap_box.share_scrap_id = share_scrap_box.title + share_scrap_box.keyword + share_scrap_box.date;
+  console.log(share_scrap_box.share_scrap_id);
   share_scrap_box.room_id = req.body.room_id;
 
   Share_scrap_box.findOne({'share_scrap_id':share_scrap_box.share_scrap_id}, function(err, scrap){
@@ -884,7 +885,7 @@ router.post('/insert_timeline', function(req, res){
     }
     else{
       if( result == "" || result == null || result == undefined || ( result != null && typeof result == "object" && !Object.keys(result).length )){
-
+        console.log(timeline.title)
         timeline.save(function(err){
           if(err){
             console.error(err);
