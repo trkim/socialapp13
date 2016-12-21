@@ -879,7 +879,7 @@ router.post('/insert_timeline', function(req, res){
   timeline.opinion = req.body.opinion;
   timeline.email = req.body.email;
 
-  Timeline.findOne({'title':timeline.title}, function(err, result){
+  Timeline.findOne({'title':timeline.title, 'email':email}, function(err, result){
     if(err){
       console.error(err);
       res.json({'result':'fail'});
