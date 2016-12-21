@@ -68,6 +68,7 @@ public class ShareArticleListAdapter extends BaseAdapter {
             convertView.setTag(position);
         }
 
+        TextView tv_email = (TextView)convertView.findViewById(R.id.tv_email);
         TextView tv_share_title = (TextView)convertView.findViewById(R.id.tv_share_title);
         TextView tv_share_content = (TextView)convertView.findViewById(R.id.tv_share_content);
         TextView tv_share_opinion = (TextView)convertView.findViewById(R.id.tv_share_opinion);
@@ -85,6 +86,7 @@ public class ShareArticleListAdapter extends BaseAdapter {
             }
         });
 
+        tv_email.setText(shareArticleItem.getEmail());
         tv_share_content.setText(shareArticleItem.getContent());
         if(!shareArticleItem.getOpinion().equals("")) {
             opinion = shareArticleItem.getOpinion();
@@ -103,7 +105,7 @@ public class ShareArticleListAdapter extends BaseAdapter {
                     String url = shareArticleItem.getUrl();
                     String content = shareArticleItem.getContent();
                     String opinion = shareArticleItem.getOpinion();
-                    String email = Member.getInstance().getEmail();
+                    String email = shareArticleItem.getEmail();
 
                     insertTimelineToServer(keyword_box_id, title, url, content, opinion, email);
                 }catch (Exception e){
@@ -115,7 +117,7 @@ public class ShareArticleListAdapter extends BaseAdapter {
         return convertView;
     }
 
-    public void addShareArticle(String title, String url, String content, String opinion, String keyword, String date, int room_id){
+    public void addShareArticle(String title, String url, String content, String opinion, String keyword, String date, int room_id, String email){
         ShareArticleItem item = new ShareArticleItem();
         item.setArticle_title(title);
         item.setUrl(url);
@@ -124,6 +126,7 @@ public class ShareArticleListAdapter extends BaseAdapter {
         item.setKeyword(keyword);
         item.setDate(date);
         item.setRoom_id(room_id);
+        item.setEmail(email);
 
         shareArticleItemsList.add(item);
     }

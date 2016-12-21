@@ -109,7 +109,6 @@ public class ScrapInRoomListAdapter extends BaseAdapter {
             public void onClick(View v) {
                 String scrap_id = scrap_in_room_item.getScrap_article_title()+scrap_in_room_item.getSingle_keyword_date()+scrap_in_room_item.getSingle_keyword();
                 String opinion = et_opinion.getText().toString();
-                Log.e("opinion", opinion);
                 try {
                     saveOpinionToServer(scrap_id, opinion);
                 }catch (Exception e){

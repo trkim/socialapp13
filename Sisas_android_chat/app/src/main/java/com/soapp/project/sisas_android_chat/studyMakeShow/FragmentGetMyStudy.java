@@ -144,7 +144,6 @@ public class FragmentGetMyStudy extends Fragment{
 
         // 앞서 정의해 놓은 ExpandableListView와 그 CustomAdapter를 선언 및 연결한 후
         // ExpandableListView에 대한 OnClickListener 등을 선언
-
         my_adapter = new StudyListMyExpandableAdapter(getActivity(), my_study_list_parent_item, my_list_child_map, keyword_list);
         expandable_list_view.setAdapter(my_adapter);
 

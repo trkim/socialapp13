@@ -109,7 +109,6 @@ public class ScrapboxFragment extends Fragment {
         int countIng = 0;
         int countBefore = 0;
         int countAfter = 0;
-        Log.e("study_list.size()", String.valueOf(study_list.size()));
         for(int i=0 ;i<study_list.size(); i++) {
 
             int room_id = study_list.get(i).optInt("room_id");
@@ -176,8 +175,6 @@ public class ScrapboxFragment extends Fragment {
                 countAfter++;
             }
         } //end for
-
-        Log.e("temp", String.valueOf(temp));
 
         adapter = new StudyListExpandableAdapter(getActivity(), study_list_parent_ing_item, list_ing_map, temp);
         ing_study_list.setAdapter(adapter);

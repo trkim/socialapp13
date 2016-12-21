@@ -189,7 +189,6 @@ public class LoginActivity extends AppCompatActivity {
 
         Map<String, String> auto_login_param = new HashMap<String, String>();
         auto_login_param.put("email", email);
-        Log.e("auto_login_param", auto_login_param.toString());
 
         JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, URL,
                 new JSONObject(auto_login_param), new Response.Listener<JSONObject>() {

@@ -38,6 +38,7 @@ public class ShareArticleActivity extends AppCompatActivity {
 
     TextView tv_share_article_keyword;
     TextView tv_share_article_date;
+    TextView tv_email;
     ListView lv_share_article;
 
     int room_id;
@@ -143,7 +144,7 @@ public class ShareArticleActivity extends AppCompatActivity {
             String email = article_list.get(i).optString("email");
 
             if(keyword.equals(keyword_global)){
-                shareArticleListAdapter.addShareArticle(article_title, url, content, opinion, keyword, date, room_id);
+                shareArticleListAdapter.addShareArticle(article_title, url, content, opinion, keyword, date, room_id, email);
             }
         }
         lv_share_article.setAdapter(shareArticleListAdapter);

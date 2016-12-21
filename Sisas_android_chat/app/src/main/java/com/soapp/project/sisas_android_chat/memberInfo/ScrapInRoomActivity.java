@@ -165,7 +165,6 @@ public class ScrapInRoomActivity extends AppCompatActivity {
             public void onResponse(JSONArray response) {
                 for(int i=0; i<response.length(); i++){
                     keyword_list.add(response.optJSONObject(i));
-                    Log.e("keyword list", keyword_list.toString());
                 }
                 getKeyword(room_id);
             }
@@ -180,28 +179,10 @@ public class ScrapInRoomActivity extends AppCompatActivity {
 
     //가져온 해당 room의 keyword개수 만큼 반복문을 수행
     private void getKeyword(final int room_id){
-        Log.e("scrap getKeyword", "getKeyword");
         for(int i=0; i<keyword_list.size(); i++){
-            Log.e("scrap getKeyword size", String.valueOf(keyword_list.size()));
             String keyword = keyword_list.get(i).optString("keyword");
             String date = keyword_list.get(i).optString("date");
             String keyword_box_id = keyword_list.get(i).optString("keyword_box_id");
-
-            //스터디 메인 채팅방에서 기사 가져오기 클릭 했을 때, 해당 스터디 날짜의 해당 키워드의 기사만 보여주기 위함
-            /*if(!got_keyword.equals("") && !got_date.equals("") && got_keyword.equals(keyword)){
-                try {
-                    getScrapboxDetailFromServer(got_keyword, got_date, room_id);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                break;
-            }else {
-                try {
-                    getScrapboxDetailFromServer(keyword, date, room_id);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }*/
 
             try{
                 getScrapboxDetailFromServer(keyword, date, room_id);
@@ -216,17 +197,14 @@ public class ScrapInRoomActivity extends AppCompatActivity {
     //scrapbox에서 클릭해서 들어갔을 때 보이는 화면. 모든 키워드의 기사들을 보여줌
     //keyword와 keyword_box_id로 scrap_box에서 keyword에 해당하는 스크랩한 기사 가져오기
     private void getScrapboxDetailFromServer(final String keyword, final String date, final int room_id){
-        Log.e("scrap getScrapboxDetail", "FromServer");
         final String email = Member.getInstance().getEmail();
         final String URL = "http://52.78.157.250:3000/get_myscraplist?room_id="+room_id+"&email="+email;
 
         JsonArrayRequest req = new JsonArrayRequest(URL, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
-                Log.e("scrap length", String.valueOf(response));
                 for(int i=0; i<response.length(); i++){
                     keyword_scrap_list.add(response.optJSONObject(i));
-                    Log.e("keyword scrap list", keyword_scrap_list.toString());
                 }
                 getKeywordScrap(keyword, date);
             }

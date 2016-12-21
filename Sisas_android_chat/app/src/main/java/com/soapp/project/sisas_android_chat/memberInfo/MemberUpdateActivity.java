@@ -172,7 +172,6 @@ public class MemberUpdateActivity extends AppCompatActivity {
         btn_update_go.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e("memberupdate", "memberupdate");
                 if(et_member_major.getText().toString().equals("")){
                     et_member_major.setText("");
                 }
@@ -205,7 +204,6 @@ public class MemberUpdateActivity extends AppCompatActivity {
     }
 
     private void updateToServer(final String email, final String password, final String major, final String category) throws Exception{
-        Log.e("updateserver", "updateserver");
         final String URL = "http://52.78.157.250:3000/update_member";
 
         Map<String, Object> param = new HashMap<String, Object>();
@@ -240,7 +238,6 @@ public class MemberUpdateActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("error", error.toString());
                 VolleyLog.d("development", "Error: " + error.getMessage());
             }
         });

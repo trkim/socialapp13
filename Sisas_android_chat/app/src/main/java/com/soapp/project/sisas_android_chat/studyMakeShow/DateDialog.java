@@ -20,14 +20,6 @@ public class DateDialog extends DialogFragment  {
         int day = cal.get(Calendar.DAY_OF_MONTH);
 
         DatePickerDialog date_picker = new DatePickerDialog(getActivity(), STYLE_NORMAL, (DatePickerDialog.OnDateSetListener) getActivity(), year, month, day);
-        /*date_picker.setButton(DialogInterface.BUTTON_NEGATIVE, "취소", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if(which == DialogInterface.BUTTON_NEGATIVE){
-
-                }
-            }
-        });*/
 
         date_picker.getDatePicker().setTag(getTag());
         return date_picker;

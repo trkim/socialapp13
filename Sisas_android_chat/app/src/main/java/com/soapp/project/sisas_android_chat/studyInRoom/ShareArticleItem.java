@@ -12,6 +12,7 @@ public class ShareArticleItem {
     private String opinion;
     private String keyword;
     private String date;
+    private String email;
 
     public int getRoom_id() {
         return room_id;
@@ -67,5 +68,13 @@ public class ShareArticleItem {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

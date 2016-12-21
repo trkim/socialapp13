@@ -132,7 +132,6 @@ public class ScrapWithKeywordActivity extends AppCompatActivity {
     }
 
     private void getArticlesDetail(final String keyword){
-        Log.e("scrap getArticlesDetail", "scrap getArticlesDetail");
         for(int i=0; i<scrap_obj_array_list.size(); i++){
             String title = scrap_obj_array_list.get(i).optString("title");
             String url = scrap_obj_array_list.get(i).optString("url");

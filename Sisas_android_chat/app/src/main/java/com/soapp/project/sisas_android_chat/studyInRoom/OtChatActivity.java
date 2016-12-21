@@ -80,8 +80,6 @@ public class OtChatActivity extends AppCompatActivity implements DatePickerDialo
         super.onCreate(savedInstanceState);
         setContentView(R.layout.study_in_room_ot_chat);
 
-        Log.e("activity onCreate", "activity onCreate");
-
         toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -211,7 +209,6 @@ public class OtChatActivity extends AppCompatActivity implements DatePickerDialo
             public void onClick(View v) {
                 try {
                     //키워드로 크롤링
-                    Log.e("btn_ot_scrap", "clicked");
                     String et_keyword_content = et_keyword.getText().toString();
                     Intent intent = new Intent(OtChatActivity.this, ScrapWithKeywordActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);

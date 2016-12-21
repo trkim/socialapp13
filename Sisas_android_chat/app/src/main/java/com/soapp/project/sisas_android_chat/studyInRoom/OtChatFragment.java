@@ -82,8 +82,6 @@ public class OtChatFragment extends Fragment {
         Bundle args = new Bundle();
         args.putString("room_id", room_id);
 
-        Log.e("frag instance room_id", String.valueOf(room_id));
-
         fragment.setArguments(args);
         return fragment;
     }
@@ -98,19 +96,14 @@ public class OtChatFragment extends Fragment {
         setHasOptionsMenu(true);
         String username = Member.getInstance().getName();
 
-        Log.e("frag oncreate", "frag oncreate");
-
         Bundle bundle_arg = getArguments();
         if(bundle_arg != null) {
             room_id = Integer.parseInt(bundle_arg.getString("room_id"));
             if(bundle_arg.containsKey("temp")){
                 temp = bundle_arg.getInt("temp");
             }
-            Log.e("frag oncreate room_id", String.valueOf(room_id));
         }
 
-        /*socket.emit("login", username);
-        socket.emit("setting_roomid", room_id);*/
         JSONObject json = new JSONObject();
         try{
             json.put("type", "join");
@@ -121,7 +114,6 @@ public class OtChatFragment extends Fragment {
         }
 
         socket.emit("joinroom", json);
-        //socket.on("system", handleIncomingMessages);
         socket.on("new message", handleIncomingMessages);
         socket.connect();
     }
@@ -175,17 +167,12 @@ public class OtChatFragment extends Fragment {
             sendButton.setEnabled(false);
             sendButton.setClickable(false);
         }
-
-        Log.e("frag onViewCreated", "frag onViewCreated");
-
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 sendMessage();
             }
         });
-
-
     }
 
     private void sendMessage(){
@@ -233,8 +220,6 @@ public class OtChatFragment extends Fragment {
                     try {
                         username = data.getString("username");
                         message = data.getString("message");
-                        Log.e("emitter username :",username);
-                        Log.e("emitter message : ",message);
                     } catch (JSONException e) {
                         return;
                     }
@@ -271,6 +256,8 @@ public class OtChatFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        socket.emit("disconnect");
         socket.disconnect();
+        socket.off("new message", handleIncomingMessages);
     }
 }

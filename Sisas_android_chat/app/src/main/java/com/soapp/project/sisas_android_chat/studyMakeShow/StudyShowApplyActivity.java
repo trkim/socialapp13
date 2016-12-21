@@ -120,7 +120,6 @@ public class StudyShowApplyActivity extends AppCompatActivity {
     }
 
     private void getStudyDetailFromServer(final int room_id, final String email) throws Exception{
-        Log.e("get", "studydetailfromserver");
         final String URL = "http://52.78.157.250:3000/get_room_and_member";
 
         Map<String, Object> room_member_detail_param = new HashMap<String, Object>();
