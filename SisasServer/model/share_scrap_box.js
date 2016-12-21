@@ -11,7 +11,8 @@ var share_scrap_boxSchema = new Schema({
     url : String,
     content : String,
     opinion : String,
-    keyword_box_id : String,
+    keyword : String,
+    date : String,
     email : String
 });
 
