@@ -784,7 +784,7 @@ router.post('/insert_share_scrap', function(req, res){
     console.log(scrap);
     if( scrap == "" || scrap == null || scrap == undefined || ( scrap != null && typeof scrap == "object" && !Object.keys(scrap).length )){
 
-      scrap_box.save(function(err){
+      share_scrap_box.save(function(err){
         if(err){
           console.error(err);
           res.json({'result':'fail'});
