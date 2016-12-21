@@ -123,20 +123,20 @@ io.on('connection', function(socket){
   socket.on('joinroom', function(data){
     console.log(data.type);
     if(data.type == 'join'){
-      socket.join(data.room_id);
-      console.log('현재 room_id : '+data.room_id);
+     // socket.join(data.room_id);
+     // console.log('현재 room_id : '+data.room_id);
 
-      socket.room_id = data.room_id;
+      //socket.room_id = data.room_id;
     }
   });  
 
 
   socket.on('new message', function(data){
-    console.log('현재 socket room_id : '+socket.room_id);
-    console.log('send message room_id : '+data.room_id);
+   // console.log('현재 socket room_id : '+socket.room_id);
+    //console.log('send message room_id : '+data.room_id);
     console.log('send message : '+data.message);
     console.log('send message username : '+data.username);
-    socket.broadcast.to(data.room_id).emit('new message', data);
+    socket.broadcast.emit('new message', data);
   });
 
 //ot chat end
@@ -146,11 +146,11 @@ io.on('connection', function(socket){
     console.log('main 채팅방 입장');
     console.log(data.type);
       if(data.type == 'watch'){
-        socket.join(data.room_id);
+       // socket.join(data.room_id);
         console.log('현재 room_id : '+data.room_id);
         console.log('현재 keyword : '+data.keyword);
 
-        socket.room_id = data.room_id;
+       // socket.room_id = data.room_id;
         socket.keyword = data.keyword;
         socket.date = data.date;
 
