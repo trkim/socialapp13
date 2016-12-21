@@ -14,6 +14,7 @@ var Seq = mongoose.model('seq');
 var Timeline = mongoose.model('timeline');
 var Keyword_box = mongoose.model('keyword_box');
 var Scrap_box = mongoose.model('scrap_box');
+var Share_scrap_box = mongoose.model('share_scrap_box');
 //var ObjectId = require('mongodb').ObjectId;
 
 /* GET home page. */
@@ -759,25 +760,64 @@ router.get('/get_myscraplist', function(req, res){
   });*/
 });
 
-//기사 공유방 입장
-router.get('/share_scraplist', function(req, res){
-  console.log('share_scraplist');
+//기사 공유하기
+router.post('/insert_share_scrap', function(req, res){
+  req.accepts('application/json');
+  console.log('insert_share_scrap');
+  var share_scrap_box = new Share_scrap_box();
+
+  share_scrap_box.article_title = req.body.article_title;
+  share_scrap_box.url = req.body.url;
+  share_scrap_box.opinion = req.body.opinion;
+  share_scrap_box.content = req.body.content;
+  share_scrap_box.keyword_box_id = req.body.keyword_box_id;
+  share_scrap_box.email = req.body.email;
+  share_scrap_box.share_scrap_id = share_scrap_box.article_title + share_scrap_box.keyword_box_id;
+  share_scrap_box.room_id = req.body.room_id;
+
+  Share_scrap_box.findOne({'share_scrap_box':share_scrap_box.share_scrap_id}, function(err, scrap){
+    if(err){
+      console.error(err);
+      res.json({'result':'fail'});
+    }
+    console.log(scrap);
+    if( scrap == "" || scrap == null || scrap == undefined || ( scrap != null && typeof scrap == "object" && !Object.keys(scrap).length )){
+
+      scrap_box.save(function(err){
+        if(err){
+          console.error(err);
+          res.json({'result':'fail'});
+        }else{
+          console.log('스크랩 공유 성공');
+          res.json({'result':'success'});
+        }
+      });
+    }else{
+      console.log('스크랩 중복');
+      res.json({'result':'fail'});
+    }
+  });
+});
+
+//공유한 기사 리스트 가져오기
+router.get('/get_share_scraplist', function(req, res){
+  console.log('공유 기사 리스트 가져오기');
   var room_id = req.query.room_id;
 
-  Scrap_box.find({'room_id': room_id}, function(err, scraplist){
+  Share_scrap_box.find({'room_id':room_id}, function(err, share_scraplist){
     if(err){
       console.error(err);
       res.json({'result':'fail'});
     }
     else{
-      console.log('기사 공유방 입장 성공');
-      res.json(scraplist);
-
+      console.log('공유한 기사 리스트 가져오기 성공');
+      res.json(share_scraplist);
     }
   });
 });
 
 //스터디 중 기사 가져오기********
+/*
 router.get('/get_scraplist', function(req, res){
   console.log('get_scraplist')
   var email = req.query.email;
@@ -810,6 +850,7 @@ router.post('/get_scrap', function(req, res){
     }
   });
 });
+*/
 
 
 /////////////////timeline
@@ -833,6 +874,7 @@ router.post('/insert_timeline', function(req, res){
     }
     else{
       if( timeline == "" || timeline == null || timeline == undefined || ( timeline != null && typeof timeline == "object" && !Object.keys(timeline).length )){
+
         timeline.save(function(err){
           if(err){
             console.error(err);
