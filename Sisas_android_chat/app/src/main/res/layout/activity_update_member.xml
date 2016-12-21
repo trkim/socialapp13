@@ -56,7 +56,7 @@
                     android:paddingBottom="15dp"
                     android:gravity="center"
                     android:textStyle="bold"
-                    android:textColor="@color/colorAccent"
+                    android:textColor="@color/colorOrange"
                     android:layout_span="3"
                     android:layout_weight="1" />
             </TableRow>
@@ -236,7 +236,8 @@
                     android:text="@string/cb_member_politics"
                     android:id="@+id/cb_member_politics"
                     android:checked="false"
-                    android:layout_span="2" />
+                    android:layout_span="2"
+                    android:textColorLink="@color/colorOrange" />
 
                 <LinearLayout
                     android:orientation="horizontal"
@@ -249,7 +250,8 @@
                         android:text="@string/cb_member_economics"
                         android:id="@+id/cb_member_economics"
                         android:checked="false"
-                        android:layout_weight="1" />
+                        android:layout_weight="1"
+                        android:textColorLink="@color/colorOrange" />
 
                     <CheckBox
                         android:layout_width="wrap_content"
@@ -257,7 +259,8 @@
                         android:text="@string/cb_member_social"
                         android:id="@+id/cb_member_social"
                         android:checked="false"
-                        android:layout_weight="1" />
+                        android:layout_weight="1"
+                        android:textColorLink="@color/colorOrange" />
                 </LinearLayout>
 
             </TableRow>
@@ -273,7 +276,8 @@
                     android:text="@string/cb_member_it"
                     android:id="@+id/cb_member_it"
                     android:checked="false"
-                    android:layout_span="2" />
+                    android:layout_span="2"
+                    android:textColorLink="@color/colorOrange" />
 
                 <CheckBox
                     android:layout_width="match_parent"
@@ -281,7 +285,8 @@
                     android:text="@string/cb_member_world"
                     android:id="@+id/cb_member_world"
                     android:checked="false"
-                    android:layout_span="2" />
+                    android:layout_span="2"
+                    android:textColorLink="@color/colorOrange" />
 
             </TableRow>
 
@@ -294,7 +299,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/btn_profile_update"
                     android:id="@+id/btn_update_go"
-                    android:background="@color/colorAccent"
+                    android:background="@color/colorOrange"
                     android:textColor="@android:color/white"
                     android:textStyle="bold"
                     android:textSize="18sp"
