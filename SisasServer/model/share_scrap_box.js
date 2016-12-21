@@ -7,7 +7,7 @@ var Schema = mongoose.Schema;
 var share_scrap_boxSchema = new Schema({
     share_scrap_id : String,
     room_id : String,
-    article_title : String,
+    title : String,
     url : String,
     content : String,
     opinion : String,

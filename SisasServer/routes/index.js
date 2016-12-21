@@ -766,14 +766,14 @@ router.post('/insert_share_scrap', function(req, res){
   console.log('insert_share_scrap');
   var share_scrap_box = new Share_scrap_box();
 
-  share_scrap_box.article_title = req.body.article_title;
+  share_scrap_box.title = req.body.title;
   share_scrap_box.url = req.body.url;
   share_scrap_box.opinion = req.body.opinion;
   share_scrap_box.content = req.body.content;
   share_scrap_box.keyword = req.body.keyword;
   share_scrap_box.date = req.body.date;
   share_scrap_box.email = req.body.email;
-  share_scrap_box.share_scrap_id = share_scrap_box.article_title + share_scrap_box.keyword_box_id + share_scrap_box.date;
+  share_scrap_box.share_scrap_id = share_scrap_box.title + share_scrap_box.keyword_box_id + share_scrap_box.date;
   share_scrap_box.room_id = req.body.room_id;
 
   Share_scrap_box.findOne({'share_scrap_box':share_scrap_box.share_scrap_id}, function(err, scrap){
