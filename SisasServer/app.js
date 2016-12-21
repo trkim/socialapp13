@@ -136,7 +136,7 @@ io.on('connection', function(socket){
     console.log('send message room_id : '+data.room_id);
     console.log('send message : '+data.message);
     console.log('send message username : '+data.username);
-    socket.broadcast.to(data.room_id).emit('new message', data);
+    socket.broadcast.emit('new message', data);
   });
 
 //ot chat end
