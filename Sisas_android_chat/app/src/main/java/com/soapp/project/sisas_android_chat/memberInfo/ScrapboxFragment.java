@@ -64,13 +64,22 @@ public class ScrapboxFragment extends Fragment {
         before_start_study_list = (ExpandableListView)view.findViewById(R.id.before_start_study_list);
         after_study_list = (ExpandableListView)view.findViewById(R.id.after_study_list);
 
+        study_list.clear();
+        study_list_parent_ing_item.clear();
+        study_list_parent_before_item.clear();
+        study_list_parent_after_item.clear();
+        study_list_child_ing_item.clear();
+        study_list_child_before_item.clear();
+        study_list_child_after_item.clear();
+        list_ing_map.clear();
+        list_before_map.clear();
+        list_after_map.clear();
+
         try {
             getStudyFromServer();
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
 
         return view;
     }
@@ -170,7 +179,6 @@ public class ScrapboxFragment extends Fragment {
 
         Log.e("temp", String.valueOf(temp));
 
-        //ing_study_list = (ExpandableListView)getActivity().findViewById(R.id.ing_study_list);
         adapter = new StudyListExpandableAdapter(getActivity(), study_list_parent_ing_item, list_ing_map, temp);
         ing_study_list.setAdapter(adapter);
         ing_study_list.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
@@ -185,7 +193,6 @@ public class ScrapboxFragment extends Fragment {
             }
         });
 
-        //before_start_study_list = (ExpandableListView)getActivity().findViewById(R.id.before_start_study_list);
         adapter = new StudyListExpandableAdapter(getActivity(), study_list_parent_before_item, list_before_map, temp);
         before_start_study_list.setAdapter(adapter);
 
@@ -201,7 +208,6 @@ public class ScrapboxFragment extends Fragment {
             }
         });
 
-        //after_study_list = (ExpandableListView)getActivity().findViewById(R.id.after_study_list);
         adapter = new StudyListExpandableAdapter(getActivity(), study_list_parent_after_item, list_after_map, temp);
         after_study_list.setAdapter(adapter);
 

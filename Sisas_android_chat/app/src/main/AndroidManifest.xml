@@ -59,9 +59,9 @@
         <activity android:name=".memberInfo.MemberUpdateActivity"/>
         <activity android:name=".memberInfo.ScrapInRoomActivity"/>
 
-        <activity android:name=".studyInRoom.MainChatActivity" android:windowSoftInputMode="adjustResize"/>
         <activity android:name=".studyInRoom.OtChatActivity" android:windowSoftInputMode="adjustResize"/>
         <activity android:name=".studyInRoom.ScrapWithKeywordActivity"/>
+        <activity android:name=".studyInRoom.ShareArticleActivity"/>
 
         <activity android:name=".studyMakeShow.StudyMakeCreateActivity"/>
         <activity android:name=".studyMakeShow.StudyMakeShowMainActivity"/>

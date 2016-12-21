@@ -172,6 +172,7 @@ public class MemberUpdateActivity extends AppCompatActivity {
         btn_update_go.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.e("memberupdate", "memberupdate");
                 if(et_member_major.getText().toString().equals("")){
                     et_member_major.setText("");
                 }
@@ -204,6 +205,7 @@ public class MemberUpdateActivity extends AppCompatActivity {
     }
 
     private void updateToServer(final String email, final String password, final String major, final String category) throws Exception{
+        Log.e("updateserver", "updateserver");
         final String URL = "http://52.78.157.250:3000/update_member";
 
         Map<String, Object> param = new HashMap<String, Object>();
@@ -216,11 +218,21 @@ public class MemberUpdateActivity extends AppCompatActivity {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    Toast.makeText(MemberUpdateActivity.this, "회원정보가 수정되었습니다.다시 로그인 해주세요.", Toast.LENGTH_SHORT).show();
+                    if(response.toString().contains("result")){
+                        if(response.getString("result").equals("fail")){
+                            Toast toast1 = Toast.makeText(MemberUpdateActivity.this, "알수없는 에러가 발생했습니다.", Toast.LENGTH_SHORT);
+                            toast1.setGravity(Gravity.CENTER, 0,0);
+                            toast1.show();
+                        }else if(response.getString("result").equals("success")) {
+                            Toast toast2 = Toast.makeText(MemberUpdateActivity.this, "회원정보가 수정되었습니다.", Toast.LENGTH_SHORT);
+                            toast2.setGravity(Gravity.CENTER, 0,0);
+                            toast2.show();
 
-                    Intent new_intent = new Intent(MemberUpdateActivity.this, LoginActivity.class);
-                    startActivity(new_intent);
-                    finish();
+                            Intent new_intent = new Intent(MemberUpdateActivity.this, LoginActivity.class);
+                            startActivity(new_intent);
+                            finish();
+                        }
+                    }
                 }catch(Exception e){
                     e.printStackTrace();
                 }
@@ -228,6 +240,7 @@ public class MemberUpdateActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                Log.e("error", error.toString());
                 VolleyLog.d("development", "Error: " + error.getMessage());
             }
         });

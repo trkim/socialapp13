@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -55,7 +56,7 @@ public class OtChatFragment extends Fragment {
     private List<OtChatMsgs> mMessages = new ArrayList<OtChatMsgs>();
     private String mUsername;
     private RecyclerView.Adapter mAdapter;
-
+    int temp=0;
 
 
     int room_id;
@@ -80,6 +81,7 @@ public class OtChatFragment extends Fragment {
         OtChatFragment fragment = new OtChatFragment();
         Bundle args = new Bundle();
         args.putString("room_id", room_id);
+
         Log.e("frag instance room_id", String.valueOf(room_id));
 
         fragment.setArguments(args);
@@ -101,6 +103,9 @@ public class OtChatFragment extends Fragment {
         Bundle bundle_arg = getArguments();
         if(bundle_arg != null) {
             room_id = Integer.parseInt(bundle_arg.getString("room_id"));
+            if(bundle_arg.containsKey("temp")){
+                temp = bundle_arg.getInt("temp");
+            }
             Log.e("frag oncreate room_id", String.valueOf(room_id));
         }
 
@@ -149,11 +154,6 @@ public class OtChatFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         mAdapter = new OtChatMsgsAdapter(context, mMessages);
-        /*try {
-            mListener = (OnFragmentInteractionListener) context;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString() + " must implement OnFragmentInteractionListener");
-        }*/
     }
 
     @Override
@@ -166,6 +166,15 @@ public class OtChatFragment extends Fragment {
 
         ImageButton sendButton = (ImageButton) view.findViewById(R.id.send_button);
         mInputMessageView = (EditText) view.findViewById(R.id.message_input);
+
+        if(temp==2){
+            mInputMessageView.setHint("관전하실 때는 참여하실 수 없습니다.");
+            mInputMessageView.setHintTextColor(Color.GRAY);
+            mInputMessageView.setClickable(false);
+            mInputMessageView.setEnabled(false);
+            sendButton.setEnabled(false);
+            sendButton.setClickable(false);
+        }
 
         Log.e("frag onViewCreated", "frag onViewCreated");
 

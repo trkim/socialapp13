@@ -3,32 +3,6 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v7.widget.Toolbar
-        android:layout_height="?attr/actionBarSize"
-        android:layout_width="match_parent"
-        android:id="@+id/toolbar"
-        android:elevation="0dp"
-        android:background="@color/colorPrimaryDark">
-
-        <ImageButton
-            android:id= "@+id/icBackIcon"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:background="@drawable/ic_back" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="@string/btn_app_name"
-            style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
-            android:id="@+id/title"
-            android:textColor="@color/colorwhite"
-            android:gravity="center"
-            android:layout_gravity="center"
-            android:textStyle="bold"
-            android:textSize="30sp" />
-    </android.support.v7.widget.Toolbar>
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

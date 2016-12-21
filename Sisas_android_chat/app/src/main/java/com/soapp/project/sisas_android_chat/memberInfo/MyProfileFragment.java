@@ -65,7 +65,6 @@ public class MyProfileFragment extends Fragment {
 
     Button btn_profile_update;
     Button btn_logout;
-    Button btn_leave;
 
     @Nullable
     @Override
@@ -89,7 +88,6 @@ public class MyProfileFragment extends Fragment {
 
         btn_profile_update = (Button)view.findViewById(R.id.btn_profile_update);
         btn_logout = (Button)view.findViewById(R.id.btn_logout);
-        btn_leave = (Button)view.findViewById(R.id.btn_leave);
 
         profile_pic.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,12 +125,6 @@ public class MyProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 showLogoutDialog();
-            }
-        });
-        btn_leave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showLeaveDialog();
             }
         });
 

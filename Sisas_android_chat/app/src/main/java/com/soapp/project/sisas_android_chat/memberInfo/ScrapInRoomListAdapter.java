@@ -3,7 +3,6 @@ package com.soapp.project.sisas_android_chat.memberInfo;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,17 +20,13 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.soapp.project.sisas_android_chat.Member;
 import com.soapp.project.sisas_android_chat.R;
-import com.soapp.project.sisas_android_chat.studyInRoom.MainChatActivity;
-import com.soapp.project.sisas_android_chat.studyInRoom.MainChatFragment;
-import com.soapp.project.sisas_android_chat.studyInRoom.MainChatMsgs;
-import com.soapp.project.sisas_android_chat.studyInRoom.MainChatMsgsAdapter;
+import com.soapp.project.sisas_android_chat.studyInRoom.ShareArticleActivity;
 import com.soapp.project.sisas_android_chat.volley;
 
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -42,15 +37,13 @@ public class ScrapInRoomListAdapter extends BaseAdapter {
 
     private int room_id;
     private Context context;
-    MainChatFragment mainChatFragment;
     //ScrapInRoomListItem scrap_in_room_item;
     public ArrayList<ScrapInRoomListItem> scrap_in_room_item_list = new ArrayList<ScrapInRoomListItem>();
     String opinion = "";
 
-    public ScrapInRoomListAdapter(Context context, int room_id, MainChatFragment mainChatFragment){
+    public ScrapInRoomListAdapter(Context context, int room_id){
         this.context = context;
         this.room_id = room_id;
-        this.mainChatFragment = mainChatFragment;
     }
 
     @Override
@@ -125,20 +118,20 @@ public class ScrapInRoomListAdapter extends BaseAdapter {
             }
         });
 
-        //채팅창으로 가져가기 버튼 클릭 시
-        Button btn_bring_to_chat = (Button)convertView.findViewById(R.id.btn_bring_to_chat);
-        btn_bring_to_chat.setOnClickListener(new View.OnClickListener() {
+        //기사 함께보기 버튼 클릭 시
+        Button btn_bring_to_share = (Button)convertView.findViewById(R.id.btn_bring_to_share);
+        btn_bring_to_share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainChatFragment mainFrag = new MainChatFragment();
-                mainFrag.sendArticle(scrap_in_room_item.getScrap_article_title(), scrap_in_room_item.getScrap_url(), opinion);
-
-                Intent intent = new Intent(context, MainChatActivity.class);
-                intent.putExtra("room_id", room_id);
-                intent.putExtra("temp",1);
-                intent.putExtra("keyword", scrap_in_room_item.getSingle_keyword());
-                intent.putExtra("date", scrap_in_room_item.getSingle_keyword_date());
-                context.startActivity(intent);
+                //article_title, url, content, opinion, keyword, date, email, room_id
+                try{
+                    insertShareArticleToServer(scrap_in_room_item.getScrap_article_title(),
+                            scrap_article_url, scrap_in_room_item.getScrap_content(),opinion,
+                            scrap_in_room_item.getSingle_keyword(), scrap_in_room_item.getSingle_keyword_date(),
+                            Member.getInstance().getEmail(), room_id);
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -191,6 +184,41 @@ public class ScrapInRoomListAdapter extends BaseAdapter {
         volley.getInstance().addToRequestQueue(req);
     }
 
+    //기사 공유하기 db에 저장
+    private void insertShareArticleToServer(final String article_title, final String url, final String content, final String opinion, final String keyword, final String date, final String email, final int room_id){
+        final String URL = "http://52.78.157.250:3000/insert_share_scrap";
 
+        Map<String, Object> article_share_param = new HashMap<String, Object>();
+        article_share_param.put("title", article_title);
+        article_share_param.put("url", url);
+        article_share_param.put("content", content);
+        article_share_param.put("opinion", opinion);
+        article_share_param.put("keyword", keyword);
+        article_share_param.put("date", date);
+        article_share_param.put("email", email);
+        article_share_param.put("room_id", room_id);
 
+        JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, URL, new JSONObject(article_share_param), new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    if(response.toString().contains("result")){
+                        if(response.getString("result").equals("fail")){
+                            Toast.makeText(context, "알 수 없는 에러가 발생합니다.", Toast.LENGTH_SHORT).show();
+                        }else if(response.getString("result").equals("success")) {
+                            Toast.makeText(context, "기사가 공유되었습니다.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d("development", "Error: " + error.getMessage());
+            }
+        });
+        volley.getInstance().addToRequestQueue(req);
+    }
 }

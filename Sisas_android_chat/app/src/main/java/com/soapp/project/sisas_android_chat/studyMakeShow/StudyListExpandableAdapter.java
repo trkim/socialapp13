@@ -2,6 +2,7 @@ package com.soapp.project.sisas_android_chat.studyMakeShow;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +21,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.soapp.project.sisas_android_chat.Member;
 import com.soapp.project.sisas_android_chat.R;
 import com.soapp.project.sisas_android_chat.memberInfo.ScrapInRoomActivity;
-import com.soapp.project.sisas_android_chat.studyInRoom.MainChatActivity;
+import com.soapp.project.sisas_android_chat.studyInRoom.OtChatActivity;
 import com.soapp.project.sisas_android_chat.volley;
 
 import org.json.JSONArray;
@@ -97,6 +98,7 @@ public class StudyListExpandableAdapter extends BaseExpandableListAdapter {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, ScrapInRoomActivity.class);
+                    intent.putExtra("from", "list");
                     intent.putExtra("room_id", study_list_parent.get(groupPosition).getRoom_id());
                     context.startActivity(intent);
                 }
@@ -127,6 +129,7 @@ public class StudyListExpandableAdapter extends BaseExpandableListAdapter {
         tv_room_name.setSelected(true); //해당 텍스트뷰에 포커스가 없어도 문자 흐르게 하기
         tv_room_capacity.setText(String.valueOf(getGroup(groupPosition).getStudy_capacity()));
         tv_room_dday.setText(getGroup(groupPosition).getStudy_dday());
+        tv_room_dday.setTextColor(Color.BLACK);
 
         return convertView;
     }
@@ -278,7 +281,7 @@ public class StudyListExpandableAdapter extends BaseExpandableListAdapter {
                 }
 
                 // 관전 mainChat으로 입장
-                Intent intent = new Intent(context, MainChatActivity.class);
+                Intent intent = new Intent(context, OtChatActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 intent.putExtra("room_id", room_id);
                 intent.putExtra("temp",2);

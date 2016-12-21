@@ -18,7 +18,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.soapp.project.sisas_android_chat.R;
-import com.soapp.project.sisas_android_chat.studyInRoom.MainChatActivity;
 import com.soapp.project.sisas_android_chat.studyInRoom.OtChatActivity;
 import com.soapp.project.sisas_android_chat.volley;
 
@@ -270,31 +269,17 @@ public class StudyListMyExpandableAdapter extends BaseExpandableListAdapter {
                 //}
                 Log.e("오늘의 날짜 : ",dday);
 
-                // dday가 ~ing면 mainChat으로 넘어가기 < --아니면--> otChat으로 넘어가기
-                if(dday.equals("~ing")){
-                    Toast.makeText(context, "토론방에 입장합니다.", Toast.LENGTH_SHORT).show();
 
-                    Intent intent = new Intent(context, MainChatActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                    intent.putExtra("room_id", room_id);
-                    intent.putExtra("temp", 1); //참가하기 입장
-                    if (!keyword_available.equals("") && !date_available.equals("")) { //진행중인 스터디방에 키워드와 날짜 있으면
-                        intent.putExtra("keyword", keyword_available);
-                        intent.putExtra("date", date_available);
-                    }
-                    context.startActivity(intent);
-                } else {
-                    Toast.makeText(context, "키워드 선정방에 입장합니다.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "토론방에 입장합니다.", Toast.LENGTH_SHORT).show();
 
-                    Intent intent = new Intent(context, OtChatActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                    intent.putExtra("room_id", room_id);
-                    if (!keyword_available.equals("") && !date_available.equals("")) {
-                        intent.putExtra("keyword", keyword_available);
-                        intent.putExtra("date", date_available);
-                    }
-                    context.startActivity(intent);
-                } //end if
+                Intent intent = new Intent(context, OtChatActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                intent.putExtra("room_id", room_id);
+                if (!keyword_available.equals("") && !date_available.equals("")) {
+                    intent.putExtra("keyword", keyword_available);
+                    intent.putExtra("date", date_available);
+                }
+                context.startActivity(intent);
             } // end for
         }// end if
     }//end getKeyword function

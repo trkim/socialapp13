@@ -38,13 +38,17 @@ public class TimelineFragment extends Fragment {
         View view = inflater.inflate(R.layout.member_info_timeline_frag, container, false);
 
         lv_timeline = (ListView)view.findViewById(R.id.lv_timeline);
-        timelineListAdapter = new TimelineListAdapter(getActivity());
+        timeline_list.clear();
 
         try{
             getTimelineFromServer();
         }catch (Exception e){
             e.printStackTrace();
         }
+
+        timelineListAdapter = new TimelineListAdapter(getActivity());
+        timelineListAdapter.notifyDataSetChanged();
+        lv_timeline.setAdapter(timelineListAdapter);
 
         return view;
     }
@@ -58,6 +62,7 @@ public class TimelineFragment extends Fragment {
             public void onResponse(JSONArray response) {
                 for(int i=0; i<response.length(); i++){
                     timeline_list.add(response.optJSONObject(i));
+                    timelineListAdapter.notifyDataSetChanged();
                 }
                 getMyTimelineList();
             }
@@ -74,7 +79,7 @@ public class TimelineFragment extends Fragment {
         for(int i=0 ;i<timeline_list.size(); i++) {
             String keyword_box_id = timeline_list.get(i).optString("keyword_box_id");
             //keyword 만 추출
-            String keyword = keyword_box_id.substring(keyword_box_id.length()-11, keyword_box_id.length());
+            String keyword = keyword_box_id.substring(10);
             String title = timeline_list.get(i).optString("title");
             String url = timeline_list.get(i).optString("url");
             String content = timeline_list.get(i).optString("content");
@@ -82,6 +87,5 @@ public class TimelineFragment extends Fragment {
 
             timelineListAdapter.addMyTimelineList(keyword, title, url, content, opinion);
         }
-        lv_timeline.setAdapter(timelineListAdapter);
     }
 }

@@ -192,14 +192,5 @@
             android:layout_marginLeft="2.5dp"
             android:layout_marginRight="2.5dp" />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/btn_leave"
-            android:id="@+id/btn_leave"
-            android:layout_weight="1"
-            android:background="@color/colorOrange"
-            android:textColor="@color/colorwhite"
-            android:layout_marginLeft="2.5dp" />
     </LinearLayout>
 </LinearLayout>

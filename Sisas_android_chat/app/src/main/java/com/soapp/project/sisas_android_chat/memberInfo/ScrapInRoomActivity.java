@@ -5,7 +5,6 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -21,16 +20,14 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.soapp.project.sisas_android_chat.Member;
 import com.soapp.project.sisas_android_chat.R;
-import com.soapp.project.sisas_android_chat.studyInRoom.MainChatFragment;
+import com.soapp.project.sisas_android_chat.studyInRoom.ShareArticleActivity;
 import com.soapp.project.sisas_android_chat.volley;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -47,6 +44,7 @@ public class ScrapInRoomActivity extends AppCompatActivity {
     TextView tv_study_comment;
 
     int room_id;
+    String from;
     String got_keyword;
     String got_date;
     public ListView lv_scrapbox_keyword;
@@ -56,12 +54,28 @@ public class ScrapInRoomActivity extends AppCompatActivity {
 
     ArrayList<ScrapInRoomListItem> scrap_in_room_list_item = new ArrayList<ScrapInRoomListItem>();
 
-
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.member_info_scrapbox_in_activity);
+
+        Intent intent = getIntent();
+        if(intent.getExtras().size()==1) {
+            room_id = intent.getExtras().getInt("room_id");
+        } else if(intent.getExtras().size()==2){
+            room_id = intent.getExtras().getInt("room_id");
+            from = intent.getExtras().getString("from");
+        } else if(intent.getExtras().size()==3){
+            room_id = intent.getExtras().getInt("room_id");
+            got_keyword = intent.getExtras().getString("keyword");
+            got_date = intent.getExtras().getString("date");
+        } else if(intent.getExtras().size()==4){
+            room_id = intent.getExtras().getInt("room_id");
+            got_keyword = intent.getExtras().getString("keyword");
+            got_date = intent.getExtras().getString("date");
+            from = intent.getExtras().getString("from");
+        }
+
         toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -74,33 +88,30 @@ public class ScrapInRoomActivity extends AppCompatActivity {
         icBackIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ScrapInRoomActivity.this, MemberInfoActivity.class);
-                intent.putExtra("fragment", "scrapbox");
-                startActivity(intent);
-                overridePendingTransition(R.anim.rightin, R.anim.leftout);
-                finish();
+                if(from.equals("share")){
+                    Intent intent = new Intent(ScrapInRoomActivity.this, ShareArticleActivity.class);
+                    intent.putExtra("room_id", room_id);
+                    intent.putExtra("keyword", got_keyword);
+                    intent.putExtra("date", got_date);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.rightin, R.anim.leftout);
+                    finish();
+                } else {
+                    Intent intent = new Intent(ScrapInRoomActivity.this, MemberInfoActivity.class);
+                    intent.putExtra("fragment", "scrapbox");
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.rightin, R.anim.leftout);
+                    finish();
+                }
             }
         });
-
-
 
         tv_study_name = (TextView)findViewById(R.id.tv_study_name);
         tv_study_date = (TextView)findViewById(R.id.tv_study_date);
         tv_study_comment = (TextView)findViewById(R.id.tv_study_comment);
 
-        Intent intent = getIntent();
-        if(intent.getExtras().size()==1) {
-            room_id = intent.getExtras().getInt("room_id");
-        } else if(intent.getExtras().size()==3){
-            room_id = intent.getExtras().getInt("room_id");
-            got_keyword = intent.getExtras().getString("keyword");
-            got_date = intent.getExtras().getString("date");
-        }
-
         lv_scrapbox_keyword = (ListView)findViewById(R.id.lv_scrapbox_keyword);
-        MainChatFragment mainFrag = new MainChatFragment();
-        scrap_in_room_list_adapter = new ScrapInRoomListAdapter(getApplicationContext(), room_id, mainFrag);
-
+        scrap_in_room_list_adapter = new ScrapInRoomListAdapter(getApplicationContext(), room_id);
 
         try {
             //스터디 정보 가져오기
@@ -111,8 +122,6 @@ public class ScrapInRoomActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-
-
 
     private void getStudyDetailFromServer(final int room_id, final String email) throws Exception{
         final String URL = "http://52.78.157.250:3000/get_room";

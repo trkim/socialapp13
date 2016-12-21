@@ -79,8 +79,8 @@ public class StudyShowActivity extends AppCompatActivity {
             public void onClick(View v) {
                 button_state=0;
                 btn_study_apply.setTextColor(Color.WHITE);
-                btn_study_apply.setBackgroundColor(Color.parseColor("#141A25"));
-                btn_study_watch.setTextColor(Color.parseColor("#141A25"));
+                btn_study_apply.setBackgroundColor(Color.parseColor("#315556"));
+                btn_study_watch.setTextColor(Color.parseColor("#315556"));
                 btn_study_watch.setBackgroundColor(Color.WHITE);
                 mCurrentFragmentIndex = FRAGMENT_APPLY;
                 changeFragment(mCurrentFragmentIndex);
@@ -91,8 +91,8 @@ public class StudyShowActivity extends AppCompatActivity {
             public void onClick(View v) {
                 button_state=1;
                 btn_study_watch.setTextColor(Color.WHITE);
-                btn_study_watch.setBackgroundColor(Color.parseColor("#141A25"));
-                btn_study_apply.setTextColor(Color.parseColor("#141A25"));
+                btn_study_watch.setBackgroundColor(Color.parseColor("#315556"));
+                btn_study_apply.setTextColor(Color.parseColor("#315556"));
                 btn_study_apply.setBackgroundColor(Color.WHITE);
                 mCurrentFragmentIndex = FRAGMENT_WATCH;
                 changeFragment(mCurrentFragmentIndex);

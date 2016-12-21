@@ -41,7 +41,6 @@ public class OtChatMsgsAdapter extends RecyclerView.Adapter<OtChatMsgsAdapter.Vi
         OtChatMsgs message = mMessages.get(position);
         viewHolder.setMessage(message.getMessage());
         viewHolder.setUsername(message.getUsername());
-        viewHolder.setImage(message.getImage());
     }
 
     @Override
@@ -77,11 +76,6 @@ public class OtChatMsgsAdapter extends RecyclerView.Adapter<OtChatMsgsAdapter.Vi
             mUsernameView.setTextColor(getUsernameColor(username));
         }
 
-        public void setImage(Bitmap bmp){
-            if(null == mImageView) return;
-            if(null == bmp) return;
-            mImageView.setImageBitmap(bmp);
-        }
         private int getUsernameColor(String username) {
             int hash = 7;
             for (int i = 0, len = username.length(); i < len; i++) {

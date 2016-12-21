@@ -60,7 +60,6 @@ public class ScrapWithKeywordListAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         final Context context = parent.getContext();
 
-        Log.e("scrap getView", "scrap getView");
         if(convertView == null){
             LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.scrap_with_keyword_item, parent, false);

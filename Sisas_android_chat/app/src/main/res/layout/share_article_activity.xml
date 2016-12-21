@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:class="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    class:layout_scrollFlags="scroll">
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <android.support.v7.widget.Toolbar
         android:layout_height="?attr/actionBarSize"
@@ -35,47 +31,44 @@
     </android.support.v7.widget.Toolbar>
 
     <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="25dp"
-        android:paddingBottom="15dp"
-        android:paddingTop="15dp">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="키워드 : "
-            android:ems="10"
-            android:inputType="text"
-            android:layout_weight="3"
-            android:textStyle="normal|bold"
-            android:textSize="18sp"
-            android:gravity="center_vertical" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="text"
-            android:ems="10"
-            android:id="@+id/tv_study_keyword"
-            android:layout_weight="1"
-            android:textSize="18sp"
-            android:gravity="center_vertical" />
-    </LinearLayout>
-
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/container"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:ignore="MergeRootFrame"
-        android:layout_weight="0.3">
-        <!--
-                <fragment
-                    android:id="@+id/chatArea"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>-->
-    </FrameLayout>
+        android:layout_weight="1">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_share_article_keyword"
+            android:gravity="center"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:textStyle="bold"
+            android:textSize="24sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_share_article_date"
+            android:paddingBottom="10dp"
+            android:gravity="center"
+            android:textColor="@color/colorDisableButton" />
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/lv_share_article"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp" />
+    </LinearLayout>
+
+    <Button
+        android:text="스크랩 한 기사 가져오기"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_get_scrap_article"
+        android:background="@color/colorPrimaryDark"
+        android:textColor="@color/colorwhite"
+        android:textStyle="bold"
+        android:layout_weight="0.001" />
 </LinearLayout>
