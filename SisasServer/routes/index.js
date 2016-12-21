@@ -83,20 +83,24 @@ router.post('/update_member',function(req,res){
   Member.findOne({'email':email},function(err,member){
     if(err){
       console.log(err);
-      res.status(500).send('update find error');
-      return;
+      res.json({'result':'fail'});
     }
-    member.password = password;
-    member.major = major;
-    member.category = category;
-    member.save(function(err){
-      if(err){
-        console.log(err);
-        res.status(500).send('update save error');
-        return;
-      }
-      res.status(200).send('Updated');
-    });
+    else {
+      member.password = password;
+      member.major = major;
+      member.category = category;
+
+      member.save(function (err) {
+        if (err) {
+          console.log(err);
+          res.json({'result':'fail'});
+        }
+        else{
+          console.log('회원정보 수정 완료');
+          res.json({'result':'success'});
+        }
+      });
+    }
   });
 });
 
