@@ -467,6 +467,11 @@ router.post('/join_room', function(req,res){
           myroom.comment = room.comment;
 
           myroom.save();
+          Member.findOne({'email':email}, function(err, member){
+            member.coupon = ((member.coupon*1)+1)+'';
+            console.log('쿠폰을 획득하셨습니다.');
+            member.save();
+          });
           console.log('study 참여 완료');
           res.json({'result': 'success'});
         }else{
