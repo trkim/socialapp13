@@ -784,6 +784,7 @@ router.post('/insert_share_scrap', function(req, res){
   share_scrap_box.email = req.body.email;
   share_scrap_box.share_scrap_id = share_scrap_box.title + share_scrap_box.keyword + share_scrap_box.date;
   console.log(share_scrap_box.share_scrap_id);
+  console.log("asdf");
   share_scrap_box.room_id = req.body.room_id;
 
   Share_scrap_box.findOne({'share_scrap_id':share_scrap_box.share_scrap_id}, function(err, scrap){
