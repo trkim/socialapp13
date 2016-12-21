@@ -868,13 +868,13 @@ router.post('/insert_timeline', function(req, res){
   timeline.opinion = req.body.opinion;
   timeline.email = req.body.email;
 
-  Timeline.findOne({'title':title}, function(err, timeline){
+  Timeline.findOne({'title':title}, function(err, result){
     if(err){
       console.error(err);
       res.json({'result':'fail'});
     }
     else{
-      if( timeline == "" || timeline == null || timeline == undefined || ( timeline != null && typeof timeline == "object" && !Object.keys(timeline).length )){
+      if( result == "" || result == null || result == undefined || ( result != null && typeof result == "object" && !Object.keys(result).length )){
 
         timeline.save(function(err){
           if(err){
