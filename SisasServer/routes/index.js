@@ -776,7 +776,7 @@ router.post('/insert_share_scrap', function(req, res){
   share_scrap_box.share_scrap_id = share_scrap_box.title + share_scrap_box.keyword_box_id + share_scrap_box.date;
   share_scrap_box.room_id = req.body.room_id;
 
-  Share_scrap_box.findOne({'share_scrap_box':share_scrap_box.share_scrap_id}, function(err, scrap){
+  Share_scrap_box.findOne({'share_scrap_id':share_scrap_box.share_scrap_id}, function(err, scrap){
     if(err){
       console.error(err);
       res.json({'result':'fail'});
